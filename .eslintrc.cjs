@@ -10,8 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    "@typescript-eslint/no-explicit-any": "error",
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

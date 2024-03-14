@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface InputInterfaceProps {
-    value: string | number;
+    value?: string | number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChange(e: any): void;
     placeholder: string;
@@ -29,8 +29,8 @@ const Input = (props: InputInterfaceProps) => {
 
 const diff = (prevState: InputInterfaceProps, nextState: InputInterfaceProps): boolean => {
     if (prevState.value !== nextState.value) {
-        return true
+        return false
     }
-    return false
+    return true
 }
 export default React.memo(Input, diff)

@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { Transition } from '@headlessui/react'
 // import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../features/authentication/hooks/useAuth';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const auth = useAuth()
 
     return (<>
 
@@ -21,6 +23,8 @@ const Header = () => {
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
+                                <h1>Welcome! {auth.user}</h1>
+
                                 <Link
                                     to="/"
                                     className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -41,12 +45,22 @@ const Header = () => {
                                 >
                                     Today's deal
                                 </Link>
-                                <Link
+                                {auth.token ? '' : <Link
                                     to="/login"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Login
+                                </Link>}
+                                {auth.token ? <> <Link
+                                    to="/dashboard"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Dashboard
                                 </Link>
+                                    <button onClick={() => auth.logOut()} className="btn-submit">
+                                        logout
+                                    </button> </>
+                                    : ''}
                             </div>
                         </div>
                     </div>
@@ -129,12 +143,22 @@ const Header = () => {
                             >
                                 Today's deal
                             </Link>
-                            <Link
+                            {auth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                             >
                                 Login
+                            </Link>}
+                            {auth.token ? <> <Link
+                                to="/dashboard"
+                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                            >
+                                Dashboard
                             </Link>
+                                <button onClick={() => auth.logOut()} className="btn-submit">
+                                    logout
+                                </button> </>
+                                : ''}
                         </div>
                     </div>
                 )}
