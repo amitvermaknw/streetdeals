@@ -28,18 +28,16 @@ const DealListItem = ({ deals }: Props) => {
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
                             ante justo. Integer euismod libero id mauris malesuada tincidunt.
                         </p>
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
-                            <div className="mr-4 shrink-0">
-                                <span className="font-bold text-gray-700 dark:text-gray-300">Price:</span>
-                                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">$ {deals.price}</button>
+                        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 mb-4">
+                            <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3 mb-2">
+                                <span className="font-medium text-gray-700 dark:text-gray-300">Price:</span>
+                                <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">$ {deals.price}</button>
+                                <span className="font-medium text-gray-700 dark:text-gray-300">Coupon:</span>
+                                <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.promo_code}</button>
                             </div>
-                            <div className="mr-4 shrink-0">
-                                <span className="font-bold text-gray-700 dark:text-gray-300">Coupon:</span>
-                                <button className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.promo_code}</button>
-                            </div>
-                            <div className="flex shrink-0">
-                                <span className="font-bold text-gray-700 dark:text-gray-300">Created Date:</span>
-                                <button className="bg-sky-500 dark:bg-gray-700 text-white dark:text-white py-1 px-4 mx-2 rounded-lg mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.deals_date}</button>
+                            <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
+                                <span className="font-medium text-gray-700 dark:text-gray-300">Created Date:</span>
+                                <button className="text-sm font-medium bg-sky-500 dark:bg-gray-700 text-white dark:text-white py-1 px-4 mx-2 rounded-lg mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.deals_date}</button>
                             </div>
                         </div>
                         {/* <div className="mb-4">
