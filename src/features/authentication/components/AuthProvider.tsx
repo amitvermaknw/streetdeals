@@ -1,5 +1,6 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { LayoutProps } from "../../../utils/types";
 
 const defaultValues = {
     token: '',
@@ -11,10 +12,6 @@ const defaultValues = {
 
 type AuthenticatedUser = typeof defaultValues
 export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
-
-type LayoutProps = {
-    children: React.ReactNode
-}
 
 const AuthProvider = ({ children }: LayoutProps) => {
     const [user, setUser] = useState<string>(null || '');

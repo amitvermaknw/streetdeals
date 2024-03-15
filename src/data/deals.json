@@ -1,0 +1,22 @@
+[{
+    "id": "1",
+    "title": "Cabinet Organizer",
+    "image": "https://picsum.photos/200/300",
+    "type": "Today's only",
+    "tag": "Limited",
+    "price": "15",
+    "promo_code": "LCOPIUD",
+    "product_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.",
+    "deals_date": "12/12/2024"
+},
+{
+    "id": "2",
+    "title": "Cabinet Organizer",
+    "image": "https://picsum.photos/200/300",
+    "type": "Today's only",
+    "tag": "Limited",
+    "price": "15",
+    "promo_code": "LCOPIUD",
+    "product_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.",
+    "deals_date": "12/12/2024"
+}]

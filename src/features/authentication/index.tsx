@@ -1,8 +1,3 @@
 
-import LoginForm from './components/login';
-export default function Authentication() {
-
-    return (
-        <LoginForm />
-    )
-}
+import LoginForm from './components/Login';
+export { LoginForm }

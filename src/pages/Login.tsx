@@ -1,8 +1,8 @@
-import Authentication from "../features/authentication";
+import { LoginForm } from "../features/authentication";
 
 
 export default function Login() {
     return (
-        <Authentication />
+        <LoginForm />
     )
 }
