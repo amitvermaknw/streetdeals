@@ -1,6 +1,6 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { LayoutProps } from "../../../utils/types";
+import { LayoutProps } from "../../../utils/Types";
 
 const defaultValues = {
     token: '',

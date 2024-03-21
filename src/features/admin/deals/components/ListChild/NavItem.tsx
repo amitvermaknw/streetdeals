@@ -1,4 +1,4 @@
-import { LayoutProps } from "../../../../../utils/types";
+import { LayoutProps } from "../../../../../utils/Types";
 
 type NavItemProps = {
     isActive?: boolean

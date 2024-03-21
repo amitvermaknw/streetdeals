@@ -1,4 +1,4 @@
-import { DealsProps } from "../../../../../utils/types"
+import { DealsProps } from "../../../../../utils/Types"
 
 type Props = {
     deals: DealsProps
