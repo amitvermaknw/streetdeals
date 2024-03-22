@@ -14,6 +14,20 @@ const AddDealsModel = [
                 msg: "Product name is required"
             }
         ]
+    },
+    {
+        name: 'price',
+        id: 'price',
+        placeholder: 'Product price',
+        type: 'number',
+        label: "Product Price",
+        onChange: onChange,
+        validation: [
+            {
+                required: true,
+                msg: "Product price is required"
+            }
+        ]
     }
 ]
 

@@ -15,3 +15,13 @@ export type DealsProps = {
     product_details: string
     deals_date: string
 }
+
+export type AddDeals = {
+    name: string,
+    id: string,
+    placeholder: string,
+    type: string,
+    label: string,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => string,
+    validation: Array<{ required: boolean; msg: string; }>
+}

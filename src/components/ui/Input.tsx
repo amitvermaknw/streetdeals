@@ -14,7 +14,7 @@ interface InputInterfaceProps {
 const Input = (props: InputInterfaceProps) => {
     return (
         <>
-            <label htmlFor={props.for} className='block mb-2 text-sm font-medium text-gray-900 dark:text-white my-4'>{props.label}</label>
+            <label htmlFor={props.for} className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>{props.label}</label>
             <input
                 name={props.name}
                 value={props.value}
