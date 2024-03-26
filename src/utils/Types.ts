@@ -16,12 +16,22 @@ export type DealsProps = {
     deals_date: string
 }
 
-export type AddDeals = {
+export type AddDealsElement = {
     name: string,
     id: string,
     placeholder: string,
     type: string,
     label: string,
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => string,
-    validation: Array<{ required: boolean; msg: string; }>
+    value: string,
+    validation: Array<{ required: boolean; alert: string; }>
 }
+
+export type AddDeals = {
+    pname: AddDealsElement,
+    price: AddDealsElement,
+    coupon: AddDealsElement,
+    producturl: AddDealsElement,
+    productdetails: AddDealsElement
+};
+
+export type EventType = { event: React.ChangeEvent<HTMLInputElement> }

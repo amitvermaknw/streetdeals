@@ -1,5 +1,13 @@
-import React from "react";
+import { AddDeals, EventType } from "./Types";
 
-export const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return event.target.value
+//event: React.ChangeEvent<HTMLInputElement>
+type T = EventType & { type: string }
+
+export const onChange = (action: T, state: AddDeals) => {
+    if (action.event?.target.name) {
+        const ele = state[action.event.target.name as keyof typeof state];
+        ele.value = action.event.target.value
+    }
+
+    return { ...state }
 }
