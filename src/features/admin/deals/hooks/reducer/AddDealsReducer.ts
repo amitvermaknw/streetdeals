@@ -2,7 +2,7 @@
 import { onChange } from "../../../../../utils/HandleEvents";
 import { AddDeals, EventType } from "../../../../../utils/Types";
 
-type T = EventType & { type: string }
+type T = EventType & { type: string, payload?: string | number }
 
 const AddDealsReducer = (state: AddDeals, action: T): AddDeals => {
     const newState = { ...state }

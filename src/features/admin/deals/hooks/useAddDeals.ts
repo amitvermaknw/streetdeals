@@ -13,7 +13,7 @@ const useAddDeals = (initState: AddDeals) => {
         return;
     };
 
-    return [state, onChange]
+    return [state, onChange] as const
 }
 
 export default useAddDeals;

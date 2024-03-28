@@ -34,4 +34,4 @@ export type AddDeals = {
     productdetails: AddDealsElement
 };
 
-export type EventType = { event: React.ChangeEvent<HTMLInputElement> }
+export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
