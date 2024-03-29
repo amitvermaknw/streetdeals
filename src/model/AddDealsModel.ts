@@ -33,7 +33,7 @@ const AddDealsModel = {
         name: 'coupon',
         id: 'coupon',
         placeholder: 'Product coupon',
-        type: 'number',
+        type: 'text',
         label: "Product coupon",
         value: '',
         validation: [
@@ -54,6 +54,36 @@ const AddDealsModel = {
             {
                 required: true,
                 alert: "Product URL is required"
+            }
+        ]
+    },
+    dealtype: {
+        name: 'dealtype',
+        id: 'dealtype',
+        placeholder: 'Deal Type',
+        type: 'select',
+        label: "Deal type",
+        value: '',
+        options: [{ value: 'today', label: 'Today' }, { value: 'deals', label: 'Deals' }],
+        validation: [
+            {
+                required: false,
+                alert: ""
+            }
+        ]
+    },
+    pimage: {
+        name: 'pimage',
+        id: 'pimage',
+        placeholder: 'Product image',
+        type: 'file',
+        label: "Product Details",
+        value: '',
+        imageObject: '',
+        validation: [
+            {
+                required: true,
+                alert: "Product image is required"
             }
         ]
     },

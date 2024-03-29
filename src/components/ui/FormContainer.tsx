@@ -1,10 +1,14 @@
 import { AddDeals } from "../../utils/Types";
+import BrowseBtn from "./BrowseBtn";
 import Input from "./Input";
+import Select from "./Select";
 import TextEditor from "./TextEditor";
 
 type Props = {
     state: AddDeals,
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: React.ChangeEventHandler<HTMLInputElement>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onChangeEditor: any
 }
 
 const buildForm = (formElement: Props) => {
@@ -13,16 +17,24 @@ const buildForm = (formElement: Props) => {
             case 'text':
                 return (
                     <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>
-                        <Input {...form} />
+                        <Input {...form} onChange={formElement.onChange} />
                     </div>
                 );
             case 'number':
                 return <div className="col-span-2 sm:col-span-1" key={`${key}_${index}`}>
-                    <Input {...form} />
+                    <Input {...form} onChange={formElement.onChange} />
+                </div>
+            case 'file':
+                return <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>
+                    <BrowseBtn {...form} onChange={formElement.onChange} />
                 </div>
             case 'texteditor':
                 return <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>
-                    <TextEditor {...form} />
+                    <TextEditor {...form} onChange={formElement.onChangeEditor} />
+                </div>
+            case 'select':
+                return <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>
+                    <Select {...form} onChange={formElement.onChange} />
                 </div>
         }
     })

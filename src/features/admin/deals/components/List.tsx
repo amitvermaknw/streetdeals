@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DealsProps } from "../../../../utils/Types";
+import { DealsProps, VoidFun } from "../../../../utils/Types";
 import DealList from "./ListChild/DealList";
 import DealListItem from "./ListChild/DealListItems";
 import Nav from "./ListChild/Nav";
@@ -11,8 +11,10 @@ type Props = {
 }
 
 const List = ({ deals }: Props) => {
-
     const [status, openDialog] = useState(false);
+    const closeDilog: VoidFun = () => {
+        openDialog(false)
+    }
 
     return (<>
         <div className="divide-y divide-slate-100">
@@ -37,7 +39,7 @@ const List = ({ deals }: Props) => {
                 ))}
             </DealList>
 
-            {status ? <AddDeals /> : ''}
+            {status ? <AddDeals onCancel={closeDilog} /> : ''}
 
         </div>
     </>)

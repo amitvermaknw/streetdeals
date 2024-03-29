@@ -12,7 +12,7 @@ const LoginForm = () => {
     const auth = useAuth();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleInput = (e: any) => {
+    const handleInput: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setInput((prev) => ({
             ...prev,

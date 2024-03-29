@@ -1,7 +1,6 @@
 import 'quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
 
-
 interface EditorInterface {
     value?: string;
     placeholder: string;
@@ -9,10 +8,11 @@ interface EditorInterface {
     for?: string;
     name: string;
     label?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onChange: React.ChangeEventHandler<HTMLInputElement> | any
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TextEditor = (props: EditorInterface, onChange: any) => {
+const TextEditor = (props: EditorInterface) => {
 
     const modules = {
         toolbar: [
@@ -46,8 +46,9 @@ const TextEditor = (props: EditorInterface, onChange: any) => {
                 modules={modules}
                 formats={formats}
                 placeholder="Your content ...."
-                onChange={onChange}
+                onChange={props.onChange}
                 value={props.value}
+                id={props.name}
             >
             </ReactQuill>
         </div>

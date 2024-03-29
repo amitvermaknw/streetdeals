@@ -23,7 +23,8 @@ export type AddDealsElement = {
     type: string,
     label: string,
     value: string,
-    validation: Array<{ required: boolean; alert: string; }>
+    validation: Array<{ required: boolean; alert: string; }>,
+    imageObject?: string
 }
 
 export type AddDeals = {
@@ -31,7 +32,12 @@ export type AddDeals = {
     price: AddDealsElement,
     coupon: AddDealsElement,
     producturl: AddDealsElement,
-    productdetails: AddDealsElement
+    productdetails: AddDealsElement,
+    pimage: AddDealsElement,
+    dealtype: AddDealsElement
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
+
+
+export type VoidFun = () => void;
