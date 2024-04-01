@@ -8,7 +8,7 @@ type Props = {
     state: AddDeals,
     onChange: React.ChangeEventHandler<HTMLInputElement>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChangeEditor: any
+    onChangeEditor?: any
 }
 
 const buildForm = (formElement: Props) => {
@@ -30,7 +30,7 @@ const buildForm = (formElement: Props) => {
                 </div>
             case 'texteditor':
                 return <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>
-                    <TextEditor {...form} onChange={formElement.onChangeEditor} />
+                    <TextEditor {...form} onChangeEditor={formElement.onChangeEditor} onChange={formElement.onChange} />
                 </div>
             case 'select':
                 return <div className="col-span-2 sm:col-span-2" key={`${key}_${index}`}>

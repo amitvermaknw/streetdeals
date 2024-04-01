@@ -77,7 +77,7 @@ const AddDealsModel = {
         id: 'pimage',
         placeholder: 'Product image',
         type: 'file',
-        label: "Product Details",
+        label: "Product Image",
         value: '',
         imageObject: '',
         validation: [

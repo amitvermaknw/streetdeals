@@ -1,9 +1,11 @@
-import { AddDeals, EventType } from "./Types";
+//import { AddBanner, AddDeals, EventType } from "./Types";
+import { EventType } from "./Types";
 
 //event: React.ChangeEvent<HTMLInputElement>
-type T = EventType & { type: string }
+type T = EventType & { type: string, payload?: { content: string } }
 
-export const onChange = (action: T, state: AddDeals): AddDeals => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const onChange = (action: T, state: any): any => {
     if (action.event?.target.name && action.event?.target.type !== 'file') {
         const ele = state[action.event.target.name as keyof typeof state];
         ele.value = action.event.target.value
@@ -17,9 +19,10 @@ export const onChange = (action: T, state: AddDeals): AddDeals => {
     return { ...state }
 }
 
-export const onEditorChange = (action: T, state: AddDeals): AddDeals => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const onEditorChange = (action: T, state: any): any => {
     console.log(action)
-    // const ele = state[action.event.target.name as keyof typeof state];
-    // ele.value = action.event.target.value
+    const ele = state['productdetails'];
+    ele.value = action.payload?.content as string
     return { ...state }
 }

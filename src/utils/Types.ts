@@ -38,6 +38,17 @@ export type AddDeals = {
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
-
-
 export type VoidFun = () => void;
+
+
+export type BannerListProps = {
+    id: string
+    image: string
+    url: string
+}
+
+export type AddBanner = {
+    bname: AddDealsElement,
+    broducturl: AddDealsElement,
+    bimage: AddDealsElement
+};

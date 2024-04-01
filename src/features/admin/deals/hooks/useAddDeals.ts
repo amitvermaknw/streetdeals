@@ -13,9 +13,8 @@ const useAddDeals = (initState: AddDeals) => {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onChangeEditor = (content: string, delta: any, source: any, editor: any) => {
-        console.log(editor.getContents())
-        dispatch({ type: ON_EDITOR_CHANGE, payload: { content: content, delta, source, editor } });
+    const onChangeEditor = (content: string) => {
+        dispatch({ type: ON_EDITOR_CHANGE, payload: { content: content } });
     }
 
     const onSubmit = () => {

@@ -1,9 +1,11 @@
-import List from "./List"
-import deals from '../../../../data/deals.json'
+import List from "./List";
+import deals from '../../../../data/deals.json';
+import banner from '../../../../data/banner.json';
+
 
 const Dashboard = () => {
     return (<>
-        <List deals={deals} />
+        <List deals={deals} banner={banner} />
     </>)
 }
 

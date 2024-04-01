@@ -9,7 +9,9 @@ interface EditorInterface {
     name: string;
     label?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: React.ChangeEventHandler<HTMLInputElement> | any
+    onChange?: React.ChangeEventHandler<HTMLInputElement> | any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onChangeEditor: any
 }
 
 const TextEditor = (props: EditorInterface) => {
@@ -46,7 +48,7 @@ const TextEditor = (props: EditorInterface) => {
                 modules={modules}
                 formats={formats}
                 placeholder="Your content ...."
-                onChange={props.onChange}
+                onChange={props.onChangeEditor}
                 value={props.value}
                 id={props.name}
             >

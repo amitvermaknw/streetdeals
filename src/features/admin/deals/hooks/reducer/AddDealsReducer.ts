@@ -1,11 +1,12 @@
 //import { Reducer } from "react";
 import { ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../../utils/Constants";
 import { onChange, onEditorChange } from "../../../../../utils/HandleEvents";
-import { AddDeals, EventType } from "../../../../../utils/Types";
+import { EventType } from "../../../../../utils/Types";
 
-type T = EventType & { type: string, payload?: object }
+type T = EventType & { type: string, payload?: { content: string } }
 
-const AddDealsReducer = (state: AddDeals, action: T): AddDeals => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const AddDealsReducer = (state: any, action: T): any => {
     const newState = { ...state }
     switch (action.type) {
         case ON_CHANGE:
