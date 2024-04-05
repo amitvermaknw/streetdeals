@@ -3,6 +3,7 @@ import Header from '../layouts/Header';
 import Login from '../pages/Login';
 // import PrivateRouter from './PrivateRouter';
 import Deals from '../pages/admin/Deals';
+import Home from '../pages/Home';
 
 
 function Router() {
@@ -11,7 +12,7 @@ function Router() {
             <Header />
             <div className='md:container md:mx-auto'>
                 <Routes>
-                    <Route path="/" element={''}></Route>
+                    <Route path="/" element={<Home />}></Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/deals" element={<Deals />}></Route>
                     {/* <Route element={<PrivateRouter />}>

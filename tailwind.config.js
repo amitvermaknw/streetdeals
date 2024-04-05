@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const flowbite = require("flowbite-react/tailwind");
+
 /** @type {import('tailwindcss').Config} */
 
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
+    flowbite.content()
   ],
   darkMode: 'class',
   theme: {
@@ -50,5 +54,6 @@ export default {
     }
   },
   plugins: [
+    flowbite.plugin()
   ],
 }
