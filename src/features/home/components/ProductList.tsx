@@ -4,7 +4,7 @@ const ProductList = () => {
             <h1 className="mb-4 ml-2 text-left font-sans text-xl font-bold">Other deals</h1>
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 <article className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
-                    <a href="#" className="block h-full w-full">
+                    <a href="/pdetails" className="block h-full w-full">
                         <img className="max-h-40 w-full object-cover" alt="featured image" src="https://images.unsplash.com/photo-1660241588741-d653d53348fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" />
                         <div className="w-full bg-white p-2">
                             {/* <p className="text-md font-medium text-indigo-500">Nature</p> */}
