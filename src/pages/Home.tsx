@@ -1,8 +1,12 @@
-import { Banner } from "../features/home";
+import { Banner, ProductList, TodaysDeals } from "../features/home";
 
 
 export default function Home() {
     return (
-        <Banner />
+        <>
+            <Banner />
+            <TodaysDeals />
+            <ProductList />
+        </>
     )
 }
