@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Deals from '../pages/admin/Deals';
 import Home from '../pages/Home';
 import ProductDetails from '../pages/ProductDetails';
+import { PList } from '../features/plist';
 
 
 function Router() {
@@ -17,6 +18,8 @@ function Router() {
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/deals" element={<Deals />}></Route>
                     <Route path="/pdetails" element={<ProductDetails />}></Route>
+                    <Route path="/pall" element={<PList />}></Route>
+
                     {/* <Route element={<PrivateRouter />}>
                         <Route path="/dashboard" element={''}></Route>
                     </Route> */}

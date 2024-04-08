@@ -1,3 +1,5 @@
+import YouMayLike from "./YouMayLike";
+
 const PDetails = () => {
     return (
         <div className="font-[sans-serif]">
@@ -156,11 +158,13 @@ const PDetails = () => {
                                     <p className="text-xs mt-4">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
                                 </div>
                             </div> */}
-                            <button type="button" className="w-full mt-8 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded">Click here to purchase</button>
+                            <button type="button" className="w-full mt-8 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded">Get the deal</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr className="mt-16 mb-4"></hr>
+            <YouMayLike />
         </div>
     )
 }

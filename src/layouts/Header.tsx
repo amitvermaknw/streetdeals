@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react'
 // import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../features/authentication/hooks/useAuth';
+import logo from '../assets/sd_logo.svg'
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,19 +12,18 @@ const Header = () => {
     return (<>
 
         <nav className="bg-gray-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <img
-                                className="h-8 w-8"
-                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                alt="Workflow"
+                                className="h-16"
+                                src={logo}
+                                alt="logo"
                             />
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
-                                <h1>Welcome! {auth.user}</h1>
 
                                 <Link
                                     to="/"
