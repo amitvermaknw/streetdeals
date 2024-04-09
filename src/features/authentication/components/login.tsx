@@ -24,7 +24,7 @@ const LoginForm = () => {
         e.preventDefault();
         if (input.username !== "" && input.password !== "") {
             auth.loginAction(input);
-            return;
+            //return;
         } else {
             return false
         }

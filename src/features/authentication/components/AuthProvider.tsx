@@ -1,6 +1,7 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LayoutProps } from "../../../utils/Types";
+import { useAuthService } from "../hooks/useAuthService";
 
 const defaultValues = {
     token: '',
@@ -14,30 +15,27 @@ type AuthenticatedUser = typeof defaultValues
 export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
 
 const AuthProvider = ({ children }: LayoutProps) => {
+    console.log("inside auth --")
     const [user, setUser] = useState<string>(null || '');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const navigate = useNavigate();
 
+    const [authenticate, token2] = useAuthService();
+
     const loginAction = async (data: { username: string, password: string }) => {
         try {
-            const response = await fetch("apicall", {
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
+            console.log("inside auth")
+            authenticate(data);
+            localStorage.setItem("token", token2)
 
-            const res = await response.json();
-
-            if (res.data) {
-                setUser(res.data.user);
-                setToken(res.token)
-                localStorage.setItem("token", res.token)
-                navigate("/dashboard")
-                return;
-            }
-            throw new Error(res.message);
+            // if (res.data) {
+            //     setUser(res.data.user);
+            //     setToken(res.token)
+            //     localStorage.setItem("token", token2)
+            //     navigate("/dashboard")
+            //     return;
+            // }
+            // throw new Error(res.message);
         } catch (err) {
             console.error(err)
         }
