@@ -2,6 +2,8 @@ import { useState } from "react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
+import Alert from "../../../components/ui/Alert";
+import Toast from "../../../components/ui/Toast";
 
 const LoginForm = () => {
     const [input, setInput] = useState({
@@ -9,7 +11,9 @@ const LoginForm = () => {
         password: ""
     });
 
+    const [error, setError] = useState('');
     const auth = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInput: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -20,14 +24,17 @@ const LoginForm = () => {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setIsLoading(true);
         if (input.username !== "" && input.password !== "") {
-            auth.loginAction(input);
-            //return;
+            setError('');
+            await auth.loginAction(input);
         } else {
-            return false
+            setError("Username and Password should not be empty");
+            // return false
         }
+        setIsLoading(false);
     }
 
     return (
@@ -51,12 +58,18 @@ const LoginForm = () => {
                             type="password"
                             label="Password"
                         />
+                        {error ? <Alert danger={error} /> : ''}
                         <Button
                             name="Login"
                             onClick={() => { }}
+                            loading={isLoading}
                         />
                     </form>
                 </div>
+                <div className="px-6 py-4">
+                    {auth.alertMsg ? <Toast error={auth.alertMsg} /> : ''}
+                </div>
+
             </div>
 
         </div>

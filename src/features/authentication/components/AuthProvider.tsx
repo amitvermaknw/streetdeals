@@ -8,48 +8,49 @@ const defaultValues = {
     user: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loginAction: (_data: { username: string, password: string }) => { },
-    logOut: () => { }
+    logOut: () => { },
+    alertMsg: ''
 };
 
 type AuthenticatedUser = typeof defaultValues
 export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
 
 const AuthProvider = ({ children }: LayoutProps) => {
-    console.log("inside auth --")
     const [user, setUser] = useState<string>(null || '');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
+    const [alertMsg, setAlert] = useState<string>('')
     const navigate = useNavigate();
 
-    const [authenticate, token2] = useAuthService();
+    const [authenticate, removeToken] = useAuthService();
 
     const loginAction = async (data: { username: string, password: string }) => {
         try {
-            console.log("inside auth")
-            authenticate(data);
-            localStorage.setItem("token", token2)
+            const response = await authenticate(data);
+            if (Object.prototype.hasOwnProperty.call(response, 'error')) {
+                setAlert(response.error as string);
+                return
+            }
 
-            // if (res.data) {
-            //     setUser(res.data.user);
-            //     setToken(res.token)
-            //     localStorage.setItem("token", token2)
-            //     navigate("/dashboard")
-            //     return;
-            // }
-            // throw new Error(res.message);
+            setToken(response.user.uid as string)
+            localStorage.setItem("token", response.user.uid as string)
+            navigate("/dashboard")
         } catch (err) {
-            console.error(err)
+            if (err instanceof Error) {
+                setAlert(err.message as string)
+            }
         }
     }
 
     const logOut = () => {
         setUser('');
-        setToken("");
+        setToken('');
         localStorage.removeItem("token");
+        removeToken()
         navigate("/login");
     }
 
     return (
-        <AuthContext.Provider value={{ token, user, loginAction, logOut }}>
+        <AuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,24 +1,33 @@
 import { app } from "../../../services/config"
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { updateAdminToken, writeAdminToken } from "../services/authService";
 
 export const useAuthService = () => {
 
     const auth = getAuth(app);
-    let token = '';
-    //let uid = ''
-    const authenticate = async (formData: { username: string, password: string }) => {
-        const userCredential = await signInWithEmailAndPassword(auth, formData.username, formData.password);
-        console.log(userCredential);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const authenticate: any = async (formData: { username: string, password: string }) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, formData.username, formData.password);
+            await writeAdminToken({
+                token: userCredential.user.uid,
+                status: "true",
+                timestamp: new Date().toISOString()
+            })
+            return userCredential;
+        } catch (error) {
+            if (error instanceof Error) {
+                return { error: error.message };
+            }
+
+        }
     }
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            token = user.uid
-        } else {
-            console.log("singed out");
-        }
-    })
+    const removeToken = async () => {
+        const data = updateAdminToken();
+        console.log(data)
+    }
 
-    return [authenticate, token] as const
+    return [authenticate, removeToken] as const
 }

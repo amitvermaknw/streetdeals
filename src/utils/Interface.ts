@@ -9,5 +9,6 @@ export interface InputInterfaceProps {
     id?: string | number | undefined;
     options?: Array<{ value: string, label: string }>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: React.ChangeEventHandler<HTMLInputElement> | React.ChangeEventHandler<HTMLSelectElement> | any
+    onChange: React.ChangeEventHandler<HTMLInputElement> | React.ChangeEventHandler<HTMLSelectElement> | any;
+    alert?: string;
 }
