@@ -3,7 +3,7 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
 import Alert from "../../../components/ui/Alert";
-import Toast from "../../../components/ui/Toast";
+import { toast } from 'react-toastify';
 
 const LoginForm = () => {
     const [input, setInput] = useState({
@@ -67,7 +67,7 @@ const LoginForm = () => {
                     </form>
                 </div>
                 <div className="px-6 py-4">
-                    {auth.alertMsg ? <Toast error={auth.alertMsg} /> : ''}
+                    {auth.alertMsg ? toast(auth.alertMsg) : ''}
                 </div>
 
             </div>

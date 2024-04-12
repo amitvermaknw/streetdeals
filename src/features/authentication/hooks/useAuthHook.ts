@@ -2,7 +2,7 @@ import { app } from "../../../services/config"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { updateAdminToken, writeAdminToken } from "../services/authService";
 
-export const useAuthService = () => {
+export const useAuthHook = () => {
 
     const auth = getAuth(app);
 
@@ -12,7 +12,7 @@ export const useAuthService = () => {
             const userCredential = await signInWithEmailAndPassword(auth, formData.username, formData.password);
             await writeAdminToken({
                 token: userCredential.user.uid,
-                status: "true",
+                status: true,
                 timestamp: new Date().toISOString()
             })
             return userCredential;
@@ -25,8 +25,7 @@ export const useAuthService = () => {
     }
 
     const removeToken = async () => {
-        const data = updateAdminToken();
-        console.log(data)
+        await updateAdminToken();
     }
 
     return [authenticate, removeToken] as const

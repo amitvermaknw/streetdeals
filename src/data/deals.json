@@ -4,8 +4,10 @@
     "image": "https://picsum.photos/200/300",
     "type": "Today's only",
     "tag": "Limited",
-    "price": "15",
+    "price": 15,
+    "discount": 20,
     "promo_code": "LCOPIUD",
+    "short_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "product_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.",
     "deals_date": "12/12/2024"
 },
@@ -17,6 +19,8 @@
     "tag": "Limited",
     "price": "15",
     "promo_code": "LCOPIUD",
+    "discount": 20,
+    "short_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "product_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.",
     "deals_date": "12/12/2024"
 }]

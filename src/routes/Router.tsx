@@ -19,6 +19,7 @@ function Router() {
                     {/* <Route path="/deals" element={<Deals />}></Route> */}
                     <Route path="/pdetails" element={<ProductDetails />}></Route>
                     <Route path="/pall" element={<PList />}></Route>
+                    {/* <Route path="/upload" element={<UploadImage />}></Route> */}
 
                     <Route element={<PrivateRouter />}>
                         <Route path="/dashboard" element={<Deals />}></Route>

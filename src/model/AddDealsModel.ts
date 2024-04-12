@@ -29,6 +29,20 @@ const AddDealsModel = {
             }
         ]
     },
+    discount: {
+        name: 'discount',
+        id: 'discount',
+        placeholder: 'Product discount',
+        type: 'number',
+        label: "Product discount",
+        value: '',
+        validation: [
+            {
+                required: false,
+                alert: "Product discount is required"
+            }
+        ]
+    },
     coupon: {
         name: 'coupon',
         id: 'coupon',
@@ -84,6 +98,20 @@ const AddDealsModel = {
             {
                 required: true,
                 alert: "Product image is required"
+            }
+        ]
+    },
+    pshortdetails: {
+        name: 'pshortdetails',
+        id: 'pshortdetails',
+        placeholder: 'Short details',
+        type: 'text',
+        label: "Product short Details",
+        value: '',
+        validation: [
+            {
+                required: true,
+                alert: "Product URL is required"
             }
         ]
     },

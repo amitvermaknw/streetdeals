@@ -1,7 +1,9 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LayoutProps } from "../../../utils/Types";
-import { useAuthService } from "../hooks/useAuthService";
+import { useAuthHook } from "../hooks/useAuthHook";
+import { toast } from "react-toastify";
+//import useUrlAuth from "../../../hooks/useUrlAuth";
 
 const defaultValues = {
     token: '',
@@ -20,8 +22,10 @@ const AuthProvider = ({ children }: LayoutProps) => {
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
     const navigate = useNavigate();
+    //const [isTokenValid] = useUrlAuth();
 
-    const [authenticate, removeToken] = useAuthService();
+
+    const [authenticate, removeToken] = useAuthHook();
 
     const loginAction = async (data: { username: string, password: string }) => {
         try {
@@ -47,6 +51,7 @@ const AuthProvider = ({ children }: LayoutProps) => {
         localStorage.removeItem("token");
         removeToken()
         navigate("/login");
+        toast("Logged out successfully");
     }
 
     return (

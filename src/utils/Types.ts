@@ -10,10 +10,12 @@ export type DealsProps = {
     image: string
     type: string
     tag: string
-    price: string
+    price: number
     promo_code: string
     product_details: string
-    deals_date: string
+    deals_date: string,
+    discount: number,
+    short_details: string
 }
 
 export type AddDealsElement = {

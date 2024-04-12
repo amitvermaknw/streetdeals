@@ -25,8 +25,7 @@ const DealListItem = ({ deals }: Props) => {
                     <div className="md:flex-1 px-4">
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{deals.title}</h2>
                         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-                            ante justo. Integer euismod libero id mauris malesuada tincidunt.
+                            {deals.short_details}
                         </p>
                         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 mb-4">
                             <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3 mb-2">
@@ -36,8 +35,10 @@ const DealListItem = ({ deals }: Props) => {
                                 <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.promo_code}</button>
                             </div>
                             <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
+                                <span className="font-medium text-gray-700 dark:text-gray-300">Discount:</span>
+                                <button className="text-sm font-medium bg-red-500 dark:bg-gray-700 text-white dark:text-white py-1 px-2 mx-2 rounded-lg mr-1 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.discount}%</button>
                                 <span className="font-medium text-gray-700 dark:text-gray-300">Created Date:</span>
-                                <button className="text-sm font-medium bg-sky-500 dark:bg-gray-700 text-white dark:text-white py-1 px-4 mx-2 rounded-lg mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.deals_date}</button>
+                                <button className="text-sm font-medium bg-sky-500 dark:bg-gray-700 text-white dark:text-white py-1 px-2 mx-2 rounded-lg mr-1 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.deals_date}</button>
                             </div>
                         </div>
                         {/* <div className="mb-4">
