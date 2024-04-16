@@ -36,7 +36,9 @@ export type AddDeals = {
     producturl: AddDealsElement,
     productdetails: AddDealsElement,
     pimage: AddDealsElement,
-    dealtype: AddDealsElement
+    dealtype: AddDealsElement,
+    discount: AddDealsElement,
+    pshortdetails: AddDealsElement
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }

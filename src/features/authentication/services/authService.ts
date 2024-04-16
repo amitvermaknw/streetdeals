@@ -13,10 +13,11 @@ export const writeAdminToken = async (data: InputData) => {
             ...data
         });
         localStorage.setItem("login_token", docRef.id)
-    } catch (e) {
-        console.error("Error adding document: ", e);
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+        }
     }
-
 };
 
 export const updateAdminToken = async () => {

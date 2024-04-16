@@ -2,7 +2,7 @@
 import { EventType } from "./Types";
 
 //event: React.ChangeEvent<HTMLInputElement>
-type T = EventType & { type: string, payload?: { content: string } }
+type T = EventType & { type: string, payload?: { content: string | number | boolean } }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const onChange = (action: T, state: any): any => {
@@ -14,6 +14,7 @@ export const onChange = (action: T, state: any): any => {
             const img = action.event.target.files[0];
             const ele = state[action.event.target.name as keyof typeof state];
             ele.imageObject = URL.createObjectURL(img)
+            ele.image = img
         }
     }
     return { ...state }
@@ -21,7 +22,6 @@ export const onChange = (action: T, state: any): any => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const onEditorChange = (action: T, state: any): any => {
-    console.log(action)
     const ele = state['productdetails'];
     ele.value = action.payload?.content as string
     return { ...state }
