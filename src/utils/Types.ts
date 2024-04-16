@@ -27,6 +27,7 @@ export type AddDealsElement = {
     value: string,
     validation: Array<{ required: boolean; alert: string; }>,
     imageObject?: string
+    image?: string
 }
 
 export type AddDeals = {

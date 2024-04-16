@@ -2,12 +2,13 @@ import { toast } from "react-toastify";
 import { cloudinaryConfig } from "../../../../../firebaseConfig";
 import { AddDeals } from "../../../../utils/Types";
 import { db, } from '../../../../services/config';
-import { collection, addDoc, getDocs, query, where, doc, updateDoc, } from "firebase/firestore"
+import { collection, addDoc, getDocs, query, where, doc, updateDoc, } from "firebase/firestore";
+import { compressImage } from "../../../../utils/CompressImageSize";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const uploadProductImage = async (payload: any) => {
     const formData = new FormData()
-    formData.append('file', payload.image);
+    formData.append('file', await compressImage(payload.image));
     formData.append('upload_preset', cloudinaryConfig.uploadPreset);
     formData.append('cloud_name', cloudinaryConfig.cloudName);
     formData.append('folder', 'product_images');
