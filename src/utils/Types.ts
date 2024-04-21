@@ -10,7 +10,7 @@ export type DealsProps = {
     image: string
     type: string
     tag: string
-    price: number
+    price: string
     promo_code: string
     product_details: string
     deals_date: string,
@@ -57,3 +57,18 @@ export type AddBanner = {
     broducturl: AddDealsElement,
     bimage: AddDealsElement
 };
+
+export type ProductListProps = {
+    pid: string,
+    pname: string,
+    pimageurl?: string,
+    dealtype?: string,
+    tag?: string,
+    price: string,
+    discount?: string,
+    coupon?: string,
+    pshortdetails: string,
+    productdetails: string,
+    ptimestamp?: string,
+    producturl: string
+}

@@ -1,5 +1,7 @@
 //import { onChange } from "../utils/HandleEvents"
 
-const GetDealsModel = {}
+import { ProductListProps } from "../utils/Types";
+
+const GetDealsModel: Array<ProductListProps> = []
 
 export default GetDealsModel;

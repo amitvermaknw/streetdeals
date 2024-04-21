@@ -41,6 +41,7 @@ const addDealsService = async (payload: AddDeals) => {
         pimageurl: getImageURL,
         pshortdetails: payload.pshortdetails.value,
         productdetails: payload.productdetails.value,
+        ptimestamp: new Date().toISOString()
     }
 
     try {

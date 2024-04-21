@@ -2,9 +2,9 @@ import { useEffect, useReducer } from "react";
 import GetDealsReducer from "./reducer/GetDealsReducer";
 import { fetchDealsService } from "../services/fetchDealsService";
 import { GET_DEALS } from "../../../../utils/Constants";
-import { AddDeals } from "../../../../utils/Types";
+import { ProductListProps } from "../../../../utils/Types";
 
-const useGetDeals = (initState: AddDeals) => {
+const useGetDeals = (initState: Array<ProductListProps>) => {
 
     const [state, dispatch] = useReducer(GetDealsReducer, initState)
 

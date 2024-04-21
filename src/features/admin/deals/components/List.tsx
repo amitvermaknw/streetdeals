@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BannerListProps, DealsProps, VoidFun } from "../../../../utils/Types";
+import { BannerListProps, ProductListProps, VoidFun } from "../../../../utils/Types";
 import DealList from "./ListChild/DealList";
 import DealListItem from "./ListChild/DealListItems";
 import Nav from "./ListChild/Nav";
@@ -9,7 +9,8 @@ import BannerListItem from "./ListChild/BannerListItems";
 import AddBanner from "./AddBanner";
 
 type Props = {
-    deals: Array<DealsProps>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    deals: Array<ProductListProps>,
     banner: Array<BannerListProps>
 }
 
@@ -44,7 +45,7 @@ const List = ({ deals, banner }: Props) => {
 
             {isActiveMenu === 'deals' ? <DealList>
                 {deals.map((deal) => (
-                    <DealListItem key={deal.id} deals={deal} />
+                    <DealListItem key={deal.pid} deals={deal} />
                 ))}
             </DealList> :
                 <DealList>
