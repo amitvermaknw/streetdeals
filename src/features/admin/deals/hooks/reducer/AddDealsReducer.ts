@@ -16,10 +16,12 @@ const AddDealsReducer = (state: any, action: T): any => {
         case FORM_SUMBIT:
             if (action.payload?.content === true) {
                 for (const [key] of Object.entries(newState)) {
-                    newState[key].value = ''
-                    if (newState[key].type === 'file') {
-                        newState[key].imageObject = ''
-                        newState[key].image = ''
+                    if (key !== 'onSubmit') {
+                        newState[key].value = ''
+                        if (newState[key].type === 'file') {
+                            newState[key].imageObject = ''
+                            newState[key].image = ''
+                        }
                     }
                 }
             }

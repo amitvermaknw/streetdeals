@@ -2,8 +2,9 @@ import { toast } from "react-toastify";
 import { cloudinaryConfig } from "../../../../../firebaseConfig";
 import { AddDeals } from "../../../../utils/Types";
 import { db, } from '../../../../services/config';
-import { collection, addDoc, getDocs, query, where, doc, updateDoc, } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { compressImage } from "../../../../utils/CompressImageSize";
+import { uid } from "../../../../utils/Uid";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const uploadProductImage = async (payload: any) => {
@@ -30,6 +31,7 @@ const uploadProductImage = async (payload: any) => {
 const addDealsService = async (payload: AddDeals) => {
     const getImageURL = await uploadProductImage(payload.pimage);
     const delasPayload = {
+        pid: uid(),
         pname: payload.pname.value,
         price: payload.price.value,
         discount: payload.discount.value,
@@ -38,7 +40,7 @@ const addDealsService = async (payload: AddDeals) => {
         dealtype: payload.dealtype.value,
         pimageurl: getImageURL,
         pshortdetails: payload.pshortdetails.value,
-        productdetails: payload.productdetails.value
+        productdetails: payload.productdetails.value,
     }
 
     try {
