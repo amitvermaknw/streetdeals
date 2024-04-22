@@ -29,6 +29,20 @@ const AddDealsModel = {
             }
         ]
     },
+    preprice: {
+        name: 'preprice',
+        id: 'preprice',
+        placeholder: 'Product Preprice',
+        type: 'number',
+        label: "Product Pre-Price",
+        value: '',
+        validation: [
+            {
+                required: false,
+                alert: "Product price is required"
+            }
+        ]
+    },
     discount: {
         name: 'discount',
         id: 'discount',

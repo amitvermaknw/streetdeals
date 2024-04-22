@@ -8,15 +8,15 @@ const useGetDeals = (initState: Array<ProductListProps>) => {
 
     const [state, dispatch] = useReducer(GetDealsReducer, initState)
 
-    useEffect(() => {
-        async function getDeals() {
-            const result = await fetchDealsService();
-            dispatch({ type: GET_DEALS, content: result })
-        }
-        getDeals();
-    }, [])
+    const getDeals = async () => {
+        const result = await fetchDealsService();
+        dispatch({ type: GET_DEALS, content: result })
+    }
 
-    return [state];
+    useEffect(() => {
+        getDeals();
+    }, []);
+    return [state, getDeals] as const;
 };
 
 export default useGetDeals;

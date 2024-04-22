@@ -6,9 +6,9 @@ import Skeleton from "../../../../components/ui/Skeleton";
 
 
 const Dashboard = () => {
-    const [state] = useGetDeals(GetDealsModel)
+    const [state, getDeals] = useGetDeals(GetDealsModel)
     return (<>
-        {state?.length ? <List deals={state} banner={banner} /> : <Skeleton />}
+        {state?.length ? <List deals={state} getDeals={getDeals} banner={banner} /> : <Skeleton />}
     </>)
 }
 
