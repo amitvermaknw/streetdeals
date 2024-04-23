@@ -13,8 +13,13 @@ const DealListItem = ({ deals }: Props) => {
     }
 
     const [dialogStatus, setDialogStatus] = useState(false);
+    const [productId, setProductId] = useState('')
 
     const onDialogClose = () => { setDialogStatus(false) }
+    const editProduct = (pid: string) => {
+        setDialogStatus(true)
+        setProductId(pid);
+    }
 
     return (<>
 
@@ -28,7 +33,7 @@ const DealListItem = ({ deals }: Props) => {
                         <div className="flex -mx-2 mb-2">
                             <div className="w-1/2 px-2">
                                 <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700"
-                                    onClick={() => setDialogStatus(true)}
+                                    onClick={() => editProduct(deals.pid)}
                                 >Edit</button>
                             </div>
                             <div className="w-1/2 px-2">
@@ -89,7 +94,7 @@ const DealListItem = ({ deals }: Props) => {
                 </div>
             </div>
         </div>
-        {dialogStatus ? <EditDeals onCancel={onDialogClose} /> : ''}
+        {dialogStatus ? <EditDeals onCancel={onDialogClose} productId={productId} /> : ''}
     </>
     )
 }

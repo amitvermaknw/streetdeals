@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormContainer from "../../../../components/ui/FormContainer";
 import Modal from "../../../../components/ui/Modal";
 import useEditDeals from "../hooks/useEditDeals";
@@ -7,15 +7,25 @@ import { VoidFun } from "../../../../utils/Types";
 
 type Props = {
     onCancel: VoidFun
+    productId: string
 }
 
-const EditDeals = ({ onCancel }: Props) => {
-    const [state, onChange, onChangeEditor, onSubmit] = useEditDeals(AddDealsModel);
+const EditDeals = ({ onCancel, productId }: Props) => {
+    const [state, dealState, onChange, onChangeEditor, getSingleDeal, onUpdateDeals] = useEditDeals(AddDealsModel);
     const [loader, setLoader] = useState(false);
+
+    useEffect(() => {
+        async function getDeal() {
+            setLoader(true);
+            getSingleDeal(productId);
+            setLoader(false);
+        }
+        getDeal()
+    }, []);
 
     const onFormSubmit = async () => {
         setLoader(true);
-        await onSubmit();
+        await onUpdateDeals();
         setLoader(false);
     };
 
