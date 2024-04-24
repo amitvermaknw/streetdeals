@@ -1,4 +1,5 @@
 import 'quill/dist/quill.snow.css'
+import { useMemo } from 'react';
 import ReactQuill from 'react-quill'
 
 interface EditorInterface {
@@ -13,6 +14,7 @@ interface EditorInterface {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChangeEditor: any
 }
+
 
 const TextEditor = (props: EditorInterface) => {
 
@@ -40,19 +42,33 @@ const TextEditor = (props: EditorInterface) => {
         "link", "image", "align", "size",
     ];
 
+    const quillComponent = useMemo(() => (
+        <ReactQuill
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            placeholder="Your content ...."
+            onChange={props.onChangeEditor}
+            value={props.value}
+            id={props.name}
+        />
+    ), [props.value]);
+
     return (
         <div >
             <label htmlFor={props.for} className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>{props.label}</label>
-            <ReactQuill
+            {/* <ReactQuill
                 theme="snow"
                 modules={modules}
                 formats={formats}
                 placeholder="Your content ...."
                 onChange={props.onChangeEditor}
-                value={props.value}
+                value={!props.value ? '<br>' : `<p>${props.value}</p>`}
                 id={props.name}
             >
-            </ReactQuill>
+            </ReactQuill> */}
+
+            {quillComponent}
         </div>
     );
 

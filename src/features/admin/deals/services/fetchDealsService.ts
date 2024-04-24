@@ -29,10 +29,11 @@ const fetchSingleDeal = async (pid: string) => {
     try {
         const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pid", "==", pid));
         const querySnapshot = await getDocs(q);
-        const result: Array<ProductListProps> = []
+        const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
             result.push(document.data() as ProductListProps);
+            result.push(document.id as string);
         });
 
         return result;

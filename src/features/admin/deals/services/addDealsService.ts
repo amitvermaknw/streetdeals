@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { cloudinaryConfig } from "../../../../../firebaseConfig";
 import { AddDeals } from "../../../../utils/Types";
 import { db, } from '../../../../services/config';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { compressImage } from "../../../../utils/CompressImageSize";
 import { uid } from "../../../../utils/Uid";
 
@@ -28,9 +28,18 @@ const uploadProductImage = async (payload: any) => {
     }
 };
 
-const addDealsService = async (payload: AddDeals) => {
-    const getImageURL = await uploadProductImage(payload.pimage);
-    const delasPayload = {
+const addUpdateDealsService = async (payload: AddDeals & { documentId: string }, callType: string) => {
+    let getImageURL: string | undefined = '';
+    if (callType === 'add') {
+        getImageURL = await uploadProductImage(payload.pimage);
+    } else if (callType === 'update') {
+        if (payload.pimage.image) {
+            getImageURL = await uploadProductImage(payload.pimage);
+        } else {
+            getImageURL = payload.pimage.imageObject;
+        }
+    }
+    const dealsPayload = {
         pid: uid(),
         pname: payload.pname.value,
         price: payload.price.value,
@@ -46,12 +55,21 @@ const addDealsService = async (payload: AddDeals) => {
     }
 
     try {
-        const docRef = await addDoc(collection(db, "streetdeals_collection", "streetdeals", "product_details"), {
-            ...delasPayload
-        });
-        if (docRef.id) {
-            toast.success("Record added successfully");
-            return true
+
+        if (callType === 'add') {
+            const docRef = await addDoc(collection(db, "streetdeals_collection", "streetdeals", "product_details"), {
+                ...dealsPayload
+            });
+            if (docRef.id) {
+                toast.success("Record added successfully");
+                return true
+            }
+        } else if (callType === 'update') {
+
+            const updateQuery = doc(db, "streetdeals_collection", "streetdeals", "product_details", payload.documentId);
+            await updateDoc(updateQuery, {
+                ...dealsPayload
+            })
         }
         return false
     } catch (error) {
@@ -63,5 +81,5 @@ const addDealsService = async (payload: AddDeals) => {
 };
 
 export {
-    addDealsService
+    addUpdateDealsService
 }

@@ -1,35 +1,35 @@
-import React, { useReducer } from "react";
+import React, { useCallback, useReducer } from "react";
 import { fetchSingleDeal } from "../services/fetchDealsService";
-import { GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../utils/Constants";
-import GetDealsReducer from "./reducer/GetDealsReducer";
+import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../utils/Constants";
 import { AddDeals } from "../../../../utils/Types";
 import AddDealsReducer from "./reducer/AddDealsReducer";
+import { addUpdateDealsService } from "../services/addDealsService";
 
 const useEditDeals = (initState: AddDeals) => {
 
-    const [state, dispatch] = useReducer(GetDealsReducer, initState);
-    const [dealState, stateDispatch] = useReducer(AddDealsReducer, initState);
+    const [state, dispatch] = useReducer(AddDealsReducer, initState);
 
     const onChange: React.ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation();
-        stateDispatch({ type: ON_CHANGE, event });
+        dispatch({ type: ON_CHANGE, event });
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onChangeEditor = (content: string) => {
-        stateDispatch({ type: ON_EDITOR_CHANGE, payload: { content: content } });
+        dispatch({ type: ON_EDITOR_CHANGE, payload: { content: content } });
     }
 
     const getSingleDeal = async (pid: string) => {
         const result = await fetchSingleDeal(pid);
-        dispatch({ type: GET_SINGLE_DEALS, content: result![0] })
+        dispatch({ type: GET_SINGLE_DEALS, data: result })
     }
 
-    const onUpdateDeals = async () => {
-        console.log(dealState);
-    }
+    const onUpdateDeals = useCallback(async () => {
+        const response = await addUpdateDealsService(state, 'update');
+        dispatch({ type: FORM_SUMBIT, payload: { content: response as boolean } });
+    }, [])
 
-    return [state, dealState, onChange, onChangeEditor, getSingleDeal, onUpdateDeals];
+    return [state, onChange, onChangeEditor, getSingleDeal, onUpdateDeals];
 }
 
 export default useEditDeals;

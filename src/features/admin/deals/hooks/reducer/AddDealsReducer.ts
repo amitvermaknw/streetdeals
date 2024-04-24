@@ -1,13 +1,15 @@
 //import { Reducer } from "react";
-import { FORM_SUMBIT, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../../utils/Constants";
+import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../../utils/Constants";
 import { onChange, onEditorChange } from "../../../../../utils/HandleEvents";
 import { EventType } from "../../../../../utils/Types";
 
-type T = EventType & { type: string, payload?: { content: string | boolean | number } }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type T = EventType & { type: string, payload?: { content: string | boolean | number }, data?: any }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddDealsReducer = (state: any, action: T): any => {
-    const newState = { ...state }
+    //const newState = JSON.parse(JSON.stringify(state))
+    const newState = state
     switch (action.type) {
         case ON_CHANGE:
             return onChange(action, newState);
@@ -26,6 +28,21 @@ const AddDealsReducer = (state: any, action: T): any => {
                 }
             }
             return { ...newState, onSubmit: action.payload?.content }
+
+        case GET_SINGLE_DEALS:
+            for (const [key] of Object.entries(newState)) {
+
+                if (key !== 'documentId') {
+                    newState[key].value = action.data[0][key] || ''
+                    if (newState[key].type === 'file') {
+                        newState[key].imageObject = action.data[0]['pimageurl'];
+                        newState[key].image = '';
+                    }
+                }
+            }
+            newState.documentId = action.data[1];
+            return { ...newState }
+
         default:
             return newState
     }

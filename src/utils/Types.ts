@@ -31,6 +31,7 @@ export type AddDealsElement = {
 }
 
 export type AddDeals = {
+    pid?: AddDealsElement,
     pname: AddDealsElement,
     price: AddDealsElement,
     coupon: AddDealsElement,

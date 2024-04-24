@@ -2,7 +2,7 @@ import React, { useCallback, useReducer } from "react";
 import AddDealsReducer from "./reducer/AddDealsReducer";
 import { AddDeals } from "../../../../utils/Types";
 import { FORM_SUMBIT, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../utils/Constants";
-import { addDealsService } from "../services/addDealsService";
+import { addUpdateDealsService } from "../services/addDealsService";
 
 const useAddDeals = (initState: AddDeals) => {
 
@@ -19,8 +19,8 @@ const useAddDeals = (initState: AddDeals) => {
     }
 
     const onSubmit = useCallback(async () => {
-        const response = await addDealsService(state);
-        dispatch({ type: FORM_SUMBIT, payload: { content: response as boolean } })
+        const response = await addUpdateDealsService(state, 'add');
+        dispatch({ type: FORM_SUMBIT, payload: { content: response as boolean } });
     }, []);
 
     return [state, onChange, onChangeEditor, onSubmit] as const
