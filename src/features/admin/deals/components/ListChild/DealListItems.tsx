@@ -4,10 +4,11 @@ import { useState } from "react";
 import EditDeals from "../EditDeal";
 
 type Props = {
-    deals: ProductListProps
+    deals: ProductListProps,
+    deleteRecords: (pid: string) => void
 };
 
-const DealListItem = ({ deals }: Props) => {
+const DealListItem = ({ deals, deleteRecords }: Props) => {
     const checkProduct = (url: string) => {
         window.open(url, '_blank')
     }
@@ -19,6 +20,10 @@ const DealListItem = ({ deals }: Props) => {
     const editProduct = (pid: string) => {
         setDialogStatus(true)
         setProductId(pid);
+    }
+
+    const deleteProduct = async (pid: string) => {
+        deleteRecords(pid)
     }
 
     return (<>
@@ -37,7 +42,9 @@ const DealListItem = ({ deals }: Props) => {
                                 >Edit</button>
                             </div>
                             <div className="w-1/2 px-2">
-                                <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">Delete</button>
+                                <button className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
+                                    onClick={() => deleteProduct(deals.documentId)}
+                                >Delete</button>
                             </div>
                             <div className="w-1/2 px-2">
                                 <button
@@ -47,7 +54,15 @@ const DealListItem = ({ deals }: Props) => {
                         </div>
                     </div>
                     <div className="md:flex-1 px-4">
-                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{deals.pname}</h2>
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+                            {deals.pname}
+                            {
+                                deals?.dealstatus === 'active' ?
+                                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 ms-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Active</span>
+                                    :
+                                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 ms-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Inactive</span>
+                            }
+                        </h2>
                         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                             {deals.pshortdetails}
                         </p>

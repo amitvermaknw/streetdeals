@@ -1,40 +1,17 @@
 import { toast } from "react-toastify";
-import { cloudinaryConfig } from "../../../../../firebaseConfig";
 import { AddDeals } from "../../../../utils/Types";
 import { db, } from '../../../../services/config';
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { compressImage } from "../../../../utils/CompressImageSize";
 import { uid } from "../../../../utils/Uid";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const uploadProductImage = async (payload: any) => {
-    const formData = new FormData()
-    formData.append('file', await compressImage(payload.image));
-    formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-    formData.append('cloud_name', cloudinaryConfig.cloudName);
-    formData.append('folder', 'product_images');
-    try {
-        const res = await fetch(`${cloudinaryConfig.cloudinaryURL}/${cloudinaryConfig.cloudName}/upload`, {
-            method: 'POST',
-            body: formData
-        })
-        const data = await res.json();
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-            toast.error(data.message);
-        }
-        return data.secure_url
-    } catch (error) {
-        console.log(error)
-    }
-};
+import { uploadProductImage } from "../utils/uploadImages";
 
 const addUpdateDealsService = async (payload: AddDeals & { documentId: string }, callType: string) => {
     let getImageURL: string | undefined = '';
     if (callType === 'add') {
-        getImageURL = await uploadProductImage(payload.pimage);
+        getImageURL = await uploadProductImage(payload.pimage, 'deals');
     } else if (callType === 'update') {
         if (payload.pimage.image) {
-            getImageURL = await uploadProductImage(payload.pimage);
+            getImageURL = await uploadProductImage(payload.pimage, 'deals');
         } else {
             getImageURL = payload.pimage.imageObject;
         }
@@ -51,8 +28,9 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         pshortdetails: payload.pshortdetails.value,
         productdetails: payload.productdetails.value,
         ptimestamp: new Date().toISOString(),
-        preprice: payload.preprice.value
-    }
+        preprice: payload.preprice.value,
+        dealstatus: payload.dealstatus?.value
+    };
 
     try {
 
@@ -69,9 +47,10 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
             const updateQuery = doc(db, "streetdeals_collection", "streetdeals", "product_details", payload.documentId);
             await updateDoc(updateQuery, {
                 ...dealsPayload
-            })
+            });
         }
-        return false
+        return false;
+
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);

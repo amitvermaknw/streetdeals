@@ -15,9 +15,9 @@ const AddBannerModel = {
             }
         ]
     },
-    broducturl: {
-        name: 'broducturl',
-        id: 'broducturl',
+    bannerurl: {
+        name: 'bannerurl',
+        id: 'bannerurl',
         placeholder: 'Banner URL',
         type: 'text',
         label: "Banner URL",
@@ -26,6 +26,21 @@ const AddBannerModel = {
             {
                 required: true,
                 alert: "Banner URL is required"
+            }
+        ]
+    },
+    bstatus: {
+        name: 'bstatus',
+        id: 'bstatus',
+        placeholder: 'Banner status',
+        type: 'select',
+        label: "Banner status",
+        value: '',
+        options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }],
+        validation: [
+            {
+                required: false,
+                alert: ""
             }
         ]
     },

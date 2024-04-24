@@ -1,21 +1,21 @@
 import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
 import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
-import { ProductListProps } from '../../../../utils/Types';
+import { BannerListProps } from '../../../../utils/Types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let lastVisibleData: any = 0;
-const fetchDealsService = async () => {
+const fetchBannerService = async () => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(2));
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), orderBy("bid"), startAfter(lastVisibleData), limit(2));
         const querySnapshot = await getDocs(q);
-        const result: Array<ProductListProps | string> = []
+        const result: Array<BannerListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
             const documentData = document.data();
             documentData.documentId = document.id;
-            result.push(documentData as ProductListProps);
+            result.push(documentData as BannerListProps);
         });
 
         return result;
@@ -29,12 +29,12 @@ const fetchDealsService = async () => {
 
 const fetchSingleDeal = async (pid: string) => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pid", "==", pid));
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), where("pid", "==", pid));
         const querySnapshot = await getDocs(q);
-        const result: Array<ProductListProps | string> = []
+        const result: Array<BannerListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
-            result.push(document.data() as ProductListProps);
+            result.push(document.data() as BannerListProps);
             result.push(document.id as string);
         });
 
@@ -47,11 +47,9 @@ const fetchSingleDeal = async (pid: string) => {
     }
 }
 
-const deleteDealsDoc = async (pid: string) => {
+const deleteBannerDoc = async (pid: string) => {
     try {
-        //const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pid", "==", pid));
-
-        await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "product_details", pid));
+        await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "banner_details", pid));
         return true
 
     } catch (error) {
@@ -63,7 +61,7 @@ const deleteDealsDoc = async (pid: string) => {
 }
 
 export {
-    fetchDealsService,
+    fetchBannerService,
     fetchSingleDeal,
-    deleteDealsDoc
+    deleteBannerDoc
 }

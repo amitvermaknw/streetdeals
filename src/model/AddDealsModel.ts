@@ -100,6 +100,21 @@ const AddDealsModel = {
             }
         ]
     },
+    dealstatus: {
+        name: 'dealstatus',
+        id: 'dealstatus',
+        placeholder: 'Deal status',
+        type: 'select',
+        label: "Deal status",
+        value: '',
+        options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }],
+        validation: [
+            {
+                required: false,
+                alert: ""
+            }
+        ]
+    },
     pimage: {
         name: 'pimage',
         id: 'pimage',

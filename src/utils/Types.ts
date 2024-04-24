@@ -41,23 +41,18 @@ export type AddDeals = {
     dealtype: AddDealsElement,
     discount: AddDealsElement,
     pshortdetails: AddDealsElement,
-    preprice: AddDealsElement
+    preprice: AddDealsElement,
+    dealstatus?: AddDealsElement
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
 export type VoidFun = () => void;
 
-
-export type BannerListProps = {
-    id: string
-    image: string
-    url: string
-}
-
 export type AddBanner = {
     bname: AddDealsElement,
-    broducturl: AddDealsElement,
-    bimage: AddDealsElement
+    bannerurl: AddDealsElement,
+    bimage: AddDealsElement,
+    bstatus: AddDealsElement
 };
 
 export type ProductListProps = {
@@ -72,5 +67,18 @@ export type ProductListProps = {
     pshortdetails: string,
     productdetails: string,
     ptimestamp?: string,
-    producturl: string
+    producturl: string,
+    documentId: string,
+    dealstatus?: string
+};
+
+export type BannerListProps = {
+    bid: string,
+    bname: string,
+    bannerurl: string,
+    bstatus: string,
+    bimage: string,
+    btimestamp: string,
+    bimageurl: string,
+    documentId: string
 }
