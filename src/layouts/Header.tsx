@@ -61,10 +61,6 @@ const Header = () => {
                                         Logout
                                     </button> </>
                                     : ''}
-
-                                <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    Logout
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -159,9 +155,16 @@ const Header = () => {
                             >
                                 Dashboard
                             </Link>
-                                <button onClick={() => auth.logOut()} className="btn-submit">
-                                    logout
-                                </button> </>
+                                <Link
+                                    to="/"
+                                    onClick={() => auth.logOut()}
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Logout
+                                </Link>
+                                {/* <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                    Logout
+                                </button> </> */}</>
                                 : ''}
                         </div>
                     </div>

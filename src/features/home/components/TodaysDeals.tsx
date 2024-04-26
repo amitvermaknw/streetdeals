@@ -1,7 +1,7 @@
 
 const TodaysDeals = () => {
     return (
-        <section className="py-4">
+        <section className="py-2">
             <h1 className="mb-4 ml-2 text-left font-sans text-xl font-bold">Today's Deal</h1>
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 <article className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
