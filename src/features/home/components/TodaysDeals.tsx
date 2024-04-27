@@ -2,12 +2,6 @@ import { useEffect } from "react";
 import GetDealsModel from "../../../model/GetDealsModel";
 import useGetDeals from "../hooks/useGetDeals";
 import { ProductListProps } from "../../../utils/Types";
-// import { ProductListProps } from "../../../utils/Types";
-
-// type Props = {
-//     pstate: Array<ProductListProps> | undefined,
-//     fetchDeals: () => Promise<void>
-// }
 
 const TodaysDeals = () => {
     const [pstate, fetchDeals] = useGetDeals(GetDealsModel);
@@ -26,7 +20,7 @@ const TodaysDeals = () => {
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 {pstate.length ? pstate.map((item: ProductListProps, index) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
-                        <a href={`/pdetails/${item.documentId}`} className="block h-full w-full">
+                        <a href={`/pdetails/${item.pid}`} className="block h-full w-full">
                             <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
                             <div className="w-full bg-white p-2">
                                 {/* <p className="text-md font-medium text-indigo-500">Nature</p> */}
@@ -44,7 +38,7 @@ const TodaysDeals = () => {
                                         With coupon code.
                                     </p> : ''}
                                     {/* <div className="mr-2 mt-2 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600">{item.price}</div> */}
-                                    <div className="mr-2 mt-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white">Limited time deal</div>
+                                    <div className="mr-2 mt-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">Limited time deal</div>
                                     {/* <span className="mr-2 mt-2 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600">Coupon: Default</span> */}
                                 </div>
                             </div>

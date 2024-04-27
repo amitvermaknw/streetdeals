@@ -12,6 +12,7 @@ const useGetDeals = (initState: Array<ProductListProps>) => {
         const result = await fetchDealsService();
         //const arg: { type: string, content: Array<ProductListProps | string> | undefined } = { type: GET_DEALS, content: result }
         dispatch({ type: GET_DEALS, content: result })
+        localStorage.setItem('deals_cache', JSON.stringify(pstate));
     }
 
 
