@@ -15,7 +15,7 @@ const Banner = () => {
         getBanner();
     }, [])
 
-    return (<div className="h-24 sm:h-64 xl:h-80 2xl:h-96">
+    return (<div className="h-28 sm:h-64 xl:h-80 2xl:h-96">
         <Carousel>
             {bstate ? bstate.map((item) => {
                 return <Link to={item.bannerurl} target="_blank" key={item.bid} ><img src={item.bimageurl} alt="" /></Link>

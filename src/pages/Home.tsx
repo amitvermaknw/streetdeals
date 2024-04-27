@@ -1,4 +1,4 @@
-import { Banner, ProductList, TodaysDeals } from "../features/home";
+import { Banner, TodaysDeals } from "../features/home";
 
 
 export default function Home() {
@@ -6,7 +6,7 @@ export default function Home() {
         <>
             <Banner />
             <TodaysDeals />
-            <ProductList />
+            {/* <ProductList /> */}
         </>
     )
 }

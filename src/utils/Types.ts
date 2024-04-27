@@ -70,6 +70,7 @@ export type ProductListProps = {
     producturl: string,
     documentId: string,
     dealstatus?: string
+    preprice: string
 };
 
 export type BannerListProps = {
