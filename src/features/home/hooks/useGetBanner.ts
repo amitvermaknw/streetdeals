@@ -1,8 +1,8 @@
 import { useReducer } from "react";
 import { GET_DEALS } from "../../../utils/Constants";
-import CommonReducer from "./reducer/CommonReducer";
 import { BannerListProps } from "../../../utils/Types";
 import { fetchBannerService } from "../services/fetchBDServices";
+import CommonReducer from '../../../hooks/reducer/CommonReducer';
 
 const useGetBanner = (initState: Array<BannerListProps>) => {
 

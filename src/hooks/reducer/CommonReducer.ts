@@ -1,7 +1,7 @@
-import { GET_DEALS } from "../../../../utils/Constants";
+import { GET_DEALS } from "../../utils/Constants";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DealsListReducer = (state: any, action: any) => {
+const CommonReducer = (state: any, action: any): Array<any> => {
     const new_state = JSON.parse(JSON.stringify(state))
 
     switch (action.type) {
@@ -12,7 +12,8 @@ const DealsListReducer = (state: any, action: any) => {
             ]
         default:
             return new_state
+
     }
 }
 
-export default DealsListReducer;
+export default CommonReducer;

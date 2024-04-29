@@ -39,12 +39,12 @@ const Header = () => {
                                     Deals
                                 </Link>
 
-                                <Link
+                                {/* <Link
                                     to="/todaydeals"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Today's deal
-                                </Link>
+                                </Link> */}
                                 {auth.token ? '' : <Link
                                     to="/login"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -126,6 +126,7 @@ const Header = () => {
                             <Link
                                 to="/"
                                 className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
                             >
                                 Home
                             </Link>
@@ -133,25 +134,29 @@ const Header = () => {
                             <Link
                                 to="deals"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
                             >
                                 Deals
                             </Link>
 
-                            <Link
+                            {/* <Link
                                 to="/todaydeals"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
                             >
                                 Today's deal
-                            </Link>
+                            </Link> */}
                             {auth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
                             >
                                 Login
                             </Link>}
                             {auth.token ? <> <Link
                                 to="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
                             >
                                 Dashboard
                             </Link>

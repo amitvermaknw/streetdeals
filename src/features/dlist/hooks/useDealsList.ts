@@ -1,24 +1,18 @@
 import { useReducer } from "react";
 import { ProductListProps } from "../../../utils/Types";
-
 import { dealsListService } from "../services/dealListServices";
 import { GET_DEALS } from "../../../utils/Constants";
-import DealsListReducer from './reducer/DealsListReducer';
+import CommonReducer from "../../../hooks/reducer/CommonReducer";
 
 
 const useDealsList = (initState: Array<ProductListProps>) => {
 
-    const [state, dispatch] = useReducer(DealsListReducer, initState)
+    const [state, dispatch] = useReducer(CommonReducer, initState)
 
     const dealsList = async (callType: string) => {
         const result = await dealsListService(callType);
         dispatch({ type: GET_DEALS, content: result })
     }
-
-    // useEffect(() => {
-    //     dealsList();
-    // }, []);
-
 
     return [state, dealsList] as const;
 };

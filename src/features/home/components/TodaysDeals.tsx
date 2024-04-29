@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import GetDealsModel from "../../../model/GetDealsModel";
 import useGetDeals from "../hooks/useGetDeals";
 import { ProductListProps } from "../../../utils/Types";
+import Skeleton from "../../../components/ui/Skeleton";
 
 const TodaysDeals = () => {
     const [pstate, fetchDeals] = useGetDeals(GetDealsModel);
@@ -15,10 +16,10 @@ const TodaysDeals = () => {
     }, [])
 
     return (
-        <section className="py-2">
+        pstate.length ? <section className="py-2">
             <h1 className="mb-4 ml-2 text-left font-sans  font-bold text-sm md:text-md xl:text-xl">Today's Deal</h1>
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
-                {pstate.length ? pstate.map((item: ProductListProps, index) => {
+                {pstate.length ? pstate.map((item: ProductListProps, index: number) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
                         <a href={`/pdetails/${item.pid}`} className="block h-full w-full">
                             <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
@@ -53,8 +54,7 @@ const TodaysDeals = () => {
                     type="button"
                     className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">View more</button>
             </div>
-        </section>
-
+        </section> : <Skeleton />
     );
 }
 
