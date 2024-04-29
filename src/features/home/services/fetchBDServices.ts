@@ -28,8 +28,11 @@ const fetchBannerService = async () => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let lastVisibleData: any = 0;
-const fetchDealsService = async (): Promise<Array<ProductListProps | string> | undefined> => {
+const fetchDealsService = async (callType: string): Promise<Array<ProductListProps | string> | undefined> => {
     try {
+        if (callType === 'init') {
+            lastVisibleData = 0;
+        }
         const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(10));
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []

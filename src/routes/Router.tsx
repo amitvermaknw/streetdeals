@@ -5,7 +5,12 @@ import PrivateRouter from './PrivateRouter';
 import Deals from '../pages/admin/Deals';
 import Home from '../pages/Home';
 import ProductDetails from '../pages/ProductDetails';
-import { PList } from '../features/plist';
+//import { DList } from '../features/dlist';
+import { lazy, Suspense } from 'react';
+import Skeleton from '../components/ui/Skeleton';
+
+
+const DList = lazy(() => import('../features/dlist').then((component) => ({ default: component.DList })))
 
 
 function Router() {
@@ -18,7 +23,7 @@ function Router() {
                     <Route path="/login" element={<Login />}></Route>
                     {/* <Route path="/deals" element={<Deals />}></Route> */}
                     <Route path="/pdetails/:pid" element={<ProductDetails />}></Route>
-                    <Route path="/pall" element={<PList />}></Route>
+                    <Route path="/deals" element={<Suspense fallback={<Skeleton />}><DList /></Suspense>}></Route>
                     {/* <Route path="/upload" element={<UploadImage />}></Route> */}
 
                     <Route element={<PrivateRouter />}>
