@@ -1,5 +1,5 @@
 //import { Reducer } from "react";
-import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../../utils/Constants";
+import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE, UPDATE_ELEMENTS_VALUE } from "../../../../../utils/Constants";
 import { onChange, onEditorChange } from "../../../../../utils/HandleEvents";
 import { EventType } from "../../../../../utils/Types";
 
@@ -18,7 +18,7 @@ const AddDealsReducer = (state: any, action: T): any => {
         case FORM_SUMBIT:
             if (action.payload?.content === true) {
                 for (const [key] of Object.entries(newState)) {
-                    if (key !== 'onSubmit') {
+                    if (key !== 'onSubmit' && key !== 'documentId') {
                         newState[key].value = ''
                         if (newState[key].type === 'file') {
                             newState[key].imageObject = ''
@@ -42,6 +42,14 @@ const AddDealsReducer = (state: any, action: T): any => {
             }
             newState.documentId = action.data[1];
             return { ...newState }
+
+        case UPDATE_ELEMENTS_VALUE:
+            for (const [key] of Object.entries(newState)) {
+                if (key === 'pcategory') {
+                    newState[key].options = action.data
+                }
+            }
+            return newState
 
         default:
             return newState

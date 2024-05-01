@@ -1,8 +1,9 @@
 import React, { useCallback, useReducer } from "react";
 import AddDealsReducer from "./reducer/AddDealsReducer";
 import { AddDeals } from "../../../../utils/Types";
-import { FORM_SUMBIT, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../utils/Constants";
+import { FORM_SUMBIT, ON_CHANGE, ON_EDITOR_CHANGE, UPDATE_ELEMENTS_VALUE } from "../../../../utils/Constants";
 import { addUpdateDealsService } from "../services/addDealsService";
+import { fetchDealsCategories } from "../services/fetchDealsService";
 
 const useAddDeals = (initState: AddDeals) => {
 
@@ -18,12 +19,17 @@ const useAddDeals = (initState: AddDeals) => {
         dispatch({ type: ON_EDITOR_CHANGE, payload: { content: content } });
     }
 
+    const getCategory = useCallback(async () => {
+        const response = await fetchDealsCategories();
+        dispatch({ type: UPDATE_ELEMENTS_VALUE, data: response });
+    }, [])
+
     const onSubmit = useCallback(async () => {
         const response = await addUpdateDealsService(state, 'add');
         dispatch({ type: FORM_SUMBIT, payload: { content: response as boolean } });
     }, []);
 
-    return [state, onChange, onChangeEditor, onSubmit] as const
+    return [state, onChange, onChangeEditor, onSubmit, getCategory] as const
 }
 
 export default useAddDeals;

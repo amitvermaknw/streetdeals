@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer } from "react";
-import { fetchSingleDeal } from "../services/fetchDealsService";
-import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE } from "../../../../utils/Constants";
+import { fetchDealsCategories, fetchSingleDeal } from "../services/fetchDealsService";
+import { FORM_SUMBIT, GET_SINGLE_DEALS, ON_CHANGE, ON_EDITOR_CHANGE, UPDATE_ELEMENTS_VALUE } from "../../../../utils/Constants";
 import { AddDeals } from "../../../../utils/Types";
 import AddDealsReducer from "./reducer/AddDealsReducer";
 import { addUpdateDealsService } from "../services/addDealsService";
@@ -20,9 +20,15 @@ const useEditDeals = (initState: AddDeals) => {
     }
 
     const getSingleDeal = async (pid: string) => {
+        await getCategory()
         const result = await fetchSingleDeal(pid);
         dispatch({ type: GET_SINGLE_DEALS, data: result })
     }
+
+    const getCategory = useCallback(async () => {
+        const response = await fetchDealsCategories();
+        dispatch({ type: UPDATE_ELEMENTS_VALUE, data: response });
+    }, [])
 
     const onUpdateDeals = useCallback(async () => {
         const response = await addUpdateDealsService(state, 'update');

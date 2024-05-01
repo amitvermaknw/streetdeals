@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormContainer from "../../../../components/ui/FormContainer";
 import Modal from "../../../../components/ui/Modal";
 import AddDealsModel from "../../../../model/AddDealsModel";
@@ -11,8 +11,12 @@ type Props = {
 }
 
 const AddDeals = ({ onCancel }: Props) => {
-    const [state, onChange, onChangeEditor, onSubmit] = useAddDeals(AddDealsModel);
+    const [state, onChange, onChangeEditor, onSubmit, getCategory] = useAddDeals(AddDealsModel);
     const [loader, setLoader] = useState(false);
+
+    useEffect(() => {
+        getCategory();
+    }, [])
 
     const onFormSubmit = async () => {
         setLoader(true);
@@ -22,7 +26,7 @@ const AddDeals = ({ onCancel }: Props) => {
 
     return (
         <>
-            <Modal title="Add deals">
+            <Modal title="Add deals" onClick={onCancel}>
                 <form className="p-4 md:p-5">
                     <div className="grid gap-4 mb-4 grid-cols-2">
                         <FormContainer state={state} onChange={onChange} onChangeEditor={onChangeEditor} />

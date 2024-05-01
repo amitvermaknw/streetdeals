@@ -42,7 +42,10 @@ export type AddDeals = {
     discount: AddDealsElement,
     pshortdetails: AddDealsElement,
     preprice: AddDealsElement,
-    dealstatus?: AddDealsElement
+    dealstatus?: AddDealsElement,
+    pcategory: AddDealsElement,
+    preview: AddDealsElement,
+    ptimeframe: AddDealsElement
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
@@ -70,7 +73,10 @@ export type ProductListProps = {
     producturl: string,
     documentId: string,
     dealstatus?: string
-    preprice: string
+    preprice: string,
+    pcategory: string,
+    preview: string,
+    ptimeframe: string
 };
 
 export type BannerListProps = {

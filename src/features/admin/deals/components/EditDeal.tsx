@@ -8,9 +8,10 @@ import { VoidFun } from "../../../../utils/Types";
 type Props = {
     onCancel: VoidFun
     productId: string
+    onClick: VoidFun
 }
 
-const EditDeals = ({ onCancel, productId }: Props) => {
+const EditDeals = ({ onCancel, productId, onClick }: Props) => {
     const [state, onChange, onChangeEditor, getSingleDeal, onUpdateDeals] = useEditDeals(AddDealsModel);
     const [loader, setLoader] = useState(false);
 
@@ -31,7 +32,7 @@ const EditDeals = ({ onCancel, productId }: Props) => {
 
     return (
         <>
-            <Modal title="Update deals">
+            <Modal title="Update deals" onClick={onClick}>
                 <form className="p-4 md:p-5">
                     <div className="grid gap-4 mb-4 grid-cols-2">
                         <FormContainer state={state} onChange={onChange} onChangeEditor={onChangeEditor} />

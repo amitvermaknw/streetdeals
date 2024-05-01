@@ -29,7 +29,10 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         productdetails: payload.productdetails.value,
         ptimestamp: new Date().toISOString(),
         preprice: payload.preprice.value,
-        dealstatus: payload.dealstatus?.value
+        dealstatus: payload.dealstatus?.value,
+        pcategory: payload.pcategory?.value,
+        preview: payload.preview?.value,
+        ptimeframe: payload.ptimeframe?.value
     };
 
     try {
@@ -48,6 +51,9 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
             await updateDoc(updateQuery, {
                 ...dealsPayload
             });
+
+            toast.success("Record updated successfully");
+            return true
         }
         return false;
 

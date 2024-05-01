@@ -21,7 +21,7 @@ const AddBanner = ({ onCancel }: Props) => {
 
     return (
         <>
-            <Modal title="Add deals">
+            <Modal title="Add deals" onClick={onCancel}>
                 <form className="p-4 md:p-5">
                     <div className="grid gap-4 mb-4 grid-cols-2">
                         <FormContainer state={state} onChange={onChange} />

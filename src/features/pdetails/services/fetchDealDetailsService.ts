@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from '../../../services/config';
 import { ProductListProps } from '../../../utils/Types';
 
@@ -37,6 +37,29 @@ const fetchDealDetails = async (pId: string) => {
     }
 }
 
+const fetchYouMightLikeDeals = async (category: string): Promise<Array<ProductListProps | string> | undefined> => {
+    try {
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pcategory", "==", category), limit(10));
+        const querySnapshot = await getDocs(q);
+        const result: Array<ProductListProps | string> = []
+        await querySnapshot.forEach(async (document) => {
+
+            const documentData = document.data();
+            documentData.documentId = document.id;
+            result.push(documentData as ProductListProps);
+        });
+
+        return result;
+
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+            throw (error)
+        }
+    }
+}
+
 export {
-    fetchDealDetails
+    fetchDealDetails,
+    fetchYouMightLikeDeals
 }

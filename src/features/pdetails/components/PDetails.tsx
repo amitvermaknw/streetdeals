@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useProductDetails from "../hooks/useProductDeatails";
-import YouMayLike from "./YouMayLike";
+import YouMayLike from "./YouMightLike";
 import GetDealsDetailModel from "../../../model/GetDealsDetailModel";
 import { useParams, useNavigate } from "react-router-dom";
 import Skeleton from "../../../components/ui/Skeleton";

@@ -62,8 +62,32 @@ const deleteDealsDoc = async (pid: string) => {
     }
 }
 
+const fetchDealsCategories = async () => {
+    try {
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_category"));
+        const querySnapshot = await getDocs(q);
+        const result: Array<ProductListProps | string> = []
+        await querySnapshot.forEach(async (document) => {
+            // console.log(document.id, " => ", document.data());
+            lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
+            let documentData = document.data();
+            documentData = { value: documentData.category_value, label: documentData.category_label }
+            //documentData.documentId = document.id;
+            result.push(documentData as ProductListProps);
+        });
+
+        return result;
+
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+        }
+    }
+}
+
 export {
     fetchDealsService,
     fetchSingleDeal,
-    deleteDealsDoc
+    deleteDealsDoc,
+    fetchDealsCategories
 }

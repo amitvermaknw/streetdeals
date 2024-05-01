@@ -15,6 +15,21 @@ const AddDealsModel = {
             }
         ]
     },
+    pcategory: {
+        name: 'pcategory',
+        id: 'pcategory',
+        placeholder: 'Select category',
+        type: 'select',
+        label: "Product Category",
+        value: '',
+        options: [],
+        validation: [
+            {
+                required: true,
+                alert: "Product Category is required"
+            }
+        ]
+    },
     price: {
         name: 'price',
         id: 'price',
@@ -48,7 +63,7 @@ const AddDealsModel = {
         id: 'discount',
         placeholder: 'Product discount',
         type: 'number',
-        label: "Product discount",
+        label: "Product Discount",
         value: '',
         validation: [
             {
@@ -62,7 +77,7 @@ const AddDealsModel = {
         id: 'coupon',
         placeholder: 'Product coupon',
         type: 'text',
-        label: "Product coupon",
+        label: "Product Coupon",
         value: '',
         validation: [
             {
@@ -90,9 +105,9 @@ const AddDealsModel = {
         id: 'dealtype',
         placeholder: 'Deal Type',
         type: 'select',
-        label: "Deal type",
+        label: "Deal Type",
         value: '',
-        options: [{ value: 'today', label: 'Today' }, { value: 'deals', label: 'Deals' }],
+        options: [{ value: 'Today', label: 'Today' }, { value: 'Deals', label: 'Deals' }],
         validation: [
             {
                 required: false,
@@ -105,9 +120,39 @@ const AddDealsModel = {
         id: 'dealstatus',
         placeholder: 'Deal status',
         type: 'select',
-        label: "Deal status",
+        label: "Deal Status",
         value: '',
-        options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }],
+        options: [{ value: 'Active', label: 'Active' }, { value: 'Inactive', label: 'Inactive' }],
+        validation: [
+            {
+                required: false,
+                alert: ""
+            }
+        ]
+    },
+    preview: {
+        name: 'preview',
+        id: 'preview',
+        placeholder: 'Product review Star',
+        type: 'select',
+        label: "Product Review Star",
+        value: '',
+        options: [{ value: 1, label: 1 }, { value: 2, label: 2 }, { value: 3, label: 3 }, { value: 4, label: 4 }, { value: 5, label: 5 }],
+        validation: [
+            {
+                required: false,
+                alert: ""
+            }
+        ]
+    },
+    ptimeframe: {
+        name: 'ptimeframe',
+        id: 'ptimeframe',
+        placeholder: 'Product time',
+        type: 'select',
+        label: "Product Timeframe",
+        value: '',
+        options: [{ value: 'Limited time deal', label: 'Limited time deal' }, { value: 'Normal', label: 'Normal' }],
         validation: [
             {
                 required: false,
@@ -135,7 +180,7 @@ const AddDealsModel = {
         id: 'pshortdetails',
         placeholder: 'Short details',
         type: 'text',
-        label: "Product short Details",
+        label: "Product Short Details",
         value: '',
         validation: [
             {

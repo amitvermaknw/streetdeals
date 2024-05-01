@@ -2,6 +2,7 @@ import { ProductListProps } from "../../../../../utils/Types";
 import '../../../../../assets/products.css';
 import { useState } from "react";
 import EditDeals from "../EditDeal";
+import Review from "../../../../../components/ui/Review";
 
 type Props = {
     deals: ProductListProps,
@@ -68,14 +69,30 @@ const DealListItem = ({ deals, deleteRecords }: Props) => {
                         </p>
                         <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 mb-4">
                             <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3 mb-2">
+                                {deals.preprice ? <><span className="font-medium text-gray-700 dark:text-gray-300">Last Price:</span>
+                                    <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">$ {deals.preprice}</button></> : ''}
                                 <span className="font-medium text-gray-700 dark:text-gray-300">Price:</span>
                                 <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">$ {deals.price}</button>
-                                {deals.coupon ? <> <span className="font-medium text-gray-700 dark:text-gray-300">Coupon:</span>
-                                    <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.coupon}</button> </> : ''}
                             </div>
                             <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
                                 {deals.discount ? <><span className="font-medium text-gray-700 dark:text-gray-300">Discount:</span>
                                     <button className="text-sm font-medium bg-red-500 dark:bg-gray-700 text-white dark:text-white py-1 px-2 mx-2 rounded-lg mr-1 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.discount}%</button></> : ''}
+                                {deals.coupon ? <> <span className="font-medium text-gray-700 dark:text-gray-300">Coupon:</span>
+                                    <button className="text-sm font-medium bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.coupon}</button> </> : ''}
+                            </div>
+                            <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
+                                {deals.dealtype ? <><span className="font-medium text-gray-700 dark:text-gray-300">Deal Type:</span>
+                                    <button className="text-sm font-medium bg-red-500 dark:bg-gray-700 text-white dark:text-white py-1 px-2 mx-2 rounded-lg mr-1 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.dealtype}</button></> : ''}
+                                {deals.ptimeframe ? <> <span className="font-medium text-gray-700 dark:text-gray-300">Time frame:</span>
+                                    <button className="text-sm font-medium bg-yellow-300 dark:bg-yellow-700 text-yellow-700 dark:text-white py-1 px-4 mx-2 rounded-lg  mr-4 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.ptimeframe}</button> </> : ''}
+                            </div>
+                            <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
+                                {deals.preview ? <div className="flex">
+                                    <span className="font-medium text-gray-700 dark:text-gray-300">Review:</span>
+                                    <Review props={deals.preview} />
+                                </div> : ''}
+                            </div>
+                            <div className="col-span-2 md:col-span-3 lg:col-span-3 xl:col-span-3">
                                 {deals.ptimestamp ? <><span className="font-medium text-gray-700 dark:text-gray-300">Created Date:</span>
                                     <button className="text-sm font-medium bg-sky-500 dark:bg-gray-700 text-white dark:text-white py-1 px-2 mx-2 rounded-lg mr-1 hover:bg-gray-400 dark:hover:bg-gray-600">{deals.ptimestamp}</button></> : ''}
                             </div>
@@ -109,7 +126,7 @@ const DealListItem = ({ deals, deleteRecords }: Props) => {
                 </div>
             </div>
         </div>
-        {dialogStatus ? <EditDeals onCancel={onDialogClose} productId={productId} /> : ''}
+        {dialogStatus ? <EditDeals onCancel={onDialogClose} productId={productId} onClick={onDialogClose} /> : ''}
     </>
     )
 }
