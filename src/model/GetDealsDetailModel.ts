@@ -17,7 +17,10 @@ const GetDealsDetailModel: ProductListProps = {
     producturl: '',
     documentId: '',
     dealstatus: '',
-    preprice: ''
+    preprice: '',
+    pcategory: '',
+    preview: '',
+    ptimeframe: ''
 };
 
 export default GetDealsDetailModel;

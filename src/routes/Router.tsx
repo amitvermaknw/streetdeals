@@ -8,6 +8,8 @@ import ProductDetails from '../pages/ProductDetails';
 //import { DList } from '../features/dlist';
 import { lazy, Suspense } from 'react';
 import Skeleton from '../components/ui/Skeleton';
+import Footer from '../layouts/Footer';
+import UserAgreement from '../pages/UserAgreement';
 
 
 const DList = lazy(() => import('../features/dlist').then((component) => ({ default: component.DList })))
@@ -19,18 +21,17 @@ function Router() {
             <Header />
             <div className='md:container md:mx-auto'>
                 <Routes>
-                    <Route path="/" element={<Home />}></Route>
-                    <Route path="/login" element={<Login />}></Route>
-                    {/* <Route path="/deals" element={<Deals />}></Route> */}
-                    <Route path="/pdetails/:pid" element={<ProductDetails />}></Route>
+                    <Route path="/" element={<Suspense fallback={<Skeleton />}><Home /></Suspense>}></Route>
+                    <Route path="/login" element={<Suspense fallback={<Skeleton />}><Login /></Suspense>}></Route>
+                    <Route path="/pdetails/:pid" element={<Suspense fallback={<Skeleton />}><ProductDetails /></Suspense>}></Route>
                     <Route path="/deals" element={<Suspense fallback={<Skeleton />}><DList /></Suspense>}></Route>
-                    {/* <Route path="/upload" element={<UploadImage />}></Route> */}
-
+                    <Route path="/useragreement" element={<Suspense fallback={<Skeleton />}><UserAgreement /></Suspense>}></Route>
                     <Route element={<PrivateRouter />}>
-                        <Route path="/dashboard" element={<Deals />}></Route>
+                        <Route path="/dashboard" element={<Suspense fallback={<Skeleton />}><Deals /></Suspense>}></Route>
                     </Route>
                 </Routes>
             </div>
+            <Footer />
         </>
     )
 }
