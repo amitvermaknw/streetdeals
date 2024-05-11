@@ -6,7 +6,7 @@ import Deals from '../pages/admin/Deals';
 import Home from '../pages/Home';
 import ProductDetails from '../pages/ProductDetails';
 //import { DList } from '../features/dlist';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import Skeleton from '../components/ui/Skeleton';
 import Footer from '../layouts/Footer';
 import UserAgreement from '../pages/UserAgreement';
@@ -14,14 +14,18 @@ import UserAgreement from '../pages/UserAgreement';
 
 const DList = lazy(() => import('../features/dlist').then((component) => ({ default: component.DList })))
 
+interface RefObject {
+    f: () => void
+}
 
 function Router() {
+    const refProps = useRef<RefObject>(null);
     return (
         <>
-            <Header />
+            <Header onSubscribe={() => { refProps.current?.f() }} />
             <div className='md:container md:mx-auto'>
                 <Routes>
-                    <Route path="/" element={<Suspense fallback={<Skeleton />}><Home /></Suspense>}></Route>
+                    <Route path="/" element={<Suspense fallback={<Skeleton />}><Home ref={refProps} /></Suspense>}></Route>
                     <Route path="/login" element={<Suspense fallback={<Skeleton />}><Login /></Suspense>}></Route>
                     <Route path="/pdetails/:pid" element={<Suspense fallback={<Skeleton />}><ProductDetails /></Suspense>}></Route>
                     <Route path="/deals" element={<Suspense fallback={<Skeleton />}><DList /></Suspense>}></Route>

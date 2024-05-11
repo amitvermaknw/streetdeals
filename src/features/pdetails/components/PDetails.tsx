@@ -5,6 +5,7 @@ import GetDealsDetailModel from "../../../model/GetDealsDetailModel";
 import { useParams, useNavigate } from "react-router-dom";
 import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
+import Review from "../../../components/ui/Review";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
@@ -25,14 +26,16 @@ const PDetails = () => {
         toast.success("Coupon copied");
     }
 
+    const goBack = () => {
+        navigate(-1);
+    }
+
     return (
         pstate.pname ? <>
-
-
             <div className="font-[sans-serif]">
                 <div className="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
                     <button type="button"
-                        onClick={() => navigate(-1)}
+                        onClick={() => goBack()}
                         className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                         Back</button>
                     <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
@@ -51,37 +54,10 @@ const PDetails = () => {
                             <div className="flex flex-wrap gap-4 mt-4">
                                 <p className="text-gray-400 text-xl"><del>${pstate.preprice}</del></p>
                                 <p className="text-green-600 text-xl font-bold">${pstate.price}</p>
-                                <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">Limited time deal</div>
-
-                                <span className="text-sm ml-1 text-gray-400">Deal can be end anytime.</span>
+                                {pstate.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">{pstate.ptimeframe}</div> : ''}
+                                <span className="text-sm ml-1 text-gray-400 mb-4">Deal can be end anytime.</span>
                             </div>
-                            <div className="flex space-x-2 mt-4">
-                                <svg className="w-5 fill-yellow-300" viewBox="0 0 14 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                </svg>
-                                <svg className="w-5 fill-yellow-300" viewBox="0 0 14 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                </svg>
-                                <svg className="w-5 fill-yellow-300" viewBox="0 0 14 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                </svg>
-                                <svg className="w-5 fill-yellow-300" viewBox="0 0 14 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                </svg>
-                                <svg className="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                </svg>
-                            </div>
+                            {pstate.preview ? <Review props={pstate.preview} /> : ''}
                             <div className="mt-8">
                                 {pstate.coupon ? <p className="text-base leading-4 mt-7 text-gray-600 dark:text-gray-300">
                                     Coupon: <a href="#"
@@ -99,11 +75,11 @@ const PDetails = () => {
                                 <div className="pdetails" dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
 
                                 {/* <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
-                                <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
-                                <li>Easy to prepare. It can be brewed using various methods, from drip machines to manual pour-overs.</li>
-                                <li>Available in various sizes, from a standard espresso shot to a large Americano, catering to different preferences.</li>
-                                <li>You can customize your coffee by adding cream, sugar, or flavorings to suit your taste preferences.</li>
-                            </ul> */}
+                                    <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
+                                    <li>Easy to prepare. It can be brewed using various methods, from drip machines to manual pour-overs.</li>
+                                    <li>Available in various sizes, from a standard espresso shot to a large Americano, catering to different preferences.</li>
+                                    <li>You can customize your coffee by adding cream, sugar, or flavorings to suit your taste preferences.</li>
+                                </ul> */}
                             </div>
 
                             <div className="mt-8 max-w-md">
@@ -203,7 +179,10 @@ const PDetails = () => {
                                 <button type="button"
                                     className="w-full mt-8 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded"
                                     onClick={() => window.open(pstate.producturl, '_blank')}
-                                >Get the deal</button>
+                                >Get this deal</button>
+                            </div>
+                            <div className="space-y-3 list-disc mt-4 text-sm text-gray-800">
+                                <strong>*</strong> The Discount deal may earn a small commission through affiliate links on this page. Prices quoted are subject to change at any time, and supplies may be limited. Coupon codes or other offers may be modified or removed at any time.
                             </div>
                         </div>
                     </div>

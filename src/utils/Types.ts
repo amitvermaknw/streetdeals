@@ -89,3 +89,7 @@ export type BannerListProps = {
     bimageurl: string,
     documentId: string
 }
+
+export type SubscriberFormProps = {
+    semail: AddDealsElement
+}

@@ -18,8 +18,8 @@ const Review = ({ props }: Props) => {
                 </svg>)
             }
 
-            if (reviewNum <= 5) {
-                while (reviewNum <= 5) {
+            if (reviewNum < 5) {
+                while (reviewNum < 5) {
                     reviewHTML.push(<svg key={reviewNum} className="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -34,7 +34,7 @@ const Review = ({ props }: Props) => {
     }, [])
 
 
-    return (<div className="flex space-x-2 ml-2">
+    return (<div className="flex space-x-2 ">
         {mapReview}
     </div>)
 };

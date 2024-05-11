@@ -1,26 +1,27 @@
 import { useState } from 'react'
 import { Transition } from '@headlessui/react'
-// import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../features/authentication/hooks/useAuth';
-import logo from '../assets/sd_logo.svg'
+import logo from '../assets/db_logo.svg'
 
-const Header = () => {
+
+const Header = (props: any) => {
     const [isOpen, setIsOpen] = useState(false);
     const auth = useAuth()
 
     return (<>
-
         <nav className="bg-gray-800">
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
-                            <img
-                                className="h-16"
-                                src={logo}
-                                alt="logo"
-                            />
+                            <Link to="/">
+                                <img
+                                    className="h-16"
+                                    src={logo}
+                                    alt="logo"
+                                />
+                            </Link>
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
@@ -39,12 +40,13 @@ const Header = () => {
                                     Deals
                                 </Link>
 
-                                {/* <Link
-                                    to="/todaydeals"
+                                <Link
+                                    to="#"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    onClick={() => props.onSubscribe()}
                                 >
-                                    Today's deal
-                                </Link> */}
+                                    Subscribe
+                                </Link>
                                 {auth.token ? '' : <Link
                                     to="/login"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -139,13 +141,13 @@ const Header = () => {
                                 Deals
                             </Link>
 
-                            {/* <Link
-                                to="/todaydeals"
+                            <Link
+                                to="#"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => props.onSubscribe()}
                             >
-                                Today's deal
-                            </Link> */}
+                                Subscribe
+                            </Link>
                             {auth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
