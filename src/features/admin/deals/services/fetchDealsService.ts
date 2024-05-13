@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
 import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
 import { ProductListProps } from '../../../../utils/Types';
+// import { deleteProductImage } from '../utils/uploadImages';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let lastVisibleData: any = 0;
@@ -49,8 +50,7 @@ const fetchSingleDeal = async (pid: string) => {
 
 const deleteDealsDoc = async (pid: string) => {
     try {
-        //const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pid", "==", pid));
-
+        //await deleteProductImage(pid);
         await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "product_details", pid));
         return true
 

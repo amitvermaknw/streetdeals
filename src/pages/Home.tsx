@@ -13,10 +13,8 @@ import { Banner, TodaysDeals } from "../features/home";
 //     )
 // }
 
-const Home = forwardRef((props, ref) => {
-
+const Home = forwardRef((_props, ref) => {
     const [isSubscribe, setSubscribe] = useState(false);
-
     useImperativeHandle(ref, () => ({
         f() {
             setSubscribe(true);
