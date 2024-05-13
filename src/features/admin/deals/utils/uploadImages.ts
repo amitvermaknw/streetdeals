@@ -26,12 +26,13 @@ const uploadProductImage = async (payload: any, uploadType: string) => {
     }
 };
 
-const deleteProductImage = async (payload: string) => {
-    const sig = await sha256(`public_id=${payload}&timestamp=${new Date().getMilliseconds()}${cloudinaryConfig.api_key}`);
+const deleteProductImage = async () => {
+    const sig = await sha256(`folder=product_images&public_id=qufs6hqr76knv8aqp0zs&timestamp=${Number(new Date())}${cloudinaryConfig.api_secret}`);
 
     const formData = new FormData();
     formData.append('api_key', cloudinaryConfig.api_key);
-    formData.append('public_id', "nctoz7ugnmejvnwgpmqo");
+    formData.append('folder', 'product_images');
+    formData.append('public_id', "qufs6hqr76knv8aqp0zs");
     formData.append('signature', sig);
     formData.append('timestamp', `${Number(new Date())}`);
     try {
@@ -39,6 +40,11 @@ const deleteProductImage = async (payload: string) => {
             method: 'POST',
             body: formData
         })
+
+        if (res.status === 401) {
+            toast.error(res.statusText);
+            return;
+        }
         const data = await res.json();
         if (Object.prototype.hasOwnProperty.call(data, 'error')) {
             console.log(data);
@@ -50,12 +56,23 @@ const deleteProductImage = async (payload: string) => {
     }
 };
 
-const sha256 = async (data: string) => {
-    const textAsBuffer = new TextEncoder().encode(data);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', textAsBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    const digest = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return digest;
+const sha256 = async (input: string) => {
+    // Create a new instance of the TextEncoder interface
+    const encoder = new TextEncoder();
+    // Convert the input string to a Uint8Array
+    const data = encoder.encode(input);
+
+    // Use the SubtleCrypto API to generate the SHA-256 hash
+    return crypto.subtle.digest("SHA-256", data)
+        .then(hash => {
+            // Convert the hash to a hexadecimal string
+            let hexString = "";
+            const bytes = new Uint8Array(hash);
+            for (let i = 0; i < bytes.length; i++) {
+                hexString += bytes[i].toString(16).padStart(2, '0');
+            }
+            return hexString;
+        });
 }
 
 export {

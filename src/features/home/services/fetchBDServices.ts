@@ -33,7 +33,7 @@ const fetchDealsService = async (callType: string): Promise<Array<ProductListPro
         if (callType === 'init') {
             lastVisibleData = 0;
         }
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(10));
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(20));
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
