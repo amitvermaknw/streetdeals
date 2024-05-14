@@ -1,6 +1,20 @@
 //import { onChange } from "../utils/HandleEvents"
 
 const AddDealsModel = {
+    pid: {
+        name: 'pid',
+        id: 'pid',
+        placeholder: '',
+        type: 'not_element',
+        label: "",
+        value: '',
+        validation: [
+            {
+                required: '',
+                alert: ""
+            }
+        ]
+    },
     pname: {
         name: 'pname',
         id: 'pname',

@@ -7,10 +7,13 @@ const GetDealsReducer = (state: any, action: any) => {
 
     switch (action.type) {
         case GET_DEALS:
-            return [
-                ...new_state,
-                ...action.content
-            ]
+            if (action.content) {
+                return [
+                    ...new_state,
+                    ...action.content
+                ]
+            }
+            return new_state;
         case GET_SINGLE_DEALS:
             for (const [key] of Object.entries(new_state)) {
                 new_state[key].value = action.content[key] || ''

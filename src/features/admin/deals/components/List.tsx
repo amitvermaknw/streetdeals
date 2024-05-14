@@ -12,7 +12,7 @@ type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     deals: Array<ProductListProps>,
     banner: Array<BannerListProps>,
-    getDeals: () => void,
+    getDeals: (callType: string) => Promise<void>,
     deleteRecords: (pid: string) => void,
     getBanner: () => void,
     deleteBannerRecord: (pid: string) => void
@@ -33,7 +33,7 @@ const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerR
 
     const onNextDeals = async () => {
         setLoader(true);
-        await getDeals();
+        await getDeals('next');
         setLoader(false);
     };
 
@@ -68,11 +68,11 @@ const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerR
 
             {isActiveMenu === 'deals' ?
                 <>
-                    <DealList>
+                    {deals.length ? <DealList>
                         {deals.map((deal) => (
                             <DealListItem key={deal.pid} deals={deal} deleteRecords={deleteRecords} />
                         ))}
-                    </DealList>
+                    </DealList> : <p className="p-5">No Record found...</p>}
                     <div className="py-4  text-sm font-medium flex justify-end">
                         <button type="button"
                             onClick={() => onNextDeals()}

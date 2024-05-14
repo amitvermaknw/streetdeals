@@ -17,7 +17,7 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         }
     }
     const dealsPayload = {
-        pid: uid(),
+        pid: callType === 'add' ? uid() : payload.pid?.value,
         pname: payload.pname.value,
         price: payload.price.value,
         discount: payload.discount.value,

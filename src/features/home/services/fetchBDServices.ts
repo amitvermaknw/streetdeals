@@ -33,7 +33,7 @@ const fetchDealsService = async (callType: string): Promise<Array<ProductListPro
         if (callType === 'init') {
             lastVisibleData = 0;
         }
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(20));
+        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(2));
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
@@ -43,7 +43,7 @@ const fetchDealsService = async (callType: string): Promise<Array<ProductListPro
             result.push(documentData as ProductListProps);
         });
 
-        return result;
+        return result.reverse();
 
     } catch (error) {
         if (error instanceof Error) {

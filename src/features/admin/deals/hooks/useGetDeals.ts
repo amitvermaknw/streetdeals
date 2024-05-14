@@ -8,18 +8,18 @@ const useGetDeals = (initState: Array<ProductListProps>) => {
 
     const [state, dispatch] = useReducer(GetDealsReducer, initState)
 
-    const getDeals = async () => {
-        const result = await fetchDealsService();
+    const getDeals = async (callType: string) => {
+        const result = await fetchDealsService(callType);
         dispatch({ type: GET_DEALS, content: result })
     }
 
     useEffect(() => {
-        getDeals();
+        getDeals('init');
     }, []);
 
     const deleteRecords = async (pid: string) => {
         await deleteDealsDoc(pid);
-        const result = await fetchDealsService();
+        const result = await fetchDealsService('init');
         dispatch({ type: GET_DEALS, content: result })
     }
 
