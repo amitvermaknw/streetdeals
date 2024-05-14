@@ -30,20 +30,28 @@ const fetchBannerService = async () => {
 let lastVisibleData: any = 0;
 const fetchDealsService = async (callType: string): Promise<Array<ProductListProps | string> | undefined> => {
     try {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let q: any
         if (callType === 'init') {
-            lastVisibleData = 0;
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(20));
+
+        } else {
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(20));
         }
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(2));
+
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            const documentData = document.data();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const documentData: any = document.data();
             documentData.documentId = document.id;
             result.push(documentData as ProductListProps);
         });
 
-        return result.reverse();
+        return result;
+
 
     } catch (error) {
         if (error instanceof Error) {

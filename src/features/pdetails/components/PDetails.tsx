@@ -52,7 +52,7 @@ const PDetails = () => {
                         <div className="lg:col-span-2">
                             <h2 className="text-2xl font-extrabold text-gray-800">{pstate.pname}</h2>
                             <div className="flex flex-wrap gap-4 mt-4">
-                                <p className="text-gray-400 text-xl"><del>${pstate.preprice}</del></p>
+                                {pstate.preprice ? <p className="text-gray-400 text-xl"><del>${pstate.preprice}</del></p> : ''}
                                 <p className="text-green-600 text-xl font-bold">${pstate.price}</p>
                                 {pstate.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">{pstate.ptimeframe}</div> : ''}
                                 <span className="text-sm ml-1 text-gray-400 mb-4">Deal can be end anytime.</span>
