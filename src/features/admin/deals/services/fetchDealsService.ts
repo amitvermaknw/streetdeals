@@ -1,14 +1,12 @@
 import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
-import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc, QueryDocumentSnapshot, DocumentData, Query } from "firebase/firestore";
 import { ProductListProps } from '../../../../utils/Types';
 //import { deleteProductImage } from '../utils/uploadImages';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let lastVisibleData: any = 0;
+let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData>;
 const fetchDealsService = async (callType: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let q: any;
+    let q: Query<DocumentData, DocumentData>;
     try {
         if (callType === 'init') {
             q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(2));
@@ -20,8 +18,7 @@ const fetchDealsService = async (callType: string) => {
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const documentData: any = document.data();
+            const documentData = document.data();
             documentData.documentId = document.id;
             result.push(documentData as ProductListProps);
         });
@@ -76,7 +73,6 @@ const fetchDealsCategories = async () => {
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
-            //lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
             let documentData = document.data();
             documentData = { value: documentData.category_value, label: documentData.category_label }
             //documentData.documentId = document.id;

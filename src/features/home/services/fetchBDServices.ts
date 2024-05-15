@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, startAfter, where, QueryDocumentSnapshot, Query, DocumentData } from "firebase/firestore";
 import { db } from '../../../services/config';
 import { BannerListProps, ProductListProps } from '../../../utils/Types';
 
@@ -26,16 +26,13 @@ const fetchBannerService = async () => {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let lastVisibleData: any = 0;
+let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData>;
+
 const fetchDealsService = async (callType: string): Promise<Array<ProductListProps | string> | undefined> => {
     try {
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let q: any
+        let q: Query<DocumentData, DocumentData>;
         if (callType === 'init') {
             q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(20));
-
         } else {
             q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(20));
         }
@@ -44,8 +41,7 @@ const fetchDealsService = async (callType: string): Promise<Array<ProductListPro
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const documentData: any = document.data();
+            const documentData = document.data();
             documentData.documentId = document.id;
             result.push(documentData as ProductListProps);
         });

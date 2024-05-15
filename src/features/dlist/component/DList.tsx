@@ -62,10 +62,10 @@ const DList = () => {
                                     {item.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">{item.ptimeframe}</div> : ''}
                                     <button type="button"
                                         onClick={() => window.open(item.producturl, '_blank')}
-                                        className=" ml-4 sm:mt-0 px-6 py-0.5 text-xs font-medium text-center text-whit rounded-lg hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                                        className="sm:mt-0 px-4 py-0.5 text-xs font-medium text-center text-whit rounded-lg hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 me-2  dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                                         Get this deal
                                     </button>
-                                    <span className="text-xs ml-1 text-gray-400"><strong>*</strong> Deal can be end anytime.</span>
+                                    <span className="text-xs ml-1 text-gray-400 mt-1"><strong>*</strong> Deal can be end anytime.</span>
                                 </div>
                             </div>
                         </a>

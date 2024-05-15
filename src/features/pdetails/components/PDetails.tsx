@@ -54,7 +54,8 @@ const PDetails = () => {
                             <div className="flex flex-wrap gap-4 mt-4">
                                 {pstate.preprice ? <p className="text-gray-400 text-xl"><del>${pstate.preprice}</del></p> : ''}
                                 <p className="text-green-600 text-xl font-bold">${pstate.price}</p>
-                                {pstate.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">{pstate.ptimeframe}</div> : ''}
+                                {pstate.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">{pstate.ptimeframe}</div> : ''}
+                                {pstate.discount ? <div className="mr-2 rounded-2xl bg-yellow-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">- {pstate.discount}% off</div> : ''}
                                 <span className="text-sm ml-1 text-gray-400 mb-4">Deal can be end anytime.</span>
                             </div>
                             {pstate.preview ? <Review props={pstate.preview} /> : ''}

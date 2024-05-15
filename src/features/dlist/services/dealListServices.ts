@@ -1,17 +1,19 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, startAfter, Query, DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { db } from '../../../services/config';
 import { ProductListProps } from '../../../utils/Types';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let lastVisibleData: any = 0;
+let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData>;
 const dealsListService = async (callType: string) => {
     try {
 
-        if (callType === 'init')
-            lastVisibleData = 0;
+        let q: Query<DocumentData, DocumentData>;
+        if (callType === 'init') {
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(20));
+        } else {
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(20));
+        }
 
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid"), startAfter(lastVisibleData), limit(20));
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
         await querySnapshot.forEach(async (document) => {

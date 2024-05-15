@@ -10,7 +10,7 @@ const AddDealsModel = {
         value: '',
         validation: [
             {
-                required: '',
+                required: false,
                 alert: ""
             }
         ]

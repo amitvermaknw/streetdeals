@@ -51,7 +51,7 @@ const TodaysDeals = ({ ...props }) => {
                                 <div className="justify-starts mt-4 flex flex-wrap items-center">
                                     {item.preprice ? <p className="text-gray-400 text-md"><del>${item.preprice}</del></p> : ''}
                                     <p className="text-green-600 text-md ml-2">${item.price}</p>
-                                    {item.coupon ? <p className="mb-3 text-sm md:text-md xl:text-xl font-medium text-gray-400 line-clamp-2 mt-2 ml-1">
+                                    {item.coupon ? <p className="mb-3 text-sm md:text-md xl:text-base font-medium text-gray-400 line-clamp-2 mt-2 ml-2">
                                         With coupon code.
                                     </p> : ''}
                                     {/* <div className="mr-2 mt-2 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600">{item.price}</div> */}
