@@ -31,7 +31,7 @@ const DList = () => {
                                 <div className="text-gray-900 text-sm mb-2">{item.pshortdetails}</div>
                                 {/* <p className="text-gray-700 text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla!</p> */}
                                 <div className="flex flex-wrap gap-3 mt-2">
-                                    <p className="text-gray-400 text-sm"><del>${item.preprice}</del></p>
+                                    {item.preprice ? <p className="text-gray-400 text-sm"><del>${item.preprice}</del></p> : ''}
                                     <p className="text-green-600 text-sm font-bold">${item.price}</p>
                                     {/* <div className="sm:flex sm:justify-between"> */}
                                     {/* <div className="flex items-right"> */}
