@@ -28,8 +28,8 @@ const LoginForm = () => {
         e.preventDefault();
         setIsLoading(true);
         if (input.username !== "" && input.password !== "") {
-            setError('');
             await auth.loginAction(input);
+            //setError('');
         } else {
             setError("Username and Password should not be empty");
             // return false
