@@ -42,7 +42,7 @@ const buildForm = (formElement: Props) => {
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const FormContainer = (props: Props) => {
+const FormContainer = ({ ...props }: Props) => {
     return (<>
         {typeof props.state === 'object' ? buildForm(props).map(item => item) : ''}
     </>)
