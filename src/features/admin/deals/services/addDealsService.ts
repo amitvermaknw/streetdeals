@@ -32,7 +32,8 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         dealstatus: payload.dealstatus?.value,
         pcategory: payload.pcategory?.value,
         preview: payload.preview?.value,
-        ptimeframe: payload.ptimeframe?.value
+        ptimeframe: payload.ptimeframe?.value,
+        psearchkeywords: payload.pname.value.split(" ")
     };
 
     try {

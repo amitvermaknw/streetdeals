@@ -49,10 +49,10 @@ const AddDealsReducer = (state: any, action: T): any => {
                     newState[key].options = action.data
                 }
             }
-            return newState
+            return { ...newState }
 
         default:
-            return newState
+            return { ...newState }
     }
 };
 
