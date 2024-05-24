@@ -11,6 +11,7 @@ export interface InputInterfaceProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChange: React.ChangeEventHandler<HTMLInputElement> | React.ChangeEventHandler<HTMLSelectElement> | any;
     alert?: string;
+    isDisabled?: boolean;
 }
 
 export interface SelectInputInterfaceProps {

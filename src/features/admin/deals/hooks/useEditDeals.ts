@@ -30,8 +30,8 @@ const useEditDeals = (initState: AddDeals) => {
         dispatch({ type: UPDATE_ELEMENTS_VALUE, data: response });
     }, [])
 
-    const onUpdateDeals = useCallback(async () => {
-        const response = await addUpdateDealsService(state, 'update');
+    const onUpdateDeals = useCallback(async (payload: AddDeals & { documentId: string }) => {
+        const response = await addUpdateDealsService(payload, 'update');
         dispatch({ type: FORM_SUMBIT, payload: { content: response as boolean } });
     }, [])
 

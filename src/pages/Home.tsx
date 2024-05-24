@@ -1,17 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Banner, TodaysDeals } from "../features/home";
-
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export default function Home(props: any) {
-//     return (
-//         <>
-//             <Banner />
-//             <TodaysDeals ref={props} />
-//             {/* <ProductList /> */}
-//         </>
-//     )
-// }
+import SearchWidget from "../features/search/components/SearchWidget";
 
 const Home = forwardRef((_props, ref) => {
     const [isSubscribe, setSubscribe] = useState(false);
@@ -23,6 +12,7 @@ const Home = forwardRef((_props, ref) => {
 
     return (
         <>
+            <SearchWidget />
             <Banner />
             <TodaysDeals isSubscribe={isSubscribe} />
             {/* <ProductList /> */}

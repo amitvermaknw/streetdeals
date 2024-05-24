@@ -18,7 +18,7 @@ export type DealsProps = {
     short_details: string
 }
 
-export type AddDealsElement = {
+export type FormElements = {
     name: string,
     id: string,
     placeholder: string,
@@ -31,31 +31,31 @@ export type AddDealsElement = {
 }
 
 export type AddDeals = {
-    pid?: AddDealsElement,
-    pname: AddDealsElement,
-    price: AddDealsElement,
-    coupon: AddDealsElement,
-    producturl: AddDealsElement,
-    productdetails: AddDealsElement,
-    pimage: AddDealsElement,
-    dealtype: AddDealsElement,
-    discount: AddDealsElement,
-    pshortdetails: AddDealsElement,
-    preprice: AddDealsElement,
-    dealstatus?: AddDealsElement,
-    pcategory: AddDealsElement,
-    preview: AddDealsElement,
-    ptimeframe: AddDealsElement
+    pid?: FormElements,
+    pname: FormElements,
+    price: FormElements,
+    coupon: FormElements,
+    producturl: FormElements,
+    productdetails: FormElements,
+    pimage: FormElements,
+    dealtype: FormElements,
+    discount: FormElements,
+    pshortdetails: FormElements,
+    preprice: FormElements,
+    dealstatus?: FormElements,
+    pcategory: FormElements,
+    preview: FormElements,
+    ptimeframe: FormElements
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
 export type VoidFun = () => void;
 
 export type AddBanner = {
-    bname: AddDealsElement,
-    bannerurl: AddDealsElement,
-    bimage: AddDealsElement,
-    bstatus: AddDealsElement
+    bname: FormElements,
+    bannerurl: FormElements,
+    bimage: FormElements,
+    bstatus: FormElements
 };
 
 export type ProductListProps = {
@@ -91,5 +91,9 @@ export type BannerListProps = {
 }
 
 export type SubscriberFormProps = {
-    semail: AddDealsElement
+    semail: FormElements
+}
+
+export type SearchWidgetProps = {
+    searchwidget: FormElements
 }

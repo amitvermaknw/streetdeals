@@ -3,7 +3,7 @@ import FormContainer from "../../../../components/ui/FormContainer";
 import Modal from "../../../../components/ui/Modal";
 import useEditDeals from "../hooks/useEditDeals";
 import AddDealsModel from "../../../../model/AddDealsModel";
-import { VoidFun } from "../../../../utils/Types";
+import { AddDeals, VoidFun } from "../../../../utils/Types";
 
 type Props = {
     onCancel: VoidFun
@@ -24,10 +24,10 @@ const EditDeals = ({ onCancel, productId, onClick }: Props) => {
         getDeal()
     }, [productId]);
 
-    const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>, payload: AddDeals) => {
         event.preventDefault();
         setLoader(true);
-        await onUpdateDeals();
+        await onUpdateDeals(payload);
         setLoader(false);
 
         const formElement = event.target as HTMLFormElement;
@@ -39,7 +39,7 @@ const EditDeals = ({ onCancel, productId, onClick }: Props) => {
     return (
         <>
             <Modal title="Update deals" onClick={onClick}>
-                <form className="p-4 md:p-5" onSubmit={(event) => onFormSubmit(event)}>
+                <form className="p-4 md:p-5" onSubmit={(event) => onFormSubmit(event, state)}>
                     <div className="grid gap-4 mb-4 grid-cols-2">
                         <FormContainer state={state} onChange={onChange} onChangeEditor={onChangeEditor} />
                     </div>

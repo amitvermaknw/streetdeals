@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../features/authentication/hooks/useAuth';
 import logo from '../assets/db_logo.svg'
 
+type Props = {
+    onSubscribe: () => void
+}
 
-const Header = (props: any) => {
+const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const auth = useAuth()
 
