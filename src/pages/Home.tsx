@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Banner, TodaysDeals } from "../features/home";
-import SearchWidget from "../features/search/components/SearchWidget";
+import { SearchWidget } from "../features/search";
 
 const Home = forwardRef((_props, ref) => {
     const [isSubscribe, setSubscribe] = useState(false);
