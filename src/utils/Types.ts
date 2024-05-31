@@ -61,7 +61,7 @@ export type AddBanner = {
 export type ProductListProps = {
     pid: string,
     pname: string,
-    pimageurl?: string,
+    pimageurl: string,
     dealtype?: string,
     tag?: string,
     price: string,

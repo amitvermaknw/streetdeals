@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import GetDealsReducer from "./reducer/GetDealsReducer";
 import { deleteDealsDoc, fetchDealsService } from "../services/fetchDealsService";
-import { GET_DEALS } from "../../../../utils/Constants";
+import { GET_DEALS, GET_DEALS_AFTER_DELETE } from "../../../../utils/Constants";
 import { ProductListProps } from "../../../../utils/Types";
 
 const useGetDeals = (initState: Array<ProductListProps>) => {
@@ -17,10 +17,10 @@ const useGetDeals = (initState: Array<ProductListProps>) => {
         getDeals('init');
     }, []);
 
-    const deleteRecords = async (pid: string) => {
-        await deleteDealsDoc(pid);
+    const deleteRecords = async (pid: string, imageUrl: string) => {
+        await deleteDealsDoc(pid, imageUrl);
         const result = await fetchDealsService('init');
-        dispatch({ type: GET_DEALS, content: result })
+        dispatch({ type: GET_DEALS_AFTER_DELETE, content: result })
     }
 
     return [state, getDeals, deleteRecords] as const;

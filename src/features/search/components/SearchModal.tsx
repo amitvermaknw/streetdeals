@@ -25,7 +25,7 @@ const SearchModel = ({ onCancel }: Props) => {
                 searchClient={searchClient}
                 indexName="productdetails"
             >
-                <Configure hitsPerPage={5} />
+                <Configure hitsPerPage={3} />
                 <div className="py-2">
                     <SearchBox
                         placeholder="Search products......"

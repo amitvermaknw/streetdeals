@@ -2,16 +2,16 @@ import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
 import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc, QueryDocumentSnapshot, DocumentData, Query } from "firebase/firestore";
 import { ProductListProps } from '../../../../utils/Types';
-//import { deleteProductImage } from '../utils/uploadImages';
+import { deleteProductImage } from '../utils/uploadImages';
 
 let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData>;
 const fetchDealsService = async (callType: string) => {
     let q: Query<DocumentData, DocumentData>;
     try {
         if (callType === 'init') {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(2));
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(200));
         } else {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(2));
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(200));
         }
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
@@ -51,12 +51,17 @@ const fetchSingleDeal = async (pid: string) => {
     }
 }
 
-const deleteDealsDoc = async (pid: string) => {
+const deleteDealsDoc = async (pid: string, imageUrl: string) => {
     try {
-        //await deleteProductImage(pid);
-        await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "product_details", pid));
-        toast.success('Record Deleted successfully');
-        return true
+        const res = await deleteProductImage(imageUrl);
+        if (res === true) {
+            await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "product_details", pid));
+            toast.success('Record Deleted successfully');
+            return true
+        } else {
+            toast.error('Error while deleting image');
+            return false
+        }
 
     } catch (error) {
         if (error instanceof Error) {
