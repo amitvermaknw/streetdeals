@@ -1,4 +1,4 @@
-import { GET_DEALS, GET_SINGLE_DEALS } from "../../../../../utils/Constants"
+import { GET_DEALS, GET_DEALS_AFTER_DELETE, GET_SINGLE_DEALS } from "../../../../../utils/Constants"
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,6 +23,8 @@ const GetDealsReducer = (state: any, action: any) => {
                 }
             }
             return { ...new_state }
+        case GET_DEALS_AFTER_DELETE:
+            return [new_state, ...action.content]
     }
 }
 

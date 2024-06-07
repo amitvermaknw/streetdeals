@@ -16,6 +16,7 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
             getImageURL = payload.pimage.imageObject;
         }
     }
+
     const dealsPayload = {
         pid: callType === 'add' ? uid() : payload.pid?.value,
         pname: payload.pname.value,
@@ -32,8 +33,7 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         dealstatus: payload.dealstatus?.value,
         pcategory: payload.pcategory?.value,
         preview: payload.preview?.value,
-        ptimeframe: payload.ptimeframe?.value,
-        psearchkeywords: payload.pname.value.split(" ")
+        ptimeframe: payload.ptimeframe?.value
     };
 
     try {

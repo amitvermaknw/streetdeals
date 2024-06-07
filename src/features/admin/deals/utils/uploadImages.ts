@@ -26,15 +26,19 @@ const uploadProductImage = async (payload: any, uploadType: string) => {
     }
 };
 
-const deleteProductImage = async () => {
-    const sig = await sha256(`folder=product_images&public_id=qufs6hqr76knv8aqp0zs&timestamp=${Number(new Date())}${cloudinaryConfig.api_secret}`);
+const deleteProductImage = async (imageUrl: string) => {
+    const imageUrlArr = imageUrl.split("/").reverse();
+    const imageName = imageUrlArr[0].split(".");
+    const publicId = `${imageUrlArr[1]}/${imageName[0]}`;
+
+    const sig = await sha256(`public_id=${publicId}&timestamp=${parseInt((new Date().getTime() / 1000).toFixed(0))}${cloudinaryConfig.api_secret}`);
 
     const formData = new FormData();
     formData.append('api_key', cloudinaryConfig.api_key);
-    formData.append('folder', 'product_images');
-    formData.append('public_id', "qufs6hqr76knv8aqp0zs");
+    // formData.append('folder', 'product_images');
+    formData.append('public_id', publicId);
     formData.append('signature', sig);
-    formData.append('timestamp', `${Number(new Date())}`);
+    formData.append('timestamp', `${parseInt((new Date().getTime() / 1000).toFixed(0))}`);
     try {
         const res = await fetch(`${cloudinaryConfig.cloudinaryURL}/${cloudinaryConfig.cloudName}/image/destroy`, {
             method: 'POST',
@@ -43,14 +47,11 @@ const deleteProductImage = async () => {
 
         if (res.status === 401) {
             toast.error(res.statusText);
-            return;
+            return false
+        } else if (res.status === 200) {
+            return true
         }
-        const data = await res.json();
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-            console.log(data);
-            toast.error(data.message);
-        }
-        return data.secure_url
+
     } catch (error) {
         console.log(error)
     }

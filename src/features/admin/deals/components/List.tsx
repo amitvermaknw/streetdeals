@@ -13,7 +13,7 @@ type Props = {
     deals: Array<ProductListProps>,
     banner: Array<BannerListProps>,
     getDeals: (callType: string) => Promise<void>,
-    deleteRecords: (pid: string) => void,
+    deleteRecords: (pid: string, imageUrl: string) => void,
     getBanner: () => void,
     deleteBannerRecord: (pid: string) => void
 }

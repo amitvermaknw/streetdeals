@@ -1,18 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
-import Header from '../layouts/Header';
-import Login from '../pages/Login';
 import PrivateRouter from './PrivateRouter';
-import Deals from '../pages/admin/Deals';
-import Home from '../pages/Home';
-import ProductDetails from '../pages/ProductDetails';
-//import { DList } from '../features/dlist';
 import { lazy, Suspense, useRef } from 'react';
-import Skeleton from '../components/ui/Skeleton';
-import Footer from '../layouts/Footer';
-import UserAgreement from '../pages/UserAgreement';
 
-
-const DList = lazy(() => import('../features/dlist').then((component) => ({ default: component.DList })))
+const Header = lazy(() => import('../layouts/Header').then((component) => ({ default: component.default })))
+const Login = lazy(() => import('../pages/Login').then((component) => ({ default: component.default })))
+const Footer = lazy(() => import('../layouts/Footer').then((component) => ({ default: component.default })))
+const DList = lazy(() => import('../pages/DealList').then((component) => ({ default: component.default })))
+const ProductDetails = lazy(() => import('../pages/ProductDetails').then((component) => ({ default: component.default })))
+const Skeleton = lazy(() => import('../components/ui/Skeleton').then((component) => ({ default: component.default })))
+const Home = lazy(() => import('../pages/Home').then((component) => ({ default: component.default })))
+const Deals = lazy(() => import('../pages/admin/Deals').then((component) => ({ default: component.default })))
+const UserAgreement = lazy(() => import('../pages/UserAgreement').then((component) => ({ default: component.default })))
 
 interface RefObject {
     f: () => void
@@ -40,4 +38,4 @@ function Router() {
     )
 }
 
-export default Router
+export default Router;
