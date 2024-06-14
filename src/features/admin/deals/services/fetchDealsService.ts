@@ -9,9 +9,9 @@ const fetchDealsService = async (callType: string) => {
     let q: Query<DocumentData, DocumentData>;
     try {
         if (callType === 'init') {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(200));
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(4));
         } else {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(200));
+            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(4));
         }
         const querySnapshot = await getDocs(q);
         const result: Array<ProductListProps | string> = []
