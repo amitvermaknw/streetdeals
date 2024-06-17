@@ -19,7 +19,11 @@ const PDetails = () => {
 
     useEffect(() => {
         getDeals(pid);
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        document.title = pstate.pname;
+    }, [pstate.pname]);
 
     const copyCoupon = (coupon: string) => {
         navigator.clipboard.writeText(coupon);

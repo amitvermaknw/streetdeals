@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, or, query, where } from "firebase/firestore";
 import { db } from '../../../services/config';
 import { ProductListProps } from '../../../utils/Types';
 
@@ -18,7 +18,7 @@ const fetchDealDetails = async (pId: string) => {
         }
 
         if (pRecord == null) {
-            const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), where("pid", "==", pId));
+            const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), or(where("pid", "==", pId), where("urlstring", "==", pId)));
             const querySnapshot = await getDocs(q);
             //const result: Array<ProductListProps | string> = []
             await querySnapshot.forEach(async (document) => {

@@ -33,7 +33,8 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         dealstatus: payload.dealstatus?.value,
         pcategory: payload.pcategory?.value,
         preview: payload.preview?.value,
-        ptimeframe: payload.ptimeframe?.value
+        ptimeframe: payload.ptimeframe?.value,
+        urlstring: payload.pname.value ? payload.pname.value.replace(/[^a-zA-Z ]/g, "").split(" ").join("-").toLowerCase() : ''
     };
 
     try {

@@ -20,7 +20,8 @@ const GetDealsDetailModel: ProductListProps = {
     preprice: '',
     pcategory: '',
     preview: '',
-    ptimeframe: ''
+    ptimeframe: '',
+    urlstring: ''
 };
 
 export default GetDealsDetailModel;

@@ -13,8 +13,8 @@ const useGetBanner = (initState: Array<BannerListProps>) => {
         dispatch({ type: GET_DEALS, content: result })
     }
 
-    const deleteBannerRecord = async (pid: string) => {
-        await deleteBannerDoc(pid);
+    const deleteBannerRecord = async (pid: string, imageUrl: string) => {
+        await deleteBannerDoc(pid, imageUrl);
         const result = await fetchBannerService();
         dispatch({ type: GET_DEALS, content: result })
     }
