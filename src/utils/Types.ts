@@ -77,6 +77,7 @@ export type ProductListProps = {
     pcategory: string,
     preview: string,
     ptimeframe: string
+    urlstring: string
 };
 
 export type BannerListProps = {

@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
 import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
 import { BannerListProps } from '../../../../utils/Types';
+import { deleteProductImage } from '../utils/uploadImages';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let lastVisibleData: any = 0;
@@ -47,10 +48,18 @@ const fetchSingleDeal = async (pid: string) => {
     }
 }
 
-const deleteBannerDoc = async (pid: string) => {
+const deleteBannerDoc = async (pid: string, imageUrl: string) => {
+
     try {
-        await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "banner_details", pid));
-        return true
+        const res = await deleteProductImage(imageUrl);
+        if (res === true) {
+            await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "banner_details", pid));
+            toast.success('Record Deleted successfully');
+            return true
+        } else {
+            toast.error('Error while deleting image');
+            return false
+        }
 
     } catch (error) {
         if (error instanceof Error) {

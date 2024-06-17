@@ -9,14 +9,14 @@ importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js")
 
 
 // eslint-disable-next-line no-undef
-onBackgroundMessage(function (payload) {
-    console.log('Received background message ', payload);
-    // Customize notification here
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-        body: payload.notification.body,
-    };
+// onBackgroundMessage(function (payload) {
+//     console.log('Received background message ', payload);
+//     // Customize notification here
+//     const notificationTitle = payload.notification.title;
+//     const notificationOptions = {
+//         body: payload.notification.body,
+//     };
 
-    self.registration.showNotification(notificationTitle,
-        notificationOptions);
-});
+//     self.registration.showNotification(notificationTitle,
+//         notificationOptions);
+// });

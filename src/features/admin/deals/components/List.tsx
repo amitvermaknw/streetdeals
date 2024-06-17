@@ -15,7 +15,7 @@ type Props = {
     getDeals: (callType: string) => Promise<void>,
     deleteRecords: (pid: string, imageUrl: string) => void,
     getBanner: () => void,
-    deleteBannerRecord: (pid: string) => void
+    deleteBannerRecord: (pid: string, imageUrl: string) => void
 }
 
 const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerRecord }: Props) => {
