@@ -1,3 +1,3 @@
 
-import LoginForm from './components/Login';
+import LoginForm from './components/login';
 export { LoginForm }
