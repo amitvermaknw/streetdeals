@@ -4,6 +4,7 @@ import Modal from "../../../../components/ui/Modal";
 import AddBannerModel from "../../../../model/AddBannerModel";
 import { VoidFun } from "../../../../utils/Types";
 import useAddBanner from "../hooks/userAddBanner";
+import React from "react";
 
 type Props = {
     onCancel: VoidFun

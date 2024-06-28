@@ -4,6 +4,7 @@ import { Hits, InstantSearch, SearchBox, Configure } from "react-instantsearch";
 import { SearchWidgetResult } from "./SearchWidgetResult";
 import type { SearchBoxProps } from 'react-instantsearch';
 import { searchClient } from "../../../../firebaseConfig";
+import React from "react";
 
 const queryHook: SearchBoxProps['queryHook'] = (query, search) => {
     if (query.length > 3) {

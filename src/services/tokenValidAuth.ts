@@ -10,7 +10,7 @@ export const tokenValidAuth = async (token: string): Promise<boolean> => {
         querySnapshot.forEach(async (document) => {
             //console.log(document.id, " => ", document.data());
             const tokenObj = document.data();
-            if (token === tokenObj.token) {
+            if (token === tokenObj['token']) {
                 status = true;
             } else {
                 status = false

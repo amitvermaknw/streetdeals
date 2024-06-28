@@ -1,3 +1,4 @@
+import React from "react";
 const UserAgreement = () => {
     return (<div className="p-5">
         <h4 className="text-lg font-bold p-5">User Agreement </h4>

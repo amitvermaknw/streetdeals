@@ -1,4 +1,4 @@
-
+import React from 'react';
 const Alert = (props: { info?: string, danger?: string, success?: string, warning?: string, dark?: string }) => {
     return (
         <>

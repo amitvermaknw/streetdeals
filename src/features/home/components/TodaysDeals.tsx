@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import GetDealsModel from "../../../model/GetDealsModel";
 import useGetDeals from "../hooks/useGetDeals";
 import { ProductListProps } from "../../../utils/Types";
 import Skeleton from "../../../components/ui/Skeleton";
 import Subscribe from "./Subscribe";
+import React from "react";
 
 const TodaysDeals = ({ ...props }) => {
     const [pstate, fetchDeals] = useGetDeals(GetDealsModel);
@@ -22,9 +24,9 @@ const TodaysDeals = ({ ...props }) => {
     }, [])
 
     useEffect(() => {
-        if (props.isSubscribe === true)
+        if (props["isSubscribe"] === true)
             setShowSubscribe(true)
-    }, [props.isSubscribe]);
+    }, [props, props["isSubscribe"]]);
 
     const onCancel = () => {
         setShowSubscribe(false);

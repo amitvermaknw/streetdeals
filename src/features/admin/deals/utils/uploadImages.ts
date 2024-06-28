@@ -52,6 +52,8 @@ const deleteProductImage = async (imageUrl: string) => {
             return true
         }
 
+        return;
+
     } catch (error) {
         console.log(error)
     }

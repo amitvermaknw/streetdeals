@@ -4,6 +4,7 @@ import GetDealsModel from "../../../model/GetDealsModel";
 import useYouMightLike from "../hooks/useYouMightLike";
 import { ProductListProps } from "../../../utils/Types";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const YouMightLike = () => {
 

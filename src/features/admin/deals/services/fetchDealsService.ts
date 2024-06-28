@@ -19,7 +19,7 @@ const fetchDealsService = async (callType: string) => {
             // console.log(document.id, " => ", document.data());
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
             const documentData = document.data();
-            documentData.documentId = document.id;
+            documentData['documentId'] = document.id;
             result.push(documentData as ProductListProps);
         });
         return result;
@@ -79,7 +79,7 @@ const fetchDealsCategories = async () => {
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
             let documentData = document.data();
-            documentData = { value: documentData.category_value, label: documentData.category_label }
+            documentData = { value: documentData['category_value'], label: documentData['category_label'] }
             //documentData.documentId = document.id;
             result.push(documentData as ProductListProps);
         });

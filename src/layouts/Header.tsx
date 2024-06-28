@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../features/authentication/hooks/useAuth';
 import logo from '../assets/db_logo.svg'
+import React from "react";
 
 type Props = {
     onSubscribe: () => void

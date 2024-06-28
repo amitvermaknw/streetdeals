@@ -15,7 +15,7 @@ const fetchBannerService = async () => {
             // console.log(document.id, " => ", document.data());
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
             const documentData = document.data();
-            documentData.documentId = document.id;
+            documentData['documentId'] = document.id;
             result.push(documentData as BannerListProps);
         });
 

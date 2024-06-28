@@ -4,6 +4,7 @@ import useDealsList from "../hooks/useDealsList";
 import Skeleton from "../../../components/ui/Skeleton";
 import { ProductListProps } from "../../../utils/Types";
 import Review from "../../../components/ui/Review";
+import React from "react";
 
 const DList = () => {
 

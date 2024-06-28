@@ -5,6 +5,7 @@ import Modal from "../../../../components/ui/Modal";
 import AddDealsModel from "../../../../model/AddDealsModel";
 import { VoidFun } from "../../../../utils/Types";
 import useAddDeals from "../hooks/useAddDeals";
+import React from "react";
 
 type Props = {
     onCancel: VoidFun

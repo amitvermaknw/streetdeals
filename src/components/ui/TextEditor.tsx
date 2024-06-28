@@ -1,6 +1,7 @@
 import 'quill/dist/quill.snow.css'
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill'
+import React from 'react';
 
 interface EditorInterface {
     value?: string;
@@ -49,7 +50,7 @@ const TextEditor = (props: EditorInterface) => {
             formats={formats}
             placeholder="Your content ...."
             onChange={props.onChangeEditor}
-            value={props.value}
+            value={props.value || ''}
             id={props.name}
         />
     ), [props.value]);

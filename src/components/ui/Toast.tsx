@@ -1,3 +1,4 @@
+import React from 'react';
 
 const Toast = (props: { success?: string, error?: string }) => {
 

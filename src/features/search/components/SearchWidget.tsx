@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SearchModel from "./SearchModal";
+import React from "react";
 
 const SearchWidget = () => {
     const [isSearchModal, setSearchModal] = useState(false);

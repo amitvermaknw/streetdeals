@@ -17,7 +17,7 @@ export function registerWorker() {
                     messagingSenderId: config.messagingSenderId,
                     appId: config.appId,
                     measurementId: config.measurementId,
-                    databaseURL: config.database,
+                    databaseURL: config.databaseURL,
                 });
             })
             .catch(function (err) {

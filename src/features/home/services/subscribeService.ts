@@ -30,6 +30,7 @@ const addSubscriber = async (payload: SubscriberFormProps) => {
         } else {
             toast.error("Email id is not correct");
         }
+        return;
 
     } catch (error) {
         if (error instanceof Error) {

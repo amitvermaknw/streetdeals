@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import PrivateRouter from './PrivateRouter';
 import { lazy, Suspense, useRef } from 'react';
+import React from 'react';
 
 const Header = lazy(() => import('../layouts/Header').then((component) => ({ default: component.default })))
 const Login = lazy(() => import('../pages/Login').then((component) => ({ default: component.default })))

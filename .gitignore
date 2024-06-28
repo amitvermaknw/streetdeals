@@ -24,3 +24,6 @@ firebaseConfig.ts
 *.sln
 *.sw?
 .env
+
+dist/
+functions/

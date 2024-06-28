@@ -4,6 +4,7 @@ import useGetDeals from "../hooks/useGetDeals";
 // import Skeleton from "../../../../components/ui/Skeleton";
 import useGetBanner from "../hooks/useGetBanner";
 import GetBannerModel from "../../../../model/GetBannerModel";
+import React from "react";
 
 
 const Dashboard = () => {

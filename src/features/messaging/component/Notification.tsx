@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { onMessageListener } from "../../../services/onMessageListener";
+import React from "react";
 
 const Notification = () => {
     const [notification, setNotification] = useState({ title: '', body: '' });

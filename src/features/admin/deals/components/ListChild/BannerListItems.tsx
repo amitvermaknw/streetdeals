@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { BannerListProps } from "../../../../../utils/Types"
 import { useState } from "react"
+import React from "react"
 
 type Props = {
     banner: BannerListProps

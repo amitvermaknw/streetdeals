@@ -7,6 +7,7 @@ import NavItem from "./ListChild/NavItem";
 import AddDeals from "./AddDeals";
 import BannerListItem from "./ListChild/BannerListItems";
 import AddBanner from "./AddBanner";
+import React from "react";
 
 type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

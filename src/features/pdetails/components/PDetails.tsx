@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
+import React from "react";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);

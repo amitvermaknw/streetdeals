@@ -1,3 +1,4 @@
+import React from 'react';
 const Skeleton = () => {
     return (
         <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">

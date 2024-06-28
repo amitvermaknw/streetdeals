@@ -4,7 +4,7 @@ import GetBannerModel from '../../../model/GetBannerModel';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Skeleton from '../../../components/ui/Skeleton';
-
+import React from "react";
 
 const Banner = () => {
     const [bstate, fetchBanner] = useGetBanner(GetBannerModel);

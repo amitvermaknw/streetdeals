@@ -3,6 +3,7 @@ import BrowseBtn from "./BrowseBtn";
 import Input from "./Input";
 import Select from "./Select";
 import TextEditor from "./TextEditor";
+import React from 'react';
 
 type Props = {
     state: AddDeals,

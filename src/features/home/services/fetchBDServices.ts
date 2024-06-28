@@ -12,7 +12,7 @@ const fetchBannerService = async () => {
         await querySnapshot.forEach(async (document) => {
             // console.log(document.id, " => ", document.data());
             const documentData = document.data();
-            documentData.documentId = document.id;
+            documentData['documentId'] = document.id;
             result.push(documentData as BannerListProps);
         });
 
@@ -42,12 +42,11 @@ const fetchDealsService = async (callType: string): Promise<Array<ProductListPro
         await querySnapshot.forEach(async (document) => {
             lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
             const documentData = document.data();
-            documentData.documentId = document.id;
+            documentData['documentId'] = document.id;
             result.push(documentData as ProductListProps);
         });
 
         return result;
-
 
     } catch (error) {
         if (error instanceof Error) {

@@ -1,25 +1,45 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    // Emit Configuration
     "noEmit": true,
-    "jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
+    // Type Checking Configuration
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noImplicitOverride": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    // Strict Rules - v4.8
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    
+    // Modules Configuration
+    "baseUrl": "./",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    
+    // Language and Environment Configuration
+    "target": "ES2022",
+    "jsx": "react",
+
+    // JavaScript Support Configuration
+    "allowJs": true,
+    "checkJs": true,
+
+    // Interop Constraints Configuration
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/**/*"],
+  "exclude": ["node_modules"]
 }

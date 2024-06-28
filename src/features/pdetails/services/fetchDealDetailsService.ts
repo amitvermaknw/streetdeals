@@ -23,7 +23,7 @@ const fetchDealDetails = async (pId: string) => {
             //const result: Array<ProductListProps | string> = []
             await querySnapshot.forEach(async (document) => {
                 pRecord = document.data();
-                pRecord.documentId = document.id;
+                pRecord['documentId'] = document.id;
             });
 
         }
@@ -45,7 +45,7 @@ const fetchYouMightLikeDeals = async (category: string): Promise<Array<ProductLi
         await querySnapshot.forEach(async (document) => {
 
             const documentData = document.data();
-            documentData.documentId = document.id;
+            documentData['documentId'] = document.id;
             result.push(documentData as ProductListProps);
         });
 

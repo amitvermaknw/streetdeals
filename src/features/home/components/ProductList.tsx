@@ -1,3 +1,5 @@
+import React from "react";
+
 const ProductList = () => {
     return (
         <section className="py-4">

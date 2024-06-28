@@ -4,6 +4,7 @@ import SubscribeModel from "../../../model/SubscribeModel";
 import { VoidFun } from "../../../utils/Types";
 import { useState } from "react";
 import Modal from '../../../components/ui/Modal';
+import React from "react";
 
 type Props = {
     onCancel: VoidFun

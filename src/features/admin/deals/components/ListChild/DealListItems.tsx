@@ -3,6 +3,7 @@ import '../../../../../assets/products.css';
 import { useState } from "react";
 import EditDeals from "../EditDeal";
 import Review from "../../../../../components/ui/Review";
+import React from "react";
 
 type Props = {
     deals: ProductListProps,
