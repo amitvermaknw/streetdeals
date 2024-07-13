@@ -11,6 +11,8 @@ const Skeleton = lazy(() => import('../components/ui/Skeleton').then((component)
 const Home = lazy(() => import('../pages/Home').then((component) => ({ default: component.default })))
 const Deals = lazy(() => import('../pages/admin/Deals').then((component) => ({ default: component.default })))
 const UserAgreement = lazy(() => import('../pages/UserAgreement').then((component) => ({ default: component.default })))
+const PageNotfound = lazy(() => import('../pages/404').then((component) => ({ default: component.default })))
+
 
 interface RefObject {
     f: () => void
@@ -31,6 +33,8 @@ function Router() {
                     <Route element={<PrivateRouter />}>
                         <Route path="/dashboard" element={<Suspense fallback={<Skeleton />}><Deals /></Suspense>}></Route>
                     </Route>
+                    <Route path="*" element={<Suspense fallback={<Skeleton />}><PageNotfound /></Suspense>}></Route>
+
                 </Routes>
             </div>
             <Footer />

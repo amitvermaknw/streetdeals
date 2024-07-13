@@ -8,9 +8,8 @@ const useGetDeals = (initState: Array<ProductListProps>) => {
 
     const [pstate, dispatch] = useReducer(CommonReducer, initState)
 
-    const fetchDeals = async (callType: string) => {
-        const result = await fetchDealsService(callType);
-        //const arg: { type: string, content: Array<ProductListProps | string> | undefined } = { type: GET_DEALS, content: result }
+    const fetchDeals = async (callType: string, record: number) => {
+        const result = await fetchDealsService(callType, record);
         dispatch({ type: GET_DEALS, content: result })
         localStorage.setItem('deals_cache', JSON.stringify(pstate));
     }
