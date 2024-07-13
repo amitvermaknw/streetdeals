@@ -1,59 +1,43 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, limit, orderBy, query, startAfter, where, QueryDocumentSnapshot, Query, DocumentData } from "firebase/firestore";
-import { db } from '../../../services/config';
 import { BannerListProps, ProductListProps } from '../../../utils/Types';
+import axios, { AxiosResponse } from 'axios';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fetchBannerService = async () => {
+const mode = import.meta.env;
+const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
+
+const fetchBannerService = async (): Promise<BannerListProps | Array<[]>> => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), where("bstatus", "==", "active"));
-        const querySnapshot = await getDocs(q);
-        const result: Array<BannerListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            // console.log(document.id, " => ", document.data());
-            const documentData = document.data();
-            documentData.documentId = document.id;
-            result.push(documentData as BannerListProps);
-        });
-
-        return result;
-
+        const result: AxiosResponse<BannerListProps> = await axios.get<BannerListProps>(`${baseUrl}/banner`);
+        if (result.status === 200) {
+            return result.data;
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
-            return null;
         }
+        return [];
     }
 }
 
-let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData>;
-
-const fetchDealsService = async (callType: string): Promise<Array<ProductListProps | string> | undefined> => {
+const fetchDealsService = async (callType: string, record: number): Promise<ProductListProps | Array<[]>> => {
     try {
-        let q: Query<DocumentData, DocumentData>;
-        if (callType === 'init') {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), limit(20));
+        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/deals/${callType}/${record}`);
+        if (result.status === 200) {
+            return result.data;
         } else {
-            q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), orderBy("pid", "desc"), startAfter(lastVisibleData), limit(20));
+            toast.error(result.statusText);
+            return [];
         }
-
-        const querySnapshot = await getDocs(q);
-        const result: Array<ProductListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            const documentData = document.data();
-            documentData.documentId = document.id;
-            result.push(documentData as ProductListProps);
-        });
-
-        return result;
-
-
+        return result.data;
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
             throw (error)
         }
+        return []
     }
 }
 

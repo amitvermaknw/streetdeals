@@ -9,12 +9,12 @@ const TodaysDeals = ({ ...props }) => {
     const [pstate, fetchDeals] = useGetDeals(GetDealsModel);
     const [showSubscribe, setShowSubscribe] = useState(false);
 
-    const getDeals = (callType: string) => {
-        fetchDeals(callType);
+    const getDeals = (callType: string, record: number) => {
+        fetchDeals(callType, record);
     }
 
     useEffect(() => {
-        getDeals('init');
+        getDeals('start', 20);
         const getSubscribeStatus = localStorage.getItem("is_subscribed");
         if (!getSubscribeStatus) {
             setShowSubscribe(true);
@@ -66,7 +66,7 @@ const TodaysDeals = ({ ...props }) => {
             </div>
             <div className="flex p-2 pt-8 justify-center">
                 <button
-                    onClick={() => getDeals('next')}
+                    onClick={() => getDeals('next', 20)}
                     type="button"
                     className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">View more</button>
             </div>
