@@ -1,39 +1,29 @@
 import { toast } from 'react-toastify';
-import { collection, getDocs, limit, or, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from '../../../services/config';
 import { ProductListProps } from '../../../utils/Types';
+import axios, { AxiosResponse } from 'axios';
 
-const fetchDealDetails = async (pId: string) => {
+const mode = import.meta.env;
+const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
+
+
+const fetchDealDetails = async (pId: string): Promise<ProductListProps | Array<[]>> => {
     try {
 
-        let getLocalData = localStorage.getItem("deals_cache");
-        getLocalData = getLocalData ? JSON.parse(getLocalData) : '';
-
-        let pRecord = null;
-
-        if (Array.isArray(getLocalData)) {
-            pRecord = getLocalData.map((item: ProductListProps) => {
-                if (item.pid === pId) return item;
-            }).filter(data => data !== undefined)[0]
+        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/deals/product/details/${pId}`);
+        if (result.status === 200) {
+            return result.data;
+        } else {
+            toast.error(result.statusText);
+            return [];
         }
-
-        if (pRecord == null) {
-            const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_details"), or(where("pid", "==", pId), where("urlstring", "==", pId)));
-            const querySnapshot = await getDocs(q);
-            //const result: Array<ProductListProps | string> = []
-            await querySnapshot.forEach(async (document) => {
-                pRecord = document.data();
-                pRecord.documentId = document.id;
-            });
-
-        }
-        return pRecord;
 
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
-            return null;
         }
+        return [];
     }
 }
 

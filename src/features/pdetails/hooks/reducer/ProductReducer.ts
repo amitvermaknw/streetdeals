@@ -9,7 +9,7 @@ const ProductReducer = (state: any, action: any): ProductListProps => {
         case GET_DEALS:
             return {
                 ...new_state,
-                ...action.content
+                ...action.content[0]
             }
         default:
             return new_state

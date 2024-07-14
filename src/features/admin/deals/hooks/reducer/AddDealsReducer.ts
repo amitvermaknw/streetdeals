@@ -30,17 +30,20 @@ const AddDealsReducer = (state: any, action: T): any => {
             return { ...newState, onSubmit: action.payload?.content }
 
         case GET_SINGLE_DEALS:
-            for (const [key] of Object.entries(newState)) {
 
-                if (key !== 'documentId') {
-                    newState[key].value = action.data[0][key] || ''
-                    if (newState[key].type === 'file') {
-                        newState[key].imageObject = action.data[0]['pimageurl'];
-                        newState[key].image = '';
+            if (action.data.length) {
+                for (const [key] of Object.entries(newState)) {
+                    if (key !== 'documentId') {
+                        newState[key].value = action.data[0][key] || ''
+                        if (newState[key].type === 'file') {
+                            newState[key].imageObject = action.data[0]['pimageurl'];
+                            newState[key].image = '';
+                        }
                     }
                 }
+                newState.documentId = action.data[1].documentId;
             }
-            newState.documentId = action.data[1];
+
             return { ...newState }
 
         case UPDATE_ELEMENTS_VALUE:

@@ -1,30 +1,29 @@
 import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
-import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, query, where, deleteDoc, doc } from "firebase/firestore";
 import { BannerListProps } from '../../../../utils/Types';
 import { deleteProductImage } from '../utils/uploadImages';
+import axios, { AxiosResponse } from 'axios';
+
+const mode = import.meta.env;
+const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let lastVisibleData: any = 0;
+
 const fetchBannerService = async () => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), orderBy("bid"), startAfter(lastVisibleData), limit(2));
-        const querySnapshot = await getDocs(q);
-        const result: Array<BannerListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            // console.log(document.id, " => ", document.data());
-            lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            const documentData = document.data();
-            documentData.documentId = document.id;
-            result.push(documentData as BannerListProps);
-        });
-
-        return result;
-
+        const result: AxiosResponse<BannerListProps> = await axios.get<BannerListProps>(`${baseUrl}/banner`);
+        if (result.status === 200) {
+            return result.data;
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
         }
+        return [];
     }
 }
 
