@@ -1,7 +1,5 @@
 import { toast } from "react-toastify";
-import { AddDeals } from "../../../../utils/Types";
-import { db, } from '../../../../services/config';
-import { updateDoc, doc } from "firebase/firestore";
+import { AddDeals, ProductListProps } from "../../../../utils/Types";
 import { uid } from "../../../../utils/Uid";
 // import { uploadProductImage } from "../utils/uploadImages";
 import axios, { AxiosResponse } from 'axios';
@@ -14,8 +12,8 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
 
     let compressedImage;
 
-    const dealsPayload = {
-        pid: callType === 'add' ? uid() : payload.pid?.value,
+    const dealsPayload: ProductListProps = {
+        pid: callType === 'add' ? uid() : payload.pid?.value || '',
         pname: payload.pname.value,
         price: payload.price.value,
         discount: payload.discount.value,
@@ -89,7 +87,6 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
         }
 
     } else if (callType === 'update') {
-
         try {
             let headers = {};
             let result: AxiosResponse<{ msg: string }> = {} as AxiosResponse<{ msg: string }>;
@@ -123,20 +120,17 @@ const addUpdateDealsService = async (payload: AddDeals & { documentId: string },
 
             if (axios.isAxiosError(error)) {
                 if (Object.prototype.hasOwnProperty.call(error, "response")) {
-
                     if (error.response?.status === 401) {
                         toast.error(error.response?.data.msg as string);
                         return error.response;
                     }
                     toast.error(error.response?.data as string);
                 }
-
                 if (error instanceof Error) {
                     toast.error(error.message);
                     throw (error)
                 }
             }
-
             return false;
         }
     }

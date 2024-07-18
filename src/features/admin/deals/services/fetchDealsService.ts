@@ -1,8 +1,7 @@
 import { toast } from 'react-toastify';
 import { db, } from '../../../../services/config';
-import { collection, getDocs, query, deleteDoc, doc, } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { ProductListProps } from '../../../../utils/Types';
-import { deleteProductImage } from '../utils/uploadImages';
 import axios, { AxiosResponse } from 'axios';
 
 
@@ -52,21 +51,29 @@ const fetchSingleDeal = async (pid: string): Promise<ProductListProps | Array<[]
 
 const deleteDealsDoc = async (pid: string, imageUrl: string) => {
     try {
-        const res = await deleteProductImage(imageUrl);
-        if (res === true) {
-            await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "product_details", pid));
-            toast.success('Record Deleted successfully');
-            return true
-        } else {
-            toast.error('Error while deleting image');
-            return false
+        const payload = {
+            data: {
+                pid: pid,
+                imageUrl: imageUrl
+            },
+            headers: {
+                'authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+            }
         }
-
+        const result: AxiosResponse<{ msg: string }> = await axios.delete<{ msg: string }>(`${baseUrl}/deals`, payload);
+        if (result.status === 200) {
+            toast.success(result.data.msg);
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
-            return false
+            throw (error)
         }
+        return []
     }
 }
 

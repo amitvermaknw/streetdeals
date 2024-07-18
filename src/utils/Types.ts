@@ -72,7 +72,7 @@ export type ProductListProps = {
     productdetails: string,
     ptimestamp?: string,
     producturl: string,
-    documentId: string,
+    documentId?: string,
     dealstatus?: string
     preprice: string,
     pcategory: string,
