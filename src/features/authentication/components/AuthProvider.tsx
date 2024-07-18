@@ -9,10 +9,14 @@ const defaultValues = {
     token: '',
     user: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    loginAction: (_data: { username: string, password: string }) => { },
+    loginAction: (_data: { email: string, password: string }) => { },
     logOut: () => { },
     alertMsg: ''
 };
+
+function isErrorResponse(response: string | { error: string }): response is { error: string } {
+    return (response as { error: string }).error !== undefined;
+}
 
 type AuthenticatedUser = typeof defaultValues
 export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
@@ -27,16 +31,16 @@ const AuthProvider = ({ children }: LayoutProps) => {
 
     const [authenticate, removeToken] = useAuthHook();
 
-    const loginAction = async (data: { username: string, password: string }) => {
+    const loginAction = async (data: { email: string, password: string }) => {
         try {
-            const response = await authenticate(data);
-            if (Object.prototype.hasOwnProperty.call(response, 'error')) {
+            const response: string | { error: string } = await authenticate(data);
+            if (isErrorResponse(response)) {
                 setAlert(response.error as string);
                 return
             }
 
-            setToken(response.user.uid as string)
-            localStorage.setItem("token", response.user.uid as string)
+            setToken(response as string)
+            localStorage.setItem("token", response as string)
             navigate("/dashboard")
         } catch (err) {
             if (err instanceof Error) {

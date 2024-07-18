@@ -45,7 +45,7 @@ export type AddDeals = {
     dealstatus?: FormElements,
     pcategory: FormElements,
     preview: FormElements,
-    ptimeframe: FormElements
+    ptimeframe: FormElements,
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
@@ -59,7 +59,7 @@ export type AddBanner = {
 };
 
 export type ProductListProps = {
-    [x: string]: any;
+    [x: string]: unknown;
     pid: string,
     pname: string,
     pimageurl: string,

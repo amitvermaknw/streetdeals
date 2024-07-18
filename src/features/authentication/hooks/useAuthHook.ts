@@ -1,26 +1,23 @@
-import { app } from "../../../services/config"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { updateAdminToken, writeAdminToken } from "../services/authService";
+import { updateAdminToken, addAdminToken, login } from "../services/authService";
 
 export const useAuthHook = () => {
 
-    const auth = getAuth(app);
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const authenticate: any = async (formData: { username: string, password: string }) => {
+    const authenticate = async (formData: { email: string, password: string }): Promise<string | { error: string }> => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, formData.username, formData.password);
-            await writeAdminToken({
-                token: userCredential.user.uid,
+            const token = await login(formData);
+            await addAdminToken({
+                token: token,
                 status: true,
                 timestamp: new Date().toISOString()
             })
-            return userCredential;
+            return token;
+
         } catch (error) {
             if (error instanceof Error) {
                 return { error: error.message };
             }
 
+            return "error";
         }
     }
 
