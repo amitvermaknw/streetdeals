@@ -8,14 +8,14 @@ const useGetBanner = (initState: Array<BannerListProps>) => {
 
     const [bstate, dispatch] = useReducer(GetDealsReducer, initState)
 
-    const getBanner = async () => {
-        const result = await fetchBannerService();
+    const getBanner = async (callType: string, record: number) => {
+        const result = await fetchBannerService(callType, record);
         dispatch({ type: GET_DEALS, content: result })
     }
 
-    const deleteBannerRecord = async (pid: string, imageUrl: string) => {
-        await deleteBannerDoc(pid, imageUrl);
-        const result = await fetchBannerService();
+    const deleteBannerRecord = async (bid: string, imageUrl: string) => {
+        await deleteBannerDoc(bid, imageUrl);
+        const result = await fetchBannerService('start', 5);
         dispatch({ type: GET_DEALS, content: result })
     }
 
