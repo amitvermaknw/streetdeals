@@ -7,7 +7,7 @@ const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.
 
 const fetchBannerService = async (): Promise<BannerListProps | Array<[]>> => {
     try {
-        const result: AxiosResponse<BannerListProps> = await axios.get<BannerListProps>(`${baseUrl}/banner`);
+        const result: AxiosResponse<BannerListProps> = await axios.get<BannerListProps>(`${baseUrl}/banner/start/4`);
         if (result.status === 200) {
             return result.data;
         } else {

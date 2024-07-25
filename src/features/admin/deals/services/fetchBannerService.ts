@@ -1,6 +1,4 @@
 import { toast } from 'react-toastify';
-// import { db, } from '../../../../services/config';
-// import { collection, getDocs, query, where } from "firebase/firestore";
 import { BannerListProps } from '../../../../utils/Types';
 import axios, { AxiosResponse } from 'axios';
 

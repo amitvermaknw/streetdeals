@@ -1,7 +1,5 @@
 import { toast } from 'react-toastify';
-import { db, } from '../../../../services/config';
-import { collection, getDocs, query } from "firebase/firestore";
-import { ProductListProps } from '../../../../utils/Types';
+import { ProductCategory, ProductListProps } from '../../../../utils/Types';
 import axios, { AxiosResponse } from 'axios';
 
 
@@ -17,7 +15,6 @@ const fetchDealsService = async (callType: string, record: number): Promise<Prod
             toast.error(result.statusText);
             return [];
         }
-        return result.data;
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
@@ -79,18 +76,22 @@ const deleteDealsDoc = async (pid: string, imageUrl: string) => {
 
 const fetchDealsCategories = async () => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "product_category"));
-        const querySnapshot = await getDocs(q);
-        const result: Array<ProductListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            // console.log(document.id, " => ", document.data());
-            let documentData = document.data();
-            documentData = { value: documentData.category_value, label: documentData.category_label }
-            //documentData.documentId = document.id;
-            result.push(documentData as ProductListProps);
-        });
 
-        return result;
+        const response: AxiosResponse<ProductCategory> = await axios.get<ProductCategory>(`${baseUrl}/deals/categories`);
+        if (response.status === 200) {
+            if (!response.data.length)
+                toast.error("No Category Record found");
+
+            const results: Array<{ value: string, label: string }> = [];
+            response.data.forEach((item) => {
+                results.push({ value: item.category_value, label: item.category_label })
+            })
+
+            return results;
+        } else {
+            toast.error(response.statusText);
+            return [];
+        }
 
     } catch (error) {
         if (error instanceof Error) {

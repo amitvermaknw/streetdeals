@@ -193,7 +193,7 @@ const PDetails = () => {
                     </div>
                 </div>
                 <hr className="mt-16 mb-4"></hr>
-                <YouMayLike />
+                <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />
     )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 export type LayoutProps = {
@@ -98,4 +99,16 @@ export type SubscriberFormProps = {
 
 export type SearchWidgetProps = {
     searchwidget: FormElements
+}
+
+export type CategoryItem = {
+    [x: string]: unknown;
+    category_label: string,
+    category_name: string,
+    category_value?: string
+}
+export type ProductCategory = {
+    length: number;
+    forEach(arg0: (item: any) => void): unknown;
+    data: CategoryItem[]
 }

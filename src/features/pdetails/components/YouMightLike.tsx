@@ -5,7 +5,7 @@ import useYouMightLike from "../hooks/useYouMightLike";
 import { ProductListProps } from "../../../utils/Types";
 import { useNavigate } from "react-router-dom";
 
-const YouMightLike = () => {
+const YouMightLike = ({ category }: { category: string }) => {
 
     const [pstate, getYouMightLike] = useYouMightLike(GetDealsModel);
     const navigate = useNavigate();
@@ -15,8 +15,8 @@ const YouMightLike = () => {
     }
 
     useEffect(() => {
-        getDeals('Electronics');
-    }, [])
+        getDeals(category);
+    }, [category])
 
 
     return (
@@ -25,7 +25,7 @@ const YouMightLike = () => {
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 {pstate.length ? pstate.map((item: ProductListProps, index: number) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
-                        <a href={`/pdetails/${item.pid}`} className="block h-full w-full">
+                        <a href={item.urlstring ? `/pdetails/${item.urlstring}` : `/pdetails/${item.pid}`} className="block h-full w-full">
                             <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
                             <div className="w-full bg-white p-2">
                                 {/* <p className="text-md font-medium text-indigo-500">Nature</p> */}

@@ -41,7 +41,7 @@ const AddDealsReducer = (state: any, action: T): any => {
                         }
                     }
                 }
-                newState.documentId = action.data[1].documentId;
+                newState.documentId = action.data[0].documentId;
             }
 
             return { ...newState }
