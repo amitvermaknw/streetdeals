@@ -9,8 +9,8 @@ const useDealsList = (initState: Array<ProductListProps>) => {
 
     const [state, dispatch] = useReducer(CommonReducer, initState)
 
-    const dealsList = async (callType: string) => {
-        const result = await dealsListService(callType);
+    const dealsList = async (callType: string, record: number) => {
+        const result = await dealsListService(callType, record);
         dispatch({ type: GET_DEALS, content: result })
     }
 

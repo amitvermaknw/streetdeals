@@ -13,12 +13,12 @@ const DList = () => {
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
 
-    const getDeals = (callType: string) => {
-        dealsList(callType);
+    const getDeals = (callType: string, record: number) => {
+        dealsList(callType, record);
     }
 
     useEffect(() => {
-        getDeals('init');
+        getDeals('start', 20);
     }, [])
 
     usePageSeo({
@@ -89,7 +89,7 @@ const DList = () => {
             </div>
             <div className="flex items-center p-4">
                 <button
-                    onClick={() => getDeals('more')}
+                    onClick={() => getDeals('next', 20)}
                     type="button"
                     className="w-full mt-8 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded hover:bg-blue-300">View More</button>
             </div>
