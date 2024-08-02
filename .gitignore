@@ -1,3 +1,8 @@
+*.env
+.env
+.env*.local
+!.env.example
+
 # Logs
 logs
 *.log
@@ -23,3 +28,4 @@ firebaseConfig.ts
 *.njsproj
 *.sln
 *.sw?
+

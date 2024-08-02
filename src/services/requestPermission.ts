@@ -1,5 +1,4 @@
-import { getToken } from 'firebase/messaging'
-import { messaging } from './config';
+import { getMessaging, getToken } from 'firebase/messaging'
 import { toast } from 'react-toastify';
 import { vapidKey } from '../../firebaseConfig';
 
@@ -8,6 +7,8 @@ const requestPermission = async () => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const permission = await (Notification as any).requestPermission();
+
+        const messaging = getMessaging();
 
         if (permission === 'granted') {
             const token = await getToken(messaging, {

@@ -2,15 +2,19 @@ import { useEffect } from "react";
 import useProductDetails from "../hooks/useProductDeatails";
 import YouMayLike from "./YouMightLike";
 import GetDealsDetailModel from "../../../model/GetDealsDetailModel";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
+import usePageSeo from "../../../hooks/usePageSeo";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
     const { pid } = useParams();
     const navigate = useNavigate();
+
+    const mode = import.meta.env;
+    const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getDeals = (pid: any) => {
@@ -21,9 +25,19 @@ const PDetails = () => {
         getDeals(pid);
     }, []);
 
-    useEffect(() => {
-        document.title = pstate.pname;
-    }, [pstate.pname]);
+    // useEffect(() => {
+    //     document.title = pstate.pname;
+    // }, [pstate.pname]);
+
+    usePageSeo({
+        title: pstate.pname,
+        description: pstate.productdetails,
+        keywords: [pstate.pcategory],
+        ogTitle: pstate.pname,
+        ogDescription: pstate.productdetails,
+        ogImage: pstate.pimageurl,
+        ogUrl: `${baseUrl}${useLocation().pathname}`
+    })
 
     const copyCoupon = (coupon: string) => {
         navigator.clipboard.writeText(coupon);
@@ -193,7 +207,7 @@ const PDetails = () => {
                     </div>
                 </div>
                 <hr className="mt-16 mb-4"></hr>
-                <YouMayLike />
+                <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />
     )
 }

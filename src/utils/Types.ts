@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 export type LayoutProps = {
@@ -45,7 +46,7 @@ export type AddDeals = {
     dealstatus?: FormElements,
     pcategory: FormElements,
     preview: FormElements,
-    ptimeframe: FormElements
+    ptimeframe: FormElements,
 };
 
 export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
@@ -59,6 +60,7 @@ export type AddBanner = {
 };
 
 export type ProductListProps = {
+    [x: string]: unknown;
     pid: string,
     pname: string,
     pimageurl: string,
@@ -71,7 +73,7 @@ export type ProductListProps = {
     productdetails: string,
     ptimestamp?: string,
     producturl: string,
-    documentId: string,
+    documentId?: string,
     dealstatus?: string
     preprice: string,
     pcategory: string,
@@ -97,4 +99,16 @@ export type SubscriberFormProps = {
 
 export type SearchWidgetProps = {
     searchwidget: FormElements
+}
+
+export type CategoryItem = {
+    [x: string]: unknown;
+    category_label: string,
+    category_name: string,
+    category_value?: string
+}
+export type ProductCategory = {
+    length: number;
+    forEach(arg0: (item: any) => void): unknown;
+    data: CategoryItem[]
 }

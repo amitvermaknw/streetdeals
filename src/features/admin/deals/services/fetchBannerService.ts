@@ -1,76 +1,77 @@
 import { toast } from 'react-toastify';
-import { db, } from '../../../../services/config';
-import { collection, getDocs, query, orderBy, limit, startAfter, where, deleteDoc, doc } from "firebase/firestore";
 import { BannerListProps } from '../../../../utils/Types';
-import { deleteProductImage } from '../utils/uploadImages';
+import axios, { AxiosResponse } from 'axios';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let lastVisibleData: any = 0;
-const fetchBannerService = async () => {
+const mode = import.meta.env;
+const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
+
+const fetchBannerService = async (callType: string, record: number) => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), orderBy("bid"), startAfter(lastVisibleData), limit(2));
-        const querySnapshot = await getDocs(q);
-        const result: Array<BannerListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            // console.log(document.id, " => ", document.data());
-            lastVisibleData = querySnapshot.docs[querySnapshot.docs.length - 1];
-            const documentData = document.data();
-            documentData.documentId = document.id;
-            result.push(documentData as BannerListProps);
-        });
-
-        return result;
-
-    } catch (error) {
-        if (error instanceof Error) {
-            toast.error(error.message);
-        }
-    }
-}
-
-const fetchSingleDeal = async (pid: string) => {
-    try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "banner_details"), where("pid", "==", pid));
-        const querySnapshot = await getDocs(q);
-        const result: Array<BannerListProps | string> = []
-        await querySnapshot.forEach(async (document) => {
-            // console.log(document.id, " => ", document.data());
-            result.push(document.data() as BannerListProps);
-            result.push(document.id as string);
-        });
-
-        return result;
-
-    } catch (error) {
-        if (error instanceof Error) {
-            toast.error(error.message);
-        }
-    }
-}
-
-const deleteBannerDoc = async (pid: string, imageUrl: string) => {
-
-    try {
-        const res = await deleteProductImage(imageUrl);
-        if (res === true) {
-            await deleteDoc(doc(db, "streetdeals_collection", "streetdeals", "banner_details", pid));
-            toast.success('Record Deleted successfully');
-            return true
+        const result: AxiosResponse<BannerListProps> = await axios.get<BannerListProps>(`${baseUrl}/banner/${callType}/${record}`);
+        if (result.status === 200) {
+            return result.data;
         } else {
-            toast.error('Error while deleting image');
-            return false
+            toast.error(result.statusText);
+            return [];
         }
-
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
-            return false
         }
+        return [];
+    }
+}
+
+const fetchSingleBanner = async (bid: string) => {
+    try {
+        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${baseUrl}/banner/${bid}`);
+        if (result.status === 200) {
+            return result.data;
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+            throw (error)
+        }
+        return []
+    }
+}
+
+const deleteBannerDoc = async (bid: string, imageUrl: string) => {
+    try {
+        const payload = {
+            data: {
+                bid: bid,
+                imageUrl: imageUrl
+            },
+            headers: {
+                'authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+            }
+        }
+
+        console.log("payload", payload);
+        const result: AxiosResponse<{ msg: string }> = await axios.delete<{ msg: string }>(`${baseUrl}/banner`, payload);
+        if (result.status === 200) {
+            toast.success(result.data.msg);
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+            throw (error)
+        }
+        return []
     }
 }
 
 export {
     fetchBannerService,
-    fetchSingleDeal,
+    fetchSingleBanner,
     deleteBannerDoc
 }

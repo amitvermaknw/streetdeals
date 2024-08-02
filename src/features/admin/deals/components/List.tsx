@@ -12,9 +12,9 @@ type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     deals: Array<ProductListProps>,
     banner: Array<BannerListProps>,
-    getDeals: (callType: string) => Promise<void>,
+    getDeals: (callType: string, record: number) => Promise<void>,
     deleteRecords: (pid: string, imageUrl: string) => void,
-    getBanner: () => void,
+    getBanner: (callType: string, record: number) => void,
     deleteBannerRecord: (pid: string, imageUrl: string) => void
 }
 
@@ -33,19 +33,19 @@ const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerR
 
     const onNextDeals = async () => {
         setLoader(true);
-        await getDeals('next');
+        await getDeals('next', 5);
         setLoader(false);
     };
 
     const onNextBanner = async () => {
         setLoader(true);
-        await getBanner();
+        await getBanner('next', 5);
         setLoader(false);
     };
 
     useEffect(() => {
         if (isActiveMenu === 'banner') {
-            getBanner();
+            getBanner('start', 5);
         }
     }, [isActiveMenu]);
 
@@ -70,7 +70,7 @@ const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerR
                 <>
                     {deals.length ? <DealList>
                         {deals.map((deal) => (
-                            <DealListItem key={deal.pid} deals={deal} deleteRecords={deleteRecords} />
+                            <DealListItem key={`${Math.random()}_${deal.pid}`} deals={deal} deleteRecords={deleteRecords} />
                         ))}
                     </DealList> : <p className="p-5">No Record found...</p>}
                     <div className="py-4  text-sm font-medium flex justify-end">
@@ -88,7 +88,7 @@ const List = ({ deals, getDeals, deleteRecords, banner, getBanner, deleteBannerR
                 :
                 <>
                     <DealList>
-                        {banner.map((ban) => (<BannerListItem key={ban.bid} banner={ban} deleteBannerRecord={deleteBannerRecord} />))}
+                        {banner.map((ban) => (<BannerListItem key={`${Math.random()}_${ban.bid}`} banner={ban} deleteBannerRecord={deleteBannerRecord} />))}
                     </DealList>
                     <div className="py-4  text-sm font-medium flex justify-end">
                         <button type="button"

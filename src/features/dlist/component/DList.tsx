@@ -4,10 +4,14 @@ import useDealsList from "../hooks/useDealsList";
 import Skeleton from "../../../components/ui/Skeleton";
 import { ProductListProps } from "../../../utils/Types";
 import Review from "../../../components/ui/Review";
+import usePageSeo from "../../../hooks/usePageSeo";
+import { useLocation } from "react-router-dom";
 
 const DList = () => {
 
     const [state, dealsList] = useDealsList(GetDealsModel);
+    const mode = import.meta.env;
+    const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
 
     const getDeals = (callType: string) => {
         dealsList(callType);
@@ -16,6 +20,17 @@ const DList = () => {
     useEffect(() => {
         getDeals('init');
     }, [])
+
+    usePageSeo({
+        title: 'Best Deals and Promotions - Save Big on Top Offers and Discounts',
+        description: 'Your go-to site for the best deals and discounts. From exclusive promotions to daily sales, find the perfect offer for you. Save money with our latest coupon codes and special offers.',
+        keywords: ["deals, promotions, discounts, coupons, sales, offers, bargains, shopping deals, online deals, daily deals, best deals, special offers, discount codes, promo codes, savings, hot deals, limited time offers, exclusive deals, cheap prices, top deals, budget shopping, clearance sales"],
+        ogTitle: 'Best Deals and Promotions - Save Big on Top Offers and Discounts',
+        ogDescription: 'Your go-to site for the best deals and discounts. From exclusive promotions to daily sales, find the perfect offer for you. Save money with our latest coupon codes and special offers.',
+        ogImage: 'https://res.cloudinary.com/dxhnwasub/image/upload/v1718418448/banner_images/cf0bqcwicru4xh0wjk74.jpg',
+        ogUrl: `${baseUrl}${useLocation().pathname}`
+    })
+
 
     return (
         state.length ? <section className="py-4 mb-4">
