@@ -1,8 +1,8 @@
-// import React from 'react'
+
 import ReactDOM, { hydrateRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { registerWorker } from '../src/services/registerSW.ts';
+// import { registerWorker } from '../src/services/registerSW.ts';
 
 // ReactDOM.createRoot(document.getElementById('root')!).render(
 //   // <React.StrictMode>
@@ -19,4 +19,4 @@ if (rootElement!.hasChildNodes()) {
 }
 
 //registerServiceWorker();
-registerWorker();
+// registerWorker();
