@@ -29,6 +29,7 @@
     "react-helmet": "^6.1.0",
     "react-instantsearch": "^7.9.0",
     "react-quill": "^2.0.0",
+    "react-snap": "^1.23.0",
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {

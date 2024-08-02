@@ -1,26 +1,42 @@
 import { toast } from 'react-toastify';
-import { db, } from './config';
-import { collection, getDocs, query, where } from "firebase/firestore"
+import axios, { AxiosError, AxiosResponse } from 'axios';
+
+const mode = import.meta.env;
+const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
+
 
 export const tokenValidAuth = async (token: string): Promise<boolean> => {
     try {
-        const q = query(collection(db, "streetdeals_collection", "streetdeals", "admin_token"), where("token", "==", token), where("status", "==", true));
-        const querySnapshot = await getDocs(q);
-        let status: boolean = false;
-        querySnapshot.forEach(async (document) => {
-            //console.log(document.id, " => ", document.data());
-            const tokenObj = document.data();
-            if (token === tokenObj.token) {
-                status = true;
-            } else {
-                status = false
+        const headers = {
+            headers: {
+                authorization: token
             }
-        });
-        return status;
-    } catch (error) {
-        if (error instanceof Error) {
-            toast.error(error.message);
         }
-        return false
+        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${baseUrl}/tokenvalidation`, headers);
+        if (result.status === 200) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+
+        if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError<{ authStatus: string }>;
+            if (axiosError.response) {
+                if (axiosError.response.data ? !axiosError.response.data.authStatus : axiosError.response.data) {
+                    toast.error(axiosError.response.statusText);
+                }
+            } else if (axiosError.request) {
+                toast.error(axiosError.request);
+            } else {
+                toast.error(axiosError.message);
+            }
+        } else {
+            if (error instanceof Error) {
+                toast.error(error.message);
+                throw (error)
+            }
+        }
+        return false;
     }
 }
