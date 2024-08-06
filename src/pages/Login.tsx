@@ -1,8 +1,11 @@
-import { LoginForm } from "../features/authentication";
+import { LoginForm, SignInWithGoogle } from "../features/authentication";
 
 
 export default function Login() {
     return (
-        <LoginForm />
+        <>
+            <LoginForm />
+            <SignInWithGoogle />
+        </>
     )
 }

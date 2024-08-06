@@ -1,3 +1,4 @@
 
 import LoginForm from './components/Login';
-export { LoginForm }
+import SignInWithGoogle from './components/SignInWithGoogle';
+export { LoginForm, SignInWithGoogle }
