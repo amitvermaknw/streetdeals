@@ -10,14 +10,25 @@ type Props = {
 
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const auth = useAuth()
+    const auth = useAuth();
+
+    const [profileDropdown, setProfileDropdown] = useState(false);
+
+    const toggleDropdown = (menuType: string) => {
+        if (menuType === 'profile') {
+            setProfileDropdown(!profileDropdown);
+        } else if (menuType === 'menu') {
+            setIsOpen(!isOpen);
+        }
+    };
 
     return (<>
         <nav className="bg-gray-800">
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0">
+                    {/* <div className="flex items-center"> */}
+                    <div className="container max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+                        <div className="flex items-center flex-shrink-0">
                             <Link to="/">
                                 <img
                                     className="h-16"
@@ -26,52 +37,97 @@ const Header = (props: Props) => {
                                 />
                             </Link>
                         </div>
-                        <div className="hidden md:block">
-                            <div className="ml-10 flex items-baseline space-x-4">
+                        <div className='flex items-center space-x-4'>
+                            <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse px-2 relative">
+                                <button type="button"
+                                    className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                    id="user-menu-button"
+                                    aria-expanded={profileDropdown}
+                                    aria-haspopup="true"
+                                    onClick={() => toggleDropdown('profile')}
+                                >
+                                    <span className="sr-only">Open user menu</span>
+                                    <img className="w-8 h-8 rounded-full" src="https://picsum.photos/id/237/200/300" alt="user photo" />
+                                </button>
+                                {profileDropdown && (<div className="absolute z-50 mt-72 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                                    id="user-dropdown"
+                                    role="menu"
+                                    aria-orientation='vertical'
+                                    aria-labelledby='user-menu-button'
+                                >
+                                    <div className="px-4 py-3">
+                                        <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                                        <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                                    </div>
+                                    <ul className="py-2">
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                                        </li>
+                                    </ul>
+                                </div>)}
+                                {/* <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+                                    <span className="sr-only">Open main menu</span>
+                                    <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
+                                    </svg>
+                                </button> */}
+                            </div>
 
-                                <Link
-                                    to="/"
-                                    className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Home
-                                </Link>
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-4">
+                                    <Link
+                                        to="/"
+                                        className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Home
+                                    </Link>
 
-                                <Link
-                                    to="deals"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Deals
-                                </Link>
+                                    <Link
+                                        to="deals"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Deals
+                                    </Link>
 
-                                <Link
-                                    to="#"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    onClick={() => props.onSubscribe()}
-                                >
-                                    Subscribe
-                                </Link>
-                                {auth.token ? '' : <Link
-                                    to="/login"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Login
-                                </Link>}
-                                {auth.token ? <> <Link
-                                    to="/dashboard"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Dashboard
-                                </Link>
-                                    <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Logout
-                                    </button> </>
-                                    : ''}
+                                    <Link
+                                        to="#"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        onClick={() => props.onSubscribe()}
+                                    >
+                                        Subscribe
+                                    </Link>
+                                    {auth.token ? '' : <Link
+                                        to="/login"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Login
+                                    </Link>}
+                                    {auth.token ? <> <Link
+                                        to="/dashboard"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                        <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                            Logout
+                                        </button> </>
+                                        : ''}
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
                         <button
-                            onClick={() => setIsOpen(!isOpen)}
+                            onClick={() => toggleDropdown('menu')}
                             type="button"
                             className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                             aria-controls="mobile-menu"
@@ -172,9 +228,7 @@ const Header = (props: Props) => {
                                 >
                                     Logout
                                 </Link>
-                                {/* <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    Logout
-                                </button> </> */}</>
+                            </>
                                 : ''}
                         </div>
                     </div>
@@ -199,4 +253,4 @@ const Header = (props: Props) => {
     </>)
 }
 
-export default Header
+export default Header;
