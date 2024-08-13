@@ -1,20 +1,39 @@
-import { updateAdminToken, addAdminToken } from "../services/authService";
-import { usersAuthValidate } from "../services/userAuthService";
+import { updateAdminToken } from "../services/adminAuthService";
+import { userAuthValidate, addUserInfo } from "../services/userAuthService";
 
 export const useUsersAuth = () => {
 
-    const usersAuth = async (authToken: string): Promise<boolean | { error: string }> => {
+    const isUserValid = async (authToken: string): Promise<boolean | { error: string }> => {
         try {
-            const result = await usersAuthValidate(authToken);
-
-            if (result) {
-                await addAdminToken({
-                    token: authToken,
-                    status: true,
-                    timestamp: new Date().toISOString()
-                })
+            return await userAuthValidate(authToken);
+        } catch (error) {
+            if (error instanceof Error) {
+                return { error: error.message };
             }
-            return result;
+
+            return false;
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const addLoggedInUser = async (userDetails: any): Promise<boolean | { error: string }> => {
+        try {
+            const payload = {
+                accessToken: userDetails.accessToken,
+                displayName: userDetails.displayName,
+                email: userDetails.email,
+                emailVerified: userDetails.emailVerified,
+                isAnonymous: userDetails.isAnonymous,
+                metadata: userDetails.metadata,
+                phoneNumber: userDetails.phoneNumber,
+                photoURL: userDetails.photoURL,
+                providerData: userDetails.providerData,
+                stsTokenManager: userDetails.stsTokenManager,
+                providerId: userDetails.providerId,
+                uid: userDetails.uid
+            }
+
+            return await addUserInfo(payload);
         } catch (error) {
             if (error instanceof Error) {
                 return { error: error.message };
@@ -28,5 +47,5 @@ export const useUsersAuth = () => {
         await updateAdminToken();
     }
 
-    return [usersAuth, removeToken] as const
+    return [isUserValid, removeToken, addLoggedInUser] as const
 }

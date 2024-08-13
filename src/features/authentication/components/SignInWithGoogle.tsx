@@ -8,33 +8,37 @@ import { useUsersAuth } from '../hooks/useUsersAuth';
 const SignInWithGoogle = () => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const [usersAuth, removeToken] = useUsersAuth();
+    const [isUserValid, removeToken, addLoggedInUser] = useUsersAuth();
 
-    const signIn = async () => {
+    const signIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
         try {
+            event.preventDefault();
             setIsLoading(true);
             const userObject = await signInWithPopup(auth, googleProvider);
             const token = await userObject.user.getIdToken();
-
-            const result = await usersAuth(token);
-
+            const result = await isUserValid(token);
             if (result) {
-                localStorage.setItem("user_token", token);
+                const dbResponse = await addLoggedInUser(userObject.user);
+                if (dbResponse === true) {
+                    const userInfo = {
+                        accessToken: token,
+                        displayName: userObject.user.displayName,
+                        email: userObject.user.email,
+                        emailVerified: userObject.user.emailVerified,
+                        phoneNumber: userObject.user.phoneNumber,
+                        photoURL: userObject.user.photoURL,
+                    }
+                    localStorage.setItem("loggedInUser", JSON.stringify(userInfo));
+                    window.location.reload();
+
+                } else {
+                    localStorage.removeItem("loggedInUser");
+                }
+
             } else {
                 toast.error("Not able to varify user details");
+                localStorage.removeItem("loggedInUser");
             }
-
-            // Send token to server for verification
-            // const response = await fetch('/api/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ token }),
-            // });
-
-            // const data = await response.json();
-
 
             setIsLoading(false);
 
@@ -50,7 +54,7 @@ const SignInWithGoogle = () => {
     return (
         <Button
             name="Login with Google"
-            onClick={() => signIn()}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => signIn(event)}
             loading={isLoading}
         />
     );

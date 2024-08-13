@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LayoutProps } from "../../../utils/Types";
-import { useAuthHook } from "../hooks/useAuthHook";
+import { useAdminAuth } from "../hooks/useAdminAuth";
 import { toast } from "react-toastify";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
 
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: LayoutProps) => {
     //const [isTokenValid] = useUrlAuth();
 
 
-    const [authenticate, removeToken] = useAuthHook();
+    const [authenticate, removeToken] = useAdminAuth();
 
     const loginAction = async (data: { email: string, password: string }) => {
         try {

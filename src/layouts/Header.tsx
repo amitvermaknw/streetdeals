@@ -1,18 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../features/authentication/hooks/useAuth';
 import logo from '../assets/db_logo.svg'
+import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 
 type Props = {
     onSubscribe: () => void
 }
 
+type UserInfo = {
+    accessToken: string,
+    displayName: string,
+    email: string,
+    emailVerified: boolean,
+    phoneNumber: string,
+    photoURL: string,
+}
+
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const auth = useAuth();
-
     const [profileDropdown, setProfileDropdown] = useState(false);
+    const [signUpDialog, setSignupDialog] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
 
     const toggleDropdown = (menuType: string) => {
         if (menuType === 'profile') {
@@ -23,6 +34,18 @@ const Header = (props: Props) => {
             setProfileDropdown(false);
         }
     };
+
+    const onSignupDialogCancel = () => {
+        setSignupDialog(false);
+    }
+
+    useEffect(() => {
+        const userInfo = localStorage.getItem('loggedInUser');
+        if (userInfo) {
+            const userInfoObject = JSON.parse(userInfo) as UserInfo;
+            setLoggedInUser(userInfoObject);
+        }
+    }, [])
 
     return (<>
         <nav className="bg-gray-800">
@@ -139,9 +162,14 @@ const Header = (props: Props) => {
                             onClick={() => toggleDropdown('profile')}
                         >
                             <span className="sr-only">Open user menu</span>
-                            <img className="w-8 h-8 rounded-full" src="https://picsum.photos/id/237/200/300" alt="user photo" />
+                            <img className="w-8 h-8 rounded-full" src={loggedInUser?.photoURL} alt="user photo" />
                         </button>
-                        <button type="button" className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Sign up</button>
+                        {!loggedInUser?.displayName && (<button type="button"
+                            className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            onClick={() => setSignupDialog(true)}
+                        >
+                            Sign up
+                        </button>)}
 
                     </div>
                     {profileDropdown && (<div className="absolute pt-2 pl-2 pr-2 z-50 mt-72 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -151,21 +179,37 @@ const Header = (props: Props) => {
                         aria-labelledby='user-menu-button'
                     >
                         <div className="px-4 py-3">
-                            <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                            <span className="block text-sm text-gray-900 dark:text-white">{loggedInUser?.displayName}</span>
+                            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{loggedInUser?.email}</span>
                         </div>
 
                         <ul className="py-2">
-                            <li>
-                                <Link
-                                    to="/"
-                                    className=" block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Home
-                                </Link>
-                            </li>
-                            <li>
+
+                            {loggedInUser?.displayName ?
+                                <>
+                                    <li>
+                                        <Link
+                                            to="/"
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            My Wishlist
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/"
+                                            onClick={() => auth.logOut()}
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        >
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </>
+                                : ''
+                            }
+
+                            {/* <li>
                                 <Link
                                     to="deals"
                                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
@@ -184,20 +228,20 @@ const Header = (props: Props) => {
                                 </Link>
                             </li>
                             <li>
-                                {auth.token ? '' : <Link
+                                {!loggedInUser?.displayName ? '' : <Link
                                     to="/login"
                                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    Login
+                                    My Wishlist
                                 </Link>}
                             </li>
-                            {auth.token ? <> <li><Link
+                            {loggedInUser?.displayName ? <> <li><Link
                                 to="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
                             >
-                                Dashboard
+                                My Wishlist
                             </Link></li>
                                 <li>
                                     <Link
@@ -209,7 +253,7 @@ const Header = (props: Props) => {
                                     </Link>
                                 </li>
                             </>
-                                : ''}
+                                : ''} */}
                         </ul>
                     </div>)}
                 </div>
@@ -293,6 +337,8 @@ const Header = (props: Props) => {
                     
                 </div>
             </main> */}
+
+        {signUpDialog && (<SignupWithGoogleDialog onCancel={() => onSignupDialogCancel()} />)}
     </>)
 }
 

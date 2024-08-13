@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ButtonProps {
     name: string;
-    onClick(): void;
+    onClick(event?: React.MouseEvent<HTMLButtonElement>): void | Promise<void>;
     loading?: boolean
 }
 
