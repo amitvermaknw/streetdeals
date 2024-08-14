@@ -1,4 +1,5 @@
-import { updateAdminToken } from "../services/adminAuthService";
+import { uid } from "../../../utils/Uid";
+// import { updateAdminToken } from "../services/adminAuthService";
 import { userAuthValidate, addUserInfo } from "../services/userAuthService";
 
 export const useUsersAuth = () => {
@@ -19,6 +20,7 @@ export const useUsersAuth = () => {
     const addLoggedInUser = async (userDetails: any): Promise<boolean | { error: string }> => {
         try {
             const payload = {
+                id: uid(),
                 accessToken: userDetails.accessToken,
                 displayName: userDetails.displayName,
                 email: userDetails.email,
@@ -27,25 +29,23 @@ export const useUsersAuth = () => {
                 metadata: userDetails.metadata,
                 phoneNumber: userDetails.phoneNumber,
                 photoURL: userDetails.photoURL,
-                providerData: userDetails.providerData,
                 stsTokenManager: userDetails.stsTokenManager,
                 providerId: userDetails.providerId,
                 uid: userDetails.uid
             }
-
             return await addUserInfo(payload);
+
         } catch (error) {
             if (error instanceof Error) {
                 return { error: error.message };
             }
-
             return false;
         }
     }
 
-    const removeToken = async () => {
-        await updateAdminToken();
-    }
+    // const removeToken = async () => {
+    //     await updateAdminToken();
+    // }
 
-    return [isUserValid, removeToken, addLoggedInUser] as const
+    return [isUserValid, addLoggedInUser] as const
 }

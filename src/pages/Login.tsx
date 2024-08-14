@@ -1,10 +1,10 @@
-import { LoginForm, SignInWithGoogle } from "../features/authentication";
+import { AdminLogin, SignInWithGoogle } from "../features/authentication";
 
 
 export default function Login() {
     return (
         <>
-            <LoginForm />
+            <AdminLogin />
             <SignInWithGoogle />
         </>
     )

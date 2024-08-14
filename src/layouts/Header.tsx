@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { Link } from 'react-router-dom';
-import { useAuth } from '../features/authentication/hooks/useAuth';
+import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 import logo from '../assets/db_logo.svg'
 import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
+import { useUserContext } from '../features/authentication/hooks/useUserContext';
 
 type Props = {
     onSubscribe: () => void
@@ -20,7 +21,8 @@ type UserInfo = {
 
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const auth = useAuth();
+    const adminAuth = useAdminContext();
+    const userAuth = useUserContext();
     const [profileDropdown, setProfileDropdown] = useState(false);
     const [signUpDialog, setSignupDialog] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
@@ -40,7 +42,7 @@ const Header = (props: Props) => {
     }
 
     useEffect(() => {
-        const userInfo = localStorage.getItem('loggedInUser');
+        const userInfo = userAuth.userInfo ? userAuth.userInfo : '';
         if (userInfo) {
             const userInfoObject = JSON.parse(userInfo) as UserInfo;
             setLoggedInUser(userInfoObject);
@@ -132,19 +134,19 @@ const Header = (props: Props) => {
                                     >
                                         Subscribe
                                     </Link>
-                                    {auth.token ? '' : <Link
+                                    {adminAuth.token ? '' : <Link
                                         to="/login"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Login
                                     </Link>}
-                                    {auth.token ? <> <Link
+                                    {adminAuth.token ? <> <Link
                                         to="/dashboard"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Dashboard
                                     </Link>
-                                        <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                        <button onClick={() => adminAuth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Logout
                                         </button> </>
                                         : ''}
@@ -154,22 +156,24 @@ const Header = (props: Props) => {
                     </div>
 
                     <div className="flex justify-between items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
-                        <button type="button"
-                            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                            id="user-menu-button"
-                            aria-expanded={profileDropdown}
-                            aria-haspopup="true"
-                            onClick={() => toggleDropdown('profile')}
-                        >
-                            <span className="sr-only">Open user menu</span>
-                            <img className="w-8 h-8 rounded-full" src={loggedInUser?.photoURL} alt="user photo" />
-                        </button>
-                        {!loggedInUser?.displayName && (<button type="button"
-                            className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                            onClick={() => setSignupDialog(true)}
-                        >
-                            Sign up
-                        </button>)}
+                        {loggedInUser?.displayName ?
+                            <button type="button"
+                                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                id="user-menu-button"
+                                aria-expanded={profileDropdown}
+                                aria-haspopup="true"
+                                onClick={() => toggleDropdown('profile')}
+                            >
+                                <span className="sr-only">Open user menu</span>
+                                <img className="w-8 h-8 rounded-full" src={loggedInUser?.photoURL} alt="user photo" />
+                            </button>
+                            :
+                            <button type="button"
+                                className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                onClick={() => setSignupDialog(true)}
+                            >
+                                Sign up
+                            </button>}
 
                     </div>
                     {profileDropdown && (<div className="absolute pt-2 pl-2 pr-2 z-50 mt-72 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -184,7 +188,6 @@ const Header = (props: Props) => {
                         </div>
 
                         <ul className="py-2">
-
                             {loggedInUser?.displayName ?
                                 <>
                                     <li>
@@ -199,7 +202,7 @@ const Header = (props: Props) => {
                                     <li>
                                         <Link
                                             to="/"
-                                            onClick={() => auth.logOut()}
+                                            onClick={() => userAuth.logOut()}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                         >
                                             Logout
@@ -246,7 +249,7 @@ const Header = (props: Props) => {
                                 <li>
                                     <Link
                                         to="/"
-                                        onClick={() => auth.logOut()}
+                                        onClick={() => adminAuth.logOut()}
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Logout
@@ -294,14 +297,14 @@ const Header = (props: Props) => {
                             >
                                 Subscribe
                             </Link>
-                            {auth.token ? '' : <Link
+                            {adminAuth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Login
                             </Link>}
-                            {auth.token ? <> <Link
+                            {adminAuth.token ? <> <Link
                                 to="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
@@ -310,7 +313,7 @@ const Header = (props: Props) => {
                             </Link>
                                 <Link
                                     to="/"
-                                    onClick={() => auth.logOut()}
+                                    onClick={() => adminAuth.logOut()}
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Logout

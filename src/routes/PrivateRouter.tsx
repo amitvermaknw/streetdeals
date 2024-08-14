@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../features/authentication/hooks/useAuth"
+import { useAdminContext } from "../features/authentication/hooks/useAdminContext"
 import useUrlAuth from "../hooks/useUrlAuth";
 import { toast } from "react-toastify";
 
 const PrivateRouter = (): JSX.Element => {
-    const user = useAuth();
+    const user = useAdminContext();
     const [isTokenValid] = useUrlAuth();
     // const navigate = useNavigate();
 

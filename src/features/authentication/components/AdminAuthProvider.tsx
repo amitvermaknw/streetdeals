@@ -19,16 +19,13 @@ function isErrorResponse(response: string | { error: string }): response is { er
 }
 
 type AuthenticatedUser = typeof defaultValues
-export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
+export const AdminAuthContext = createContext<AuthenticatedUser>(defaultValues);
 
-const AuthProvider = ({ children }: LayoutProps) => {
+const AdminAuthProvider = ({ children }: LayoutProps) => {
     const [user, setUser] = useState<string>(null || '');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
     const navigate = useNavigate();
-    //const [isTokenValid] = useUrlAuth();
-
-
     const [authenticate, removeToken] = useAdminAuth();
 
     const loginAction = async (data: { email: string, password: string }) => {
@@ -59,10 +56,10 @@ const AuthProvider = ({ children }: LayoutProps) => {
     }
 
     return (
-        <AuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
+        <AdminAuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
             {children}
-        </AuthContext.Provider>
+        </AdminAuthContext.Provider>
     )
 }
 
-export default AuthProvider;
+export default AdminAuthProvider;

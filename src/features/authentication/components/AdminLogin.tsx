@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
-import { useAuth } from "../hooks/useAuth";
+import { useAdminContext } from "../hooks/useAdminContext";
 import Alert from "../../../components/ui/Alert";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const AdminLogin = () => {
     const [input, setInput] = useState({
         email: "",
         password: ""
     });
 
     const [error, setError] = useState('');
-    const auth = useAuth();
+    const auth = useAdminContext();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
@@ -84,4 +84,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+export default AdminLogin

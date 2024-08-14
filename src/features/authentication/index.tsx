@@ -1,4 +1,5 @@
 
-import LoginForm from './components/Login';
+import AdminLogin from './components/AdminLogin';
 import SignInWithGoogle from './components/SignInWithGoogle';
-export { LoginForm, SignInWithGoogle }
+import AdminAuthProvider from './components/AdminAuthProvider'
+export { AdminLogin, SignInWithGoogle, AdminAuthProvider }

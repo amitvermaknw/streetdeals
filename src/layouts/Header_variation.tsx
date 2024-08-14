@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { Link } from 'react-router-dom';
-import { useAuth } from '../features/authentication/hooks/useAuth';
+import { useAuth } from '../features/authentication/hooks/useAdminContext';
 import logo from '../assets/db_logo.svg'
 
 type Props = {
