@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 import logo from '../assets/db_logo.svg'
 import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
@@ -26,6 +26,7 @@ const Header = (props: Props) => {
     const [profileDropdown, setProfileDropdown] = useState(false);
     const [signUpDialog, setSignupDialog] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
+    const navigate = useNavigate();
 
     const toggleDropdown = (menuType: string) => {
         if (menuType === 'profile') {
@@ -170,7 +171,7 @@ const Header = (props: Props) => {
                             :
                             <button type="button"
                                 className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                onClick={() => setSignupDialog(true)}
+                                onClick={() => navigate('/login')}
                             >
                                 Sign up
                             </button>}

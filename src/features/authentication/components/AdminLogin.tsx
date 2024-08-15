@@ -5,6 +5,7 @@ import { useAdminContext } from "../hooks/useAdminContext";
 import Alert from "../../../components/ui/Alert";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import SignInWithGoogle from "./SignInWithGoogle";
 
 const AdminLogin = () => {
     const [input, setInput] = useState({
@@ -74,10 +75,10 @@ const AdminLogin = () => {
                         />
                     </form>
                 </div>
-                <div className="px-6 py-4">
-                    {auth.alertMsg ? toast(auth.alertMsg) : ''}
-                </div>
-
+                {auth.alertMsg && (<div className="px-6 py-4">
+                    {toast(auth.alertMsg)}
+                </div>)}
+                <SignInWithGoogle />
             </div>
 
         </div>
