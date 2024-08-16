@@ -10,3 +10,7 @@
 /* .ais-SearchBox-form::before {
     background: none !important;
 } */
+
+.pdetails >ul {
+    list-style-type: square;
+}

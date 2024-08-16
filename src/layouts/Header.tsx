@@ -135,12 +135,12 @@ const Header = (props: Props) => {
                                     >
                                         Subscribe
                                     </Link>
-                                    {adminAuth.token ? '' : <Link
+                                    {/* {adminAuth.token ? '' : <Link
                                         to="/login"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Login
-                                    </Link>}
+                                    </Link>} */}
                                     {adminAuth.token ? <> <Link
                                         to="/dashboard"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -157,7 +157,7 @@ const Header = (props: Props) => {
                     </div>
 
                     <div className="flex justify-between items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
-                        {loggedInUser?.displayName ?
+                        {(loggedInUser?.displayName || adminAuth.token) ?
                             <button type="button"
                                 className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                 id="user-menu-button"
@@ -298,13 +298,13 @@ const Header = (props: Props) => {
                             >
                                 Subscribe
                             </Link>
-                            {adminAuth.token ? '' : <Link
+                            {/* {adminAuth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Login
-                            </Link>}
+                            </Link>} */}
                             {adminAuth.token ? <> <Link
                                 to="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"

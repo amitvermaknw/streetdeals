@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useProductDetails from "../hooks/useProductDeatails";
 import YouMayLike from "./YouMightLike";
 import GetDealsDetailModel from "../../../model/GetDealsDetailModel";
@@ -7,6 +7,9 @@ import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
+import SecondaryButton from "../../../components/ui/SecondaryButton";
+import ProductReviews from "./ProductReviews";
+import PostProductReview from "./PostProductReview";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
@@ -16,8 +19,7 @@ const PDetails = () => {
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getDeals = (pid: any) => {
+    const getDeals = (pid: string | undefined) => {
         getDealDetails(pid);
     }
 
@@ -25,9 +27,11 @@ const PDetails = () => {
         getDeals(pid);
     }, []);
 
-    // useEffect(() => {
-    //     document.title = pstate.pname;
-    // }, [pstate.pname]);
+    const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+
+    const toggleWishlist = () => {
+        setIsAddedToWishlist(!isAddedToWishlist);
+    }
 
     usePageSeo({
         title: pstate.pname,
@@ -52,20 +56,57 @@ const PDetails = () => {
         pstate.pname ? <>
             <div className="font-[sans-serif]">
                 <div className="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
-                    <button type="button"
-                        onClick={() => goBack()}
-                        className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                        Back</button>
+                    <div className="grid items-start grid-cols-2 lg:grid-cols-2 gap-12">
+                        <div className="lg:col-span-1 w-full lg:sticky top-0 text-left">
+                            <button type="button"
+                                onClick={() => goBack()}
+                                className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                Back</button>
+                        </div>
+                        <div className="lg:col-span-1 w-full lg:sticky top-0 text-right">
+                            <button
+                                className={`pb-2 rounded-full focus:outline-none focus:ring-0 ${isAddedToWishlist
+                                    ? 'text-red-500 focus:ring-red-300'
+                                    : 'text-gray-500 focus:ring-gray-300'
+                                    }`}
+                                onClick={toggleWishlist}
+                            >
+                                <div className="text-center pl-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="2"
+                                        stroke="currentColor"
+                                        className="w-5 h-6 text-center"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M3.172 8.172a4 4 0 015.656 0L12 11.343l3.172-3.171a4 4 0 115.656 5.656l-8.243 8.243a.75.75 0 01-1.06 0l-8.243-8.243a4 4 0 010-5.656z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span className={`text-sm font-light ${isAddedToWishlist
+                                    ? 'text-red-500 focus:ring-red-300'
+                                    : 'text-gray-500 focus:ring-gray-300'
+                                    }`}>Wishlist</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
                     <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
                         <div className="lg:col-span-3 bg-gray-100 w-full lg:sticky top-0 text-center p-8">
                             <img src={pstate.pimageurl} alt="Product" className="w-4/5 rounded object-cover" />
                             {/* <hr className="border-white border-2 my-6" />
-                        <div className="flex flex-wrap gap-x-12 gap-y-6 justify-center mx-auto">
-                            <img src="https://readymadeui.com/images/coffee6.webp" alt="Product1" className="w-24 cursor-pointer" />
-                            <img src="https://readymadeui.com/images/coffee3.webp" alt="Product2" className="w-24 cursor-pointer" />
-                            <img src="https://readymadeui.com/images/coffee4.webp" alt="Product3" className="w-24 cursor-pointer" />
-                            <img src="https://readymadeui.com/images/coffee5.webp" alt="Product4" className="w-24 cursor-pointer" />
-                        </div> */}
+                            <div className="flex flex-wrap gap-x-12 gap-y-6 justify-center mx-auto">
+                                <img src="https://readymadeui.com/images/coffee6.webp" alt="Product1" className="w-24 cursor-pointer" />
+                                <img src="https://readymadeui.com/images/coffee3.webp" alt="Product2" className="w-24 cursor-pointer" />
+                                <img src="https://readymadeui.com/images/coffee4.webp" alt="Product3" className="w-24 cursor-pointer" />
+                                <img src="https://readymadeui.com/images/coffee5.webp" alt="Product4" className="w-24 cursor-pointer" />
+                            </div> */}
                         </div>
                         <div className="lg:col-span-2">
                             <h2 className="text-2xl font-extrabold text-gray-800">{pstate.pname}</h2>
@@ -90,8 +131,8 @@ const PDetails = () => {
                                 </p> : ''}
                             </div>
                             <div className="mt-8">
-                                <h3 className="text-lg font-bold text-gray-800">Details</h3>
-                                <div className="pdetails" dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
+                                <h3 className="text-lg font-bold text-gray-800">About this product</h3>
+                                <div className="pdetails p-4 " dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
 
                                 {/* <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
                                     <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
@@ -101,7 +142,7 @@ const PDetails = () => {
                                 </ul> */}
                             </div>
 
-                            <div className="mt-8 max-w-md">
+                            <div className="mt-2 max-w-md">
                                 {/* <h3 className="text-lg font-bold text-gray-800">Reviews(10)</h3> */}
                                 {/* <div className="space-y-3 mt-4">
                                 <div className="flex items-center">
@@ -196,9 +237,13 @@ const PDetails = () => {
                                 </div>
                             </div> */}
                                 <button type="button"
-                                    className="w-full mt-8 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded"
+                                    className="w-full mt-2 mb-4 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded"
                                     onClick={() => window.open(pstate.producturl, '_blank')}
                                 >Get this deal</button>
+                                <SecondaryButton
+                                    name="Add to Wishlist"
+                                    onClick={() => toggleWishlist()}
+                                />
                             </div>
                             <div className="space-y-3 list-disc mt-4 text-sm text-gray-800">
                                 <strong>*</strong> The Discount deal may earn a small commission through affiliate links on this page. Prices quoted are subject to change at any time, and supplies may be limited. Coupon codes or other offers may be modified or removed at any time.
@@ -206,7 +251,11 @@ const PDetails = () => {
                         </div>
                     </div>
                 </div>
-                <hr className="mt-16 mb-4"></hr>
+                <hr className="mt-4 mb-4"></hr>
+                <ProductReviews />
+                {/* <hr className="mt-8 mb-2"></hr> */}
+                <PostProductReview />
+                <hr className="mt-8 mb-2"></hr>
                 <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />
     )
