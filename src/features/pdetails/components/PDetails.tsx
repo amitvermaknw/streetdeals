@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
 import SecondaryButton from "../../../components/ui/SecondaryButton";
-import ProductReviews from "./ProductReviews";
-import PostProductReview from "./PostProductReview";
+import DealsReviews from "../../users/dreviews/component/DealsReviews";
+import AddDealsReview from "../../users/dreviews/component/AddDealsReview";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
@@ -109,12 +109,12 @@ const PDetails = () => {
                             </div> */}
                         </div>
                         <div className="lg:col-span-2">
-                            <h2 className="text-2xl font-extrabold text-gray-800">{pstate.pname}</h2>
+                            <h2 className="text-xl font-bold text-gray-800">{pstate.pname}</h2>
                             <div className="flex flex-wrap gap-4 mt-4">
                                 {pstate.preprice ? <p className="text-gray-400 text-xl"><del>${pstate.preprice}</del></p> : ''}
                                 <p className="text-green-600 text-xl font-bold">${pstate.price}</p>
-                                {pstate.ptimeframe ? <div className="mr-2 mb-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">{pstate.ptimeframe}</div> : ''}
-                                {pstate.discount ? <div className="mr-2 mb-2 rounded-2xl bg-yellow-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">- {pstate.discount}% off</div> : ''}
+                                {pstate.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">{pstate.ptimeframe}</div> : ''}
+                                {pstate.discount ? <div className="mr-2  rounded-2xl bg-yellow-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2 xl:mb-2">- {pstate.discount}% off</div> : ''}
                                 <span className="text-sm ml-1 text-gray-400 mb-4">Deal can be end anytime.</span>
                             </div>
                             {pstate.preview ? <Review props={pstate.preview} /> : ''}
@@ -132,7 +132,7 @@ const PDetails = () => {
                             </div>
                             <div className="mt-8">
                                 <h3 className="text-lg font-bold text-gray-800">About this product</h3>
-                                <div className="pdetails p-4 " dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
+                                <div className="pdetails p-4 text-sm" dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
 
                                 {/* <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
                                     <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
@@ -252,9 +252,9 @@ const PDetails = () => {
                     </div>
                 </div>
                 <hr className="mt-4 mb-4"></hr>
-                <ProductReviews />
+                <DealsReviews />
                 {/* <hr className="mt-8 mb-2"></hr> */}
-                <PostProductReview />
+                <AddDealsReview />
                 <hr className="mt-8 mb-2"></hr>
                 <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />
