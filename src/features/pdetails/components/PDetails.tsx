@@ -10,11 +10,14 @@ import usePageSeo from "../../../hooks/usePageSeo";
 import SecondaryButton from "../../../components/ui/SecondaryButton";
 import DealsReviews from "../../users/dreviews/component/DealsReviews";
 import AddDealsReview from "../../users/dreviews/component/AddDealsReview";
+import useDealsReview from "../../users/dreviews/hooks/useDealsReview";
+import GetDealsReviewModel from "../../../model/DealsReviewModel";
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
     const { pid } = useParams();
     const navigate = useNavigate();
+    const [prstate, getReview, addReview] = useDealsReview(GetDealsReviewModel);
 
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
@@ -254,7 +257,7 @@ const PDetails = () => {
                 <hr className="mt-4 mb-4"></hr>
                 <DealsReviews />
                 {/* <hr className="mt-8 mb-2"></hr> */}
-                <AddDealsReview />
+                <AddDealsReview addReview={addReview} pId={pstate.pid} />
                 <hr className="mt-8 mb-2"></hr>
                 <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />

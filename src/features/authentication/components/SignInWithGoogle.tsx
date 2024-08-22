@@ -13,8 +13,13 @@ const SignInWithGoogle = () => {
         setIsLoading(true);
         const result = await userAuth.signIn();
         if (result) {
-            const redirectTo = new URLSearchParams(location.search).get('redirect');
-            navigate(redirectTo || '/');
+            //const redirectTo = new URLSearchParams(location.pathname).get('redirect');
+
+            if (location.pathname === '/login') {
+                navigate('/');
+            } else {
+                navigate(location.pathname || '/');
+            }
             //window.location.reload();
         }
 

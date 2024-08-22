@@ -29,10 +29,11 @@ export interface SelectInputInterfaceProps {
 }
 
 export interface DealsReview {
-    userid: string,
-    username: string,
-    startdate: Date,
+    comId: string,
+    uId: string,
+    userName: string,
+    startDate?: Date,
     comments: string,
-    dealsid: string,
-    helpful: number
+    dealsId: string,
+    helpful?: number
 }

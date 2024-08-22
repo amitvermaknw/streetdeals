@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useUsersAuth } from '../hooks/useUsersAuth';
 import { DbContext } from "../../../providers/DBProvider";
 import { userTokenSchema } from "../../../schema/userTokenSchema";
+import { UserToken } from "../Interface/userTokenInterface";
 
 interface AuthContextType {
     userInfo: string;
@@ -51,15 +52,15 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
             if (result) {
                 const dbResponse = await addLoggedInUser(userObject.user);
                 if (dbResponse === true) {
-                    const userInfoObj = {
+                    const userInfoObj: UserToken = {
                         accessToken: token,
-                        displayName: userObject.user.displayName,
-                        email: userObject.user.email,
+                        displayName: userObject.user.displayName || '',
+                        email: userObject.user.email || '',
                         emailVerified: userObject.user.emailVerified,
-                        phoneNumber: userObject.user.phoneNumber,
-                        photoURL: userObject.user.photoURL,
+                        phoneNumber: userObject.user.phoneNumber || '',
+                        photoURL: userObject.user.photoURL || '',
+                        uId: userObject.user.uid
                     }
-                    // localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
 
                     await localDb?.db?.userToken.insert({
                         ...userInfoObj
@@ -67,14 +68,12 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                     setUserInfo(JSON.stringify(userInfoObj))
                     return true;
                 } else {
-                    // localStorage.removeItem("loggedInUser");
                     localDb?.db?.userToken.remove();
                 }
             } else {
                 toast.error("Not able to varify user details");
                 localStorage.removeItem("loggedInUser");
                 localDb?.db?.userToken.remove();
-
             }
             return false;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
