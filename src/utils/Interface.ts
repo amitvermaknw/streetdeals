@@ -31,8 +31,8 @@ export interface SelectInputInterfaceProps {
 export interface DealsReview {
     userid: string,
     username: string,
-    u_start_date: Date,
+    startdate: Date,
     comments: string,
-    deals_id: string,
+    dealsid: string,
     helpful: number
 }

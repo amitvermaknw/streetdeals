@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Transition } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 import logo from '../assets/db_logo.svg'
 import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 import { useUserContext } from '../features/authentication/hooks/useUserContext';
+import { DbContext } from "../providers/DBProvider";
+
 
 type Props = {
     onSubscribe: () => void
@@ -28,6 +30,9 @@ const Header = (props: Props) => {
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
     const navigate = useNavigate();
 
+    const localDb = useContext(DbContext)
+
+
     const toggleDropdown = (menuType: string) => {
         if (menuType === 'profile') {
             setProfileDropdown(!profileDropdown);
@@ -43,12 +48,22 @@ const Header = (props: Props) => {
     }
 
     useEffect(() => {
-        const userInfo = userAuth.userInfo ? userAuth.userInfo : '';
-        if (userInfo) {
-            const userInfoObject = JSON.parse(userInfo) as UserInfo;
-            setLoggedInUser(userInfoObject);
-        }
-    }, [])
+        // const userInfo = userAuth.userInfo ? userAuth.userInfo : '';
+        // if (userInfo) {
+        //     const userInfoObject = JSON.parse(userInfo) as UserInfo;
+        //     setLoggedInUser(userInfoObject);
+        // }
+        if (!localDb?.db?.userToken) return;
+
+        const subscription = localDb?.db.userToken.findOne().$.subscribe((user) => {
+            if (user) {
+                setLoggedInUser(user);
+            }
+        });
+
+        return () => subscription.unsubscribe();
+
+    }, [localDb?.db?.userToken])
 
     return (<>
         <nav className="bg-gray-800">

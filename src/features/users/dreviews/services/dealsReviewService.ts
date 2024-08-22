@@ -2,18 +2,25 @@
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
 import { DealsReview } from '../../../../utils/Interface';
+import { fetchDealsReview } from './helper/cacheDealsReview';
 
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
 
-export const getDealsReview = async (pId: string): Promise<DealsReview | Array<[]>> => {
+export const getDealsReview = async (pId: string, _db: unknown): Promise<Array<DealsReview> | Array<[]>> => {
     try {
-        const result: AxiosResponse<DealsReview> = await axios.get<DealsReview>(`${baseUrl}/deals/review/${pId}`);
-        if (result.status === 200) {
-            return result.data;
+        const response = await fetchDealsReview(_db);
+        if (response.length) {
+            return response;
         } else {
-            toast.error(result.statusText);
-            return [];
+            const result: AxiosResponse<Array<DealsReview>> = await axios.get<Array<DealsReview>>(`${baseUrl}/deals/review/${pId}`);
+            if (result.status === 200) {
+                return result.data;
+
+            } else {
+                toast.error(result.statusText);
+                return [];
+            }
         }
 
     } catch (error) {

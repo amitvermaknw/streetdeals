@@ -1,10 +1,12 @@
-import { createContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LayoutProps } from "../../../utils/Types";
 import { auth, googleProvider } from '../../../services/googleAuthProvider';
 import { signInWithPopup } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useUsersAuth } from '../hooks/useUsersAuth';
+import { DbContext } from "../../../providers/DBProvider";
+import { userTokenSchema } from "../../../schema/userTokenSchema";
 
 interface AuthContextType {
     userInfo: string;
@@ -25,8 +27,21 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
     const [userInfo, setUserInfo] = useState(localStorage.getItem('loggedInUser') || '');
     const navigate = useNavigate();
     const [isUserValid, addLoggedInUser] = useUsersAuth();
+    const localDb = useContext(DbContext)
 
+    useEffect(() => {
+        async function setSchema() {
+            if (localDb?.db) {
+                await localDb?.db.addCollections({
+                    userToken: {
+                        schema: userTokenSchema
+                    }
+                })
+            }
+        }
 
+        setSchema();
+    }, [localDb?.db])
 
     const signIn = async (): Promise<boolean> => {
         try {
@@ -44,15 +59,22 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         phoneNumber: userObject.user.phoneNumber,
                         photoURL: userObject.user.photoURL,
                     }
-                    localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
+                    // localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
+
+                    await localDb?.db?.userToken.insert({
+                        ...userInfoObj
+                    })
                     setUserInfo(JSON.stringify(userInfoObj))
                     return true;
                 } else {
-                    localStorage.removeItem("loggedInUser");
+                    // localStorage.removeItem("loggedInUser");
+                    localDb?.db?.userToken.remove();
                 }
             } else {
                 toast.error("Not able to varify user details");
                 localStorage.removeItem("loggedInUser");
+                localDb?.db?.userToken.remove();
+
             }
             return false;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +86,8 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
 
     const logOut = () => {
         setUserInfo('');
-        localStorage.removeItem("loggedInUser");
+        // localStorage.removeItem("loggedInUser");
+        localDb?.db?.userToken.remove();
         // removeToken()
         navigate("/login");
         window.location.reload();

@@ -30,7 +30,9 @@
     "react-instantsearch": "^7.9.0",
     "react-quill": "^2.0.0",
     "react-snap": "^1.23.0",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "rxdb": "^15.31.1",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

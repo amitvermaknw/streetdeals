@@ -15,7 +15,7 @@ const SignInWithGoogle = () => {
         if (result) {
             const redirectTo = new URLSearchParams(location.search).get('redirect');
             navigate(redirectTo || '/');
-            window.location.reload();
+            //window.location.reload();
         }
 
     };
