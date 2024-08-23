@@ -254,11 +254,11 @@ const PDetails = () => {
                         </div>
                     </div>
                 </div>
-                <hr className="mt-4 mb-4"></hr>
-                <DealsReviews />
+                <hr className="mt-12 mb-4"></hr>
+                <DealsReviews getReview={getReview} prstate={prstate} />
                 {/* <hr className="mt-8 mb-2"></hr> */}
                 <AddDealsReview addReview={addReview} pId={pstate.pid} />
-                <hr className="mt-8 mb-2"></hr>
+                <hr className="mt-8 mb-4"></hr>
                 <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />
     )

@@ -4,14 +4,15 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
 
-export const userAuthValidate = async (token: string): Promise<boolean> => {
+export const userAuthValidate = async (token: string, email: string): Promise<boolean> => {
     try {
         const headers = {
             headers: {
-                authorization: token
+                authorization: token,
+                email: email
             }
         }
-        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${baseUrl}/auth/validate`, headers);
+        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${baseUrl}/users/auth/validate`, headers);
         if (result.status === 200) {
             return true;
         } else {

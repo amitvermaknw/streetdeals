@@ -3,7 +3,7 @@
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
 import { DealsReview } from '../../../../utils/Interface';
-import { fetchDealsReview } from './helper/cacheDealsReview';
+import { fetchDealsReview, insertDealsReview } from './helper/cacheDealsReview';
 import { DealsReviewInt } from '../interface/dreviews';
 
 const mode = import.meta.env;
@@ -31,20 +31,21 @@ export const getDealsReview = async (deals: DealsReviewInt, _db: unknown): Promi
     }
 }
 
-export const addDealsReview = async (payload: DealsReview, _db: any): Promise<string> => {
+export const addDealsReview = async (payload: DealsReview, _db: any): Promise<boolean> => {
     try {
         const matchingDocs = await _db.userToken.find().exec();
-        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs.accessToken } });
+        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
         if (result.status === 200) {
-            return result.data as unknown as string;
+            await insertDealsReview(_db, payload);
+            return true;
         } else {
             toast.error(result.statusText);
-            return result.data as unknown as string;
+            return false;
         }
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);
         }
-        return 'error';
+        return false;
     }
 }

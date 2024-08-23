@@ -48,7 +48,7 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
         try {
             const userObject = await signInWithPopup(auth, googleProvider);
             const token = await userObject.user.getIdToken();
-            const result = await isUserValid(token);
+            const result = await isUserValid(token, userObject.user.email ? userObject.user.email : '');
             if (result) {
                 const dbResponse = await addLoggedInUser(userObject.user);
                 if (dbResponse === true) {

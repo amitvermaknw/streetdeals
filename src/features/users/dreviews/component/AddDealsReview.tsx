@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { DealsReview } from '../../../../utils/Interface';
 import { DbContext } from '../../../../providers/DBProvider';
 import { uid } from '../../../../utils/Uid';
-import { UserToken } from '../../../authentication/Interface/userTokenInterface';
+// import { UserToken } from '../../../authentication/Interface/userTokenInterface';
 import SignupWithGoogleDialog from '../../signup/component/SignupWithGoogleDialog';
 
 interface ReviewRed {
@@ -45,8 +45,8 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
         const payload: DealsReview = {
             comments: comments,
             comId: uid(),
-            uId: userToken ? userToken[0].uId : '',
-            userName: userToken ? userToken[0].displayName : '',
+            uId: userToken ? userToken[0]._data.uId : '',
+            userName: userToken ? userToken[0]._data.displayName : '',
             dealsId: pId
         }
         await addReview(payload)

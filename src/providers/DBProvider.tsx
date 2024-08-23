@@ -1,7 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { createRxDatabase, RxDatabase } from 'rxdb';
-import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
+import { createRxDatabase, RxDatabase, addRxPlugin } from 'rxdb';
+// import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
+import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
+import { getRxStorageMemory } from 'rxdb/plugins/storage-memory';
 
+addRxPlugin(RxDBQueryBuilderPlugin);
 
 interface DbContextType {
     db: RxDatabase | null;
@@ -14,14 +17,16 @@ const DbProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const initDb = async () => {
             const dbStore = await createRxDatabase({
-                name: 'dealsburststore',
-                storage: getRxStorageDexie(),
-                ignoreDuplicate: true
+                name: 'dealsburstlocaldb',
+                //storage: getRxStorageDexie(),
+                storage: getRxStorageMemory(),
+                ignoreDuplicate: false
             });
             setDb(dbStore);
         };
-
-        initDb();
+        if (Object.keys(db?.collections ? db?.collections : {}).length === 0) {
+            initDb();
+        }
     }, []);
 
     return (

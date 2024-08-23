@@ -4,10 +4,10 @@ import { DealsReview } from "../../../../../utils/Interface";
 export const insertDealsReview = async (db: any, data: DealsReview): Promise<boolean> => {
     const matchingDocs = await db.dealsReview
         .find()
-        .where('userid')
-        .eq(data.userid)
-        .where('dealsid')
-        .eq(data.dealsid)
+        .where('uId')
+        .eq(data.uId)
+        .where('dealsId')
+        .eq(data.dealsId)
         .exec();
 
     if (matchingDocs.length === 0) {

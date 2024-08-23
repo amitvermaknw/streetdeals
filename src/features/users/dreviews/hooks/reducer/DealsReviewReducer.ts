@@ -2,7 +2,7 @@ import { GET_REVIWS } from "../../../../../utils/Constants";
 import { DealsReview } from "../../../../../utils/Interface";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DealsReviewReducer = (state: DealsReview, action: any): DealsReview => {
+const DealsReviewReducer = (state: Array<DealsReview>, action: any): Array<DealsReview> => {
     const new_state = JSON.parse(JSON.stringify(state))
 
     switch (action.type) {

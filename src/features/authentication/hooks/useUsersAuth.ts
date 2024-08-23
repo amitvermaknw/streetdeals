@@ -4,9 +4,9 @@ import { userAuthValidate, addUserInfo } from "../services/userAuthService";
 
 export const useUsersAuth = () => {
 
-    const isUserValid = async (authToken: string): Promise<boolean | { error: string }> => {
+    const isUserValid = async (authToken: string, email: string): Promise<boolean | { error: string }> => {
         try {
-            return await userAuthValidate(authToken);
+            return await userAuthValidate(authToken, email);
         } catch (error) {
             if (error instanceof Error) {
                 return { error: error.message };

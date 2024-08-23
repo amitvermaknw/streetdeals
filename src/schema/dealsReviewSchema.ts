@@ -1,27 +1,27 @@
 export const dealsReviewSchema = {
     version: 0,
-    primaryKey: 'userid',
+    primaryKey: 'uId',
     type: 'object',
     properties: {
-        userid: {
+        uId: {
             type: 'string',
             maxLength: 5000
         },
-        username: {
+        userName: {
             type: 'string'
         },
-        startdate: {
+        startDate: {
             type: 'date'
         },
         comments: {
-            type: 'boolean'
+            type: 'string'
         },
-        dealsid: {
+        dealsId: {
             type: 'string'
         },
         helpful: {
             type: 'string'
         }
     },
-    required: ['userid', 'username', 'dealsid']
+    required: ['uId', 'userName', 'dealsId']
 }
