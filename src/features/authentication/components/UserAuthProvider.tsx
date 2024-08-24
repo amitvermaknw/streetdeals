@@ -42,9 +42,10 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         })
                     }
                 } catch (error) {
-                    console.log(error);
                     if (localDb?.db?.collections['userToken']) {
                         localDb?.db?.userToken.remove();
+                    } else {
+                        await localDb?.db?.remove();
                     }
                 }
             }

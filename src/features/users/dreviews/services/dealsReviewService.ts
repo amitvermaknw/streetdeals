@@ -9,9 +9,16 @@ import { GetDealsReviewInterface } from '../../../../Interface/DealsReviewInterf
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
 
-export const getDealsReview = async (deals: GetDealsReviewInterface, _db: unknown): Promise<Array<DealsReview> | Array<[]>> => {
+export const getDealsReview = async (deals: GetDealsReviewInterface, _db: any): Promise<Array<DealsReview> | Array<[]>> => {
     try {
-        const result: AxiosResponse<Array<DealsReview>> = await axios.get<Array<DealsReview>>(`${baseUrl}/deals/review/${deals.userId}/${deals.dealsId}/${deals.page}`);
+        const matchingDocs = await _db.userToken.find().exec();
+        const payload = {
+            userId: deals.userId,
+            dealsId: deals.dealsId,
+            page: deals.page,
+            state: deals.state
+        }
+        const result: AxiosResponse<Array<DealsReview>> = await axios.post<Array<DealsReview>>(`${baseUrl}/deals/comments`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
         if (result.status === 200) {
             return result.data;
         } else {

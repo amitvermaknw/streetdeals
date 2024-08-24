@@ -7,7 +7,7 @@ import { DbContext } from "../../../../providers/DBProvider";
 interface ReviewRed {
     getReview: (param: GetDealsReviewInterface) => void;
     prstate: Array<DealsReview>,
-    dealsId: string
+    dealsId: string,
 }
 
 const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
@@ -21,7 +21,7 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
                 console.log(matchingDocs);
                 if (matchingDocs.length > 0) {
                     const firstDoc = matchingDocs[0]
-                    getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId });
+                    getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId, state: 'start' });
                 }
             }
         }
@@ -34,7 +34,7 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
             <h1 className="mb-4 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Comments</h1>
 
             <hr className="mt-2 mb-2"></hr>
-            {prstate ? prstate.map(item => <DealsReviewsList {...item} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
+            {prstate.length ? prstate.map(item => <DealsReviewsList {...item} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
         </div>
     )
 }

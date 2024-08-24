@@ -2,9 +2,10 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 import { createRxDatabase, RxDatabase, addRxPlugin } from 'rxdb';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
-// import { getRxStorageMemory } from 'rxdb/plugins/storage-memory';
+import { RxDBMigrationSchemaPlugin } from 'rxdb/plugins/migration-schema';
 
 addRxPlugin(RxDBQueryBuilderPlugin);
+addRxPlugin(RxDBMigrationSchemaPlugin);
 
 interface DbContextType {
     db: RxDatabase | null;
