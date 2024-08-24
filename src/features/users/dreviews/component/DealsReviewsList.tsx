@@ -2,7 +2,7 @@ import { DealsReview } from "../../../../utils/Interface";
 
 const DealsReviewsList = (prstate: DealsReview) => {
     return (
-        prstate ? <article className="p-4">
+        prstate ? <article className="p-4" key={`${new Date().getMilliseconds()}_${prstate.comId}`}>
             <div className="flex items-center mb-4">
                 {/* <img className="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="" /> */}
                 <div className="w-10 h-10 me-4 rounded-full">

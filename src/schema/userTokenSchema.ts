@@ -1,5 +1,5 @@
 export const userTokenSchema = {
-    version: 0,
+    version: 1,
     primaryKey: 'accessToken',
     type: 'object',
     properties: {
@@ -25,6 +25,9 @@ export const userTokenSchema = {
         timestamp: {
             type: 'string',
             format: 'date-time'
+        },
+        uId: {
+            type: 'string'
         }
     },
     required: ['accessToken', 'displayName', 'email', 'emailVerified']

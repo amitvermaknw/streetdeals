@@ -16,10 +16,16 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
     const [signUpDialog, setSignUpDialog] = useState(false);
 
     const checkLoggedInStatus = async () => {
-        const userToken = await localDb?.db?.userToken.find().exec();
-        if (userToken?.length === 0) {
+
+        if (localDb?.db?.collections['userToken']) {
+            const userToken = await localDb?.db?.userToken.find().exec();
+            if (userToken?.length === 0) {
+                setSignUpDialog(true);
+            }
+        } else {
             setSignUpDialog(true);
         }
+
     }
 
     const onSignupDialogCancel = () => {

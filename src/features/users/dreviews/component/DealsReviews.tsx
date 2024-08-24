@@ -6,21 +6,22 @@ import { DbContext } from "../../../../providers/DBProvider";
 
 interface ReviewRed {
     getReview: (param: GetDealsReviewInterface) => void;
-    prstate: Array<DealsReview>
+    prstate: Array<DealsReview>,
+    dealsId: string
 }
 
-const DealsReviews = ({ getReview, prstate }: ReviewRed) => {
+const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
 
     const localDb = useContext(DbContext);
 
     useEffect(() => {
         async function fetchReview() {
-            if (localDb?.db?.collections['dealsReview']) {
-                const matchingDocs = await localDb?.db?.dealsReview.find().exec();
+            if (localDb?.db?.collections['userToken']) {
+                const matchingDocs = await localDb?.db?.userToken.find().exec();
                 console.log(matchingDocs);
                 if (matchingDocs.length > 0) {
                     const firstDoc = matchingDocs[0]
-                    getReview({ page: 5, userId: firstDoc?.uId, dealsId: firstDoc?.dealsId });
+                    getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId });
                 }
             }
         }
@@ -33,7 +34,7 @@ const DealsReviews = ({ getReview, prstate }: ReviewRed) => {
             <h1 className="mb-4 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Comments</h1>
 
             <hr className="mt-2 mb-2"></hr>
-            {prstate ? prstate.map(item => <DealsReviewsList {...item} />) : ''}
+            {prstate ? prstate.map(item => <DealsReviewsList {...item} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
         </div>
     )
 }

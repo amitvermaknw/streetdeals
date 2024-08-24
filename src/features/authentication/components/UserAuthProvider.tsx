@@ -33,11 +33,20 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
     useEffect(() => {
         async function setSchema() {
             if (localDb?.db) {
-                await localDb?.db.addCollections({
-                    userToken: {
-                        schema: userTokenSchema
+                try {
+                    if (!localDb?.db?.collections['userToken']) {
+                        await localDb?.db.addCollections({
+                            userToken: {
+                                schema: userTokenSchema
+                            }
+                        })
                     }
-                })
+                } catch (error) {
+                    console.log(error);
+                    if (localDb?.db?.collections['userToken']) {
+                        localDb?.db?.userToken.remove();
+                    }
+                }
             }
         }
 
@@ -62,9 +71,12 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         uId: userObject.user.uid
                     }
 
-                    await localDb?.db?.userToken.insert({
-                        ...userInfoObj
-                    })
+                    if (localDb?.db?.collections['userToken']) {
+                        await localDb?.db?.userToken.insert({
+                            ...userInfoObj
+                        })
+                    }
+
                     setUserInfo(JSON.stringify(userInfoObj))
                     return true;
                 } else {
