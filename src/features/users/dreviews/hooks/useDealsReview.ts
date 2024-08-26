@@ -1,5 +1,5 @@
 import { useContext, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { DealsReview } from "../../../../utils/Interface";
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview } from "../services/dealsReviewService";
@@ -12,7 +12,6 @@ import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterf
 const useDealsReview = (initState: Array<DealsReview>) => {
 
     const [prstate, dispatch] = useReducer(DealsReviewReducer, initState);
-    const navigate = useNavigate();
     const localDb = useContext(DbContext);
 
     // useEffect(() => {
@@ -33,10 +32,8 @@ const useDealsReview = (initState: Array<DealsReview>) => {
 
     const getReview = async (dealsReq: GetDealsReviewInterface) => {
         const result = await getDealsReview(dealsReq, localDb?.db);
-        if (result) {
+        if (result.length) {
             dispatch({ type: GET_REVIWS, content: result, });
-        } else {
-            navigate('/404');
         }
     }
 

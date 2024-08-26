@@ -46,8 +46,6 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
         event.preventDefault();
 
         const userToken = await localDb?.db?.userToken.find().exec();
-        console.log(userToken ? userToken[0].email : '');
-
         const payload: DealsReview = {
             comments: comments,
             comId: uid(),

@@ -18,8 +18,8 @@ function App() {
   return (
     <>
       <React.Suspense fallback="...Loading">
-        <BrowserRouter>
-          <DbProvider>
+        <DbProvider>
+          <BrowserRouter>
             <UserAuthProvider>
               <AdminAuthProvider>
                 <ToastContainer
@@ -37,8 +37,8 @@ function App() {
                 <Router />
               </AdminAuthProvider>
             </UserAuthProvider>
-          </DbProvider>
-        </BrowserRouter>
+          </BrowserRouter>
+        </DbProvider>
       </React.Suspense>
     </>
   )

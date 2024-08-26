@@ -53,17 +53,22 @@ const Header = (props: Props) => {
         //     const userInfoObject = JSON.parse(userInfo) as UserInfo;
         //     setLoggedInUser(userInfoObject);
         // }
-        if (!localDb?.db?.userToken) return;
+        // if (!localDb?.db?.userToken) return;
 
-        const subscription = localDb?.db.userToken.findOne().$.subscribe((user) => {
-            if (user) {
-                setLoggedInUser(user);
+        const fetchUserSchema = async () => {
+            const userSchema = await userAuth.setUserSchema();
+            if (userSchema) {
+                const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
+                    if (user) {
+                        setLoggedInUser(user);
+                    }
+                });
+
+                return () => subscription.unsubscribe();
             }
-        });
-
-        return () => subscription.unsubscribe();
-
-    }, [localDb?.db?.userToken])
+        };
+        fetchUserSchema();
+    }, [localDb?.db]);
 
     return (<>
         <nav className="bg-gray-800">

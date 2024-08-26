@@ -34,7 +34,6 @@ function Router() {
                         <Route path="/dashboard" element={<Suspense fallback={<Skeleton />}><Deals /></Suspense>}></Route>
                     </Route>
                     <Route path="*" element={<Suspense fallback={<Skeleton />}><PageNotfound /></Suspense>}></Route>
-
                 </Routes>
             </div>
             <Footer />

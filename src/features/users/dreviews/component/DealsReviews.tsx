@@ -18,7 +18,6 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
         async function fetchReview() {
             if (localDb?.db?.collections['userToken']) {
                 const matchingDocs = await localDb?.db?.userToken.find().exec();
-                console.log(matchingDocs);
                 if (matchingDocs.length > 0) {
                     const firstDoc = matchingDocs[0]
                     getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId, state: 'start' });
@@ -30,12 +29,12 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
     }, []);
 
     return (
-        <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-md">
+        prstate.length ? <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-md">
             <h1 className="mb-4 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Comments</h1>
 
             <hr className="mt-2 mb-2"></hr>
             {prstate.length ? prstate.map(item => <DealsReviewsList {...item} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
-        </div>
+        </div> : ''
     )
 }
 

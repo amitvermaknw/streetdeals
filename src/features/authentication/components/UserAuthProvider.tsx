@@ -8,17 +8,20 @@ import { useUsersAuth } from '../hooks/useUsersAuth';
 import { DbContext } from "../../../providers/DBProvider";
 import { userTokenSchema } from "../../../schema/userTokenSchema";
 import { UserToken } from "../Interface/userTokenInterface";
+import { RxDatabase } from 'rxdb';
 
 interface AuthContextType {
     userInfo: string;
     signIn: () => Promise<boolean>;
     logOut: () => void;
+    setUserSchema: () => Promise<RxDatabase | null | undefined>;
 }
 
 const defaultValue = {
     userInfo: '',
     signIn: (): Promise<boolean> => Promise.resolve(false),
-    logOut: () => { }
+    logOut: () => { },
+    setUserSchema: (): Promise<RxDatabase | null | undefined> => Promise.resolve(undefined)
 };
 
 export const UserAuthContext = createContext<AuthContextType>(defaultValue);
@@ -106,8 +109,29 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
         toast("Logged out successfully");
     }
 
+    const setUserSchema = async (): Promise<RxDatabase | null | undefined> => {
+        if (localDb?.db) {
+            try {
+                if (!localDb?.db?.collections['userToken']) {
+                    await localDb?.db.addCollections({
+                        userToken: {
+                            schema: userTokenSchema
+                        }
+                    })
+                }
+            } catch (error) {
+                if (localDb?.db?.collections['userToken']) {
+                    await localDb?.db?.userToken.remove();
+                } else {
+                    await localDb?.db?.remove();
+                }
+            }
+        }
+        return localDb?.db
+    }
+
     return (
-        <UserAuthContext.Provider value={{ userInfo, signIn, logOut }}>
+        <UserAuthContext.Provider value={{ userInfo, signIn, logOut, setUserSchema }}>
             {children}
         </UserAuthContext.Provider>
     )
