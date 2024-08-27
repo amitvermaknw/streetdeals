@@ -44,8 +44,14 @@ const useDealsReview = (initState: Array<DealsReview>) => {
         }
     }
 
+    const helpfulWidget = async (payload: DealsReview) => {
+        const result = await addDealsReview(payload, localDb?.db);
+        if (result) {
+            dispatch({ type: ADD_REVIWS, content: [payload] })
+        }
+    }
 
-    return [prstate, getReview, addReview] as const;
+    return [prstate, getReview, addReview, helpfulWidget] as const;
 };
 
 export default useDealsReview;

@@ -17,7 +17,7 @@ const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
     const { pid } = useParams();
     const navigate = useNavigate();
-    const [prstate, getReview, addReview] = useDealsReview(GetDealsReviewModel);
+    const [prstate, getReview, addReview, helpfulWidget] = useDealsReview(GetDealsReviewModel);
 
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
@@ -255,7 +255,7 @@ const PDetails = () => {
                     </div>
                 </div>
                 <hr className="mt-12 mb-4"></hr>
-                <DealsReviews getReview={getReview} prstate={prstate} dealsId={pstate.pid} />
+                <DealsReviews getReview={getReview} prstate={prstate} dealsId={pstate.pid} helpfulWidget={helpfulWidget} />
                 {/* <hr className="mt-8 mb-2"></hr> */}
                 <AddDealsReview addReview={addReview} pId={pstate.pid} />
                 <hr className="mt-8 mb-4"></hr>

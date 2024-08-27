@@ -8,9 +8,10 @@ interface ReviewRed {
     getReview: (param: GetDealsReviewInterface) => void;
     prstate: Array<DealsReview>,
     dealsId: string,
+    helpfulWidget: (payload: DealsReview) => void;
 }
 
-const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
+const DealsReviews = ({ getReview, prstate, dealsId, helpfulWidget }: ReviewRed) => {
     const localDb = useContext(DbContext);
 
     useEffect(() => {
@@ -32,7 +33,7 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
             <h1 className="mb-4 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Comments</h1>
 
             <hr className="mt-2 mb-2"></hr>
-            {prstate.length ? prstate.map(item => <DealsReviewsList {...item} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
+            {prstate.length ? prstate.map(item => <DealsReviewsList prstate={item} helpful={helpfulWidget} key={`${new Date().getMilliseconds()}_${item.comId}`} />) : ''}
         </div> : ''
     )
 }

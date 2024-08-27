@@ -1,7 +1,14 @@
+import { useEffect, useState } from "react";
 import ReadMore from "../../../../common/ReadMore";
 import { DealsReview } from "../../../../utils/Interface";
 
-const DealsReviewsList = (prstate: DealsReview) => {
+
+const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful: (payload: DealsReview) => void }) => {
+
+    const [helpfulBtnState, setHelpfulBtnState] = useState(prstate.helpful as boolean || false);
+    const [totalHelpful, setTotalHelpful] = useState(prstate.totalHelpful as number);
+    const [updateHelpful, setUpdateHelpful] = useState(false);
+
 
     const getJoiningDate = (date: string | null) => {
         if (date) {
@@ -10,6 +17,26 @@ const DealsReviewsList = (prstate: DealsReview) => {
         }
         return null
     }
+
+    const helpfulWidgetFun = () => {
+        setHelpfulBtnState((prevState) => {
+            if (prevState) {
+                setTotalHelpful((previous) => previous ? previous + 1 : 1);
+            } else {
+                setTotalHelpful((previous) => previous ? previous - 1 : 1);
+            }
+            return !prevState;
+        });
+
+        setUpdateHelpful(true);
+    }
+
+    useEffect(() => {
+        if (totalHelpful && updateHelpful) {
+            helpful({ ...prstate, helpful: helpfulBtnState, totalHelpful: totalHelpful });
+        }
+    }, [totalHelpful, updateHelpful])
+
     return (
         prstate ? <article className="p-4" key={`${new Date().getMilliseconds()}_${prstate.comId}`}>
             <div className="flex items-center mb-4">
@@ -47,13 +74,17 @@ const DealsReviewsList = (prstate: DealsReview) => {
             <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a> */}
             <ReadMore content={prstate.comments} />
             <aside>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
+                {helpfulBtnState ? <p className="mt-8 text-xs text-gray-500 dark:text-gray-400">{totalHelpful} people found this helpful</p> : ''}
                 <div className="flex items-center mt-3">
-                    <a href="#" className="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Helpful</a>
+                    <a
+                        onClick={() => helpfulWidgetFun()}
+                        className="px-2 py-1 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        Helpful
+                    </a>
                     {/* <a href="#" className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a> */}
                 </div>
             </aside>
-            <hr className="mt-8 mb-2"></hr>
+            <hr className="mt-4 mb-2"></hr>
 
         </article> : ''
     )
