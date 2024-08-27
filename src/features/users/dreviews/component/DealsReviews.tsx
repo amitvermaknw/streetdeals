@@ -11,7 +11,6 @@ interface ReviewRed {
 }
 
 const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
-
     const localDb = useContext(DbContext);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ const DealsReviews = ({ getReview, prstate, dealsId }: ReviewRed) => {
             if (localDb?.db?.collections['userToken']) {
                 const matchingDocs = await localDb?.db?.userToken.find().exec();
                 if (matchingDocs.length > 0) {
-                    const firstDoc = matchingDocs[0]
+                    const firstDoc = matchingDocs[0];
                     getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId, state: 'start' });
                 }
             }

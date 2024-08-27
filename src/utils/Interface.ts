@@ -35,5 +35,7 @@ export interface DealsReview {
     startDate?: Date,
     comments: string,
     dealsId: string,
-    helpful?: number
+    helpful?: number,
+    joinedOn?: string,
+    photoUrl?: string,
 }

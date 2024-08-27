@@ -59,8 +59,7 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
     return (
         <>
             <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 pt-6 shadow-md mt-8">
-                <h1 className="mb-4 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Post Comments</h1>
-                <hr className="mt-2 mb-2"></hr>
+                <h1 className="mb-2 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Post Comment</h1>
                 <form className="p-2" onSubmit={submitReview}>
                     <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                         <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">

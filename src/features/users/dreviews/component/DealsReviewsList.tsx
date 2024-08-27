@@ -1,17 +1,27 @@
+import ReadMore from "../../../../common/ReadMore";
 import { DealsReview } from "../../../../utils/Interface";
 
 const DealsReviewsList = (prstate: DealsReview) => {
+
+    const getJoiningDate = (date: string | null) => {
+        if (date) {
+            const joinDate = new Date(date);
+            return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(joinDate);
+        }
+        return null
+    }
     return (
         prstate ? <article className="p-4" key={`${new Date().getMilliseconds()}_${prstate.comId}`}>
             <div className="flex items-center mb-4">
-                {/* <img className="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="" /> */}
                 <div className="w-10 h-10 me-4 rounded-full">
-                    <svg width="40px" height="40px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                    {prstate.photoUrl ? <>
+                        <img className="w-10 h-10 me-4 rounded-full" src={prstate.photoUrl} alt="" />
+                    </> : <svg width="40px" height="40px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#494c4e" d="M9 0a9 9 0 0 0-9 9 8.654 8.654 0 0 0 .05.92 9 9 0 0 0 17.9 0A8.654 8.654 0 0 0 18 9a9 9 0 0 0-9-9zm5.42 13.42c-.01 0-.06.08-.07.08a6.975 6.975 0 0 1-10.7 0c-.01 0-.06-.08-.07-.08a.512.512 0 0 1-.09-.27.522.522 0 0 1 .34-.48c.74-.25 1.45-.49 1.65-.54a.16.16 0 0 1 .03-.13.49.49 0 0 1 .43-.36l1.27-.1a2.077 2.077 0 0 0-.19-.79v-.01a2.814 2.814 0 0 0-.45-.78 3.83 3.83 0 0 1-.79-2.38A3.38 3.38 0 0 1 8.88 4h.24a3.38 3.38 0 0 1 3.1 3.58 3.83 3.83 0 0 1-.79 2.38 2.814 2.814 0 0 0-.45.78v.01a2.077 2.077 0 0 0-.19.79l1.27.1a.49.49 0 0 1 .43.36.16.16 0 0 1 .03.13c.2.05.91.29 1.65.54a.49.49 0 0 1 .25.75z" />
-                    </svg>
+                    </svg>}
                 </div>
                 <div className="font-medium dark:text-white">
-                    <p>{prstate.userName} <time dateTime="2014-08-16 19:00" className="block text-sm text-gray-500 dark:text-gray-400">Joined on August 2014</time></p>
+                    <p>{prstate.userName} {prstate?.joinedOn ? <time dateTime="2014-08-16 19:00" className="block text-sm text-gray-500 dark:text-gray-400">Joined on {getJoiningDate(prstate?.joinedOn ? prstate.joinedOn : null)}</time> : ''}</p>
                 </div>
             </div>
             {/* <div className="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
@@ -33,8 +43,9 @@ const DealsReviewsList = (prstate: DealsReview) => {
                 <h3 className="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to buy another one!</h3>
             </div>
             <footer className="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>Reviewed in the United Kingdom on <time dateTime="2017-03-03 19:00">March 3, 2017</time></p></footer> */}
-            <p className="mb-2 text-gray-500 text-sm dark:text-gray-400">{prstate.comments}</p>
-            <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
+            {/* <p className="mb-2 text-gray-500 text-sm dark:text-gray-400">{prstate.comments} fdfd fdadsfdsfsdfd</p>
+            <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a> */}
+            <ReadMore content={prstate.comments} />
             <aside>
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
                 <div className="flex items-center mt-3">
@@ -42,6 +53,8 @@ const DealsReviewsList = (prstate: DealsReview) => {
                     {/* <a href="#" className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a> */}
                 </div>
             </aside>
+            <hr className="mt-8 mb-2"></hr>
+
         </article> : ''
     )
 }
