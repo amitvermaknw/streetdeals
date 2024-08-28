@@ -28,15 +28,3 @@ export interface SelectInputInterfaceProps {
     alert?: string;
 }
 
-export interface DealsReview {
-    comId: string,
-    uId: string,
-    userName: string,
-    startDate?: Date,
-    comments: string,
-    dealsId: string,
-    helpful?: boolean,
-    joinedOn?: string,
-    photoUrl?: string,
-    totalHelpful?: number
-}

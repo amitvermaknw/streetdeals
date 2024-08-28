@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { DealsReview } from '../../../../utils/Interface';
+import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import { DbContext } from '../../../../providers/DBProvider';
 import { uid } from '../../../../utils/Uid';
 // import { UserToken } from '../../../authentication/Interface/userTokenInterface';

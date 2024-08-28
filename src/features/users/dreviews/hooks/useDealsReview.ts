@@ -1,6 +1,6 @@
 import { useContext, useReducer } from "react";
 // import { useNavigate } from "react-router-dom";
-import { DealsReview } from "../../../../utils/Interface";
+import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview } from "../services/dealsReviewService";
 import { ADD_REVIWS, GET_REVIWS } from "../../../../utils/Constants";
@@ -45,9 +45,18 @@ const useDealsReview = (initState: Array<DealsReview>) => {
     }
 
     const helpfulWidget = async (payload: DealsReview) => {
-        const result = await addDealsReview(payload, localDb?.db);
-        if (result) {
-            dispatch({ type: ADD_REVIWS, content: [payload] })
+        if (payload.callType === 'add') {
+            delete payload.callType;
+            const result = await addDealsReview(payload, localDb?.db);
+            if (result) {
+                dispatch({ type: ADD_REVIWS, content: [payload] })
+            }
+        } else if (payload.callType === 'update') {
+            delete payload.callType;
+            const result = await addDealsReview(payload, localDb?.db);
+            if (result) {
+                dispatch({ type: ADD_REVIWS, content: [payload] })
+            }
         }
     }
 

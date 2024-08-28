@@ -6,20 +6,14 @@ import logo from '../assets/db_logo.svg'
 import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 import { useUserContext } from '../features/authentication/hooks/useUserContext';
 import { DbContext } from "../providers/DBProvider";
+import { UserInfo } from '../type/UserType';
 
 
 type Props = {
     onSubscribe: () => void
 }
 
-type UserInfo = {
-    accessToken: string,
-    displayName: string,
-    email: string,
-    emailVerified: boolean,
-    phoneNumber: string,
-    photoURL: string,
-}
+
 
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);

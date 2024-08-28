@@ -2,8 +2,7 @@
 
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
-import { DealsReview } from '../../../../utils/Interface';
-// import { fetchDealsReview, insertDealsReview } from './helper/cacheDealsReview';
+import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import { GetDealsReviewInterface } from '../../../../Interface/DealsReviewInterface';
 
 const mode = import.meta.env;
@@ -39,6 +38,24 @@ export const addDealsReview = async (payload: DealsReview, _db: any): Promise<bo
         const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
         if (result.status === 200) {
             // await insertDealsReview(_db, payload);
+            return true;
+        } else {
+            toast.error(result.statusText);
+            return false;
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+        }
+        return false;
+    }
+}
+
+export const updateDealsReview = async (payload: DealsReview, _db: any): Promise<boolean> => {
+    try {
+        const matchingDocs = await _db.userToken.find().exec();
+        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review/update`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
+        if (result.status === 200) {
             return true;
         } else {
             toast.error(result.statusText);

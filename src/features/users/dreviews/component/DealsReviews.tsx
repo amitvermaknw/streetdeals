@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
-import { DealsReview } from "../../../../utils/Interface";
 import DealsReviewsList from "./DealsReviewsList";
-import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterface";
+import { GetDealsReviewInterface, DealsReview } from "../../../../Interface/DealsReviewInterface";
 import { DbContext } from "../../../../providers/DBProvider";
 
 interface ReviewRed {

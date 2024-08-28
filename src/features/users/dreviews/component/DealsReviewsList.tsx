@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import ReadMore from "../../../../common/ReadMore";
-import { DealsReview } from "../../../../utils/Interface";
-
+import { DealsReview } from "../../../../Interface/DealsReviewInterface";
+import { UserInfo } from "../../../../type/UserType";
+import { useUserContext } from "../../../authentication/hooks/useUserContext";
 
 const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful: (payload: DealsReview) => void }) => {
-
     const [helpfulBtnState, setHelpfulBtnState] = useState(prstate.helpful as boolean || false);
     const [totalHelpful, setTotalHelpful] = useState(prstate.totalHelpful as number);
     const [updateHelpful, setUpdateHelpful] = useState(false);
-
+    const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
+    const userAuth = useUserContext();
 
     const getJoiningDate = (date: string | null) => {
         if (date) {
@@ -20,10 +21,10 @@ const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful:
 
     const helpfulWidgetFun = () => {
         setHelpfulBtnState((prevState) => {
-            if (prevState) {
+            if (!prevState) {
                 setTotalHelpful((previous) => previous ? previous + 1 : 1);
             } else {
-                setTotalHelpful((previous) => previous ? previous - 1 : 1);
+                setTotalHelpful((previous) => previous ? previous - 1 : 0);
             }
             return !prevState;
         });
@@ -32,10 +33,28 @@ const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful:
     }
 
     useEffect(() => {
-        if (totalHelpful && updateHelpful) {
-            helpful({ ...prstate, helpful: helpfulBtnState, totalHelpful: totalHelpful });
+        if (!helpfulBtnState && updateHelpful) {
+            helpful({ ...prstate, helpful: helpfulBtnState, totalHelpful: totalHelpful, callType: 'update' });
+        } else if (totalHelpful >= 0 && updateHelpful) {
+            helpful({ ...prstate, helpful: helpfulBtnState, totalHelpful: totalHelpful, callType: 'add' });
         }
-    }, [totalHelpful, updateHelpful])
+    }, [totalHelpful, updateHelpful]);
+
+    useEffect(() => {
+        const fetchUserSchema = async () => {
+            const userSchema = await userAuth.setUserSchema();
+            if (userSchema) {
+                const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
+                    if (user) {
+                        setLoggedInUser(user);
+                    }
+                });
+
+                return () => subscription.unsubscribe();
+            }
+        };
+        fetchUserSchema();
+    }, []);
 
     return (
         prstate ? <article className="p-4" key={`${new Date().getMilliseconds()}_${prstate.comId}`}>
@@ -74,11 +93,11 @@ const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful:
             <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a> */}
             <ReadMore content={prstate.comments} />
             <aside>
-                {helpfulBtnState ? <p className="mt-8 text-xs text-gray-500 dark:text-gray-400">{totalHelpful} people found this helpful</p> : ''}
+                <p className="mt-8 text-xs text-gray-500 dark:text-gray-400">{helpfulBtnState ? `${totalHelpful} people found this helpful` : ''} </p>
                 <div className="flex items-center mt-3">
                     <a
                         onClick={() => helpfulWidgetFun()}
-                        className="px-2 py-1 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        className={` ${(loggedInUser?.uId === prstate.uId && !helpfulBtnState) ? 'px-2 py-1 text-xs font-medium text-gray-900 bg-white rounded-lg border border-gray-200 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700' : 'px-2 py-1 text-xs font-medium text-blue-700 bg-gray-100 rounded-lg border border-gray-200 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'}   `}>
                         Helpful
                     </a>
                     {/* <a href="#" className="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a> */}
