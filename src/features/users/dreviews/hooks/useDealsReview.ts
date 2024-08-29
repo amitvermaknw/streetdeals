@@ -3,7 +3,7 @@ import { useContext, useReducer } from "react";
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview } from "../services/dealsReviewService";
-import { ADD_REVIWS, GET_REVIWS } from "../../../../utils/Constants";
+import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS } from "../../../../utils/Constants";
 import { DbContext } from "../../../../providers/DBProvider";
 // import { dealsReviewSchema } from "../../../../schema/dealsReviewSchema";
 import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterface";
@@ -45,18 +45,9 @@ const useDealsReview = (initState: Array<DealsReview>) => {
     }
 
     const helpfulWidget = async (payload: DealsReview) => {
-        if (payload.callType === 'add') {
-            delete payload.callType;
-            const result = await addDealsReview(payload, localDb?.db);
-            if (result) {
-                dispatch({ type: ADD_REVIWS, content: [payload] })
-            }
-        } else if (payload.callType === 'update') {
-            delete payload.callType;
-            const result = await addDealsReview(payload, localDb?.db);
-            if (result) {
-                dispatch({ type: ADD_REVIWS, content: [payload] })
-            }
+        const result = await addDealsReview(payload, localDb?.db);
+        if (result) {
+            dispatch({ type: ADD_HELPFUL_REVIWS, content: [payload] })
         }
     }
 

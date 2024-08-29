@@ -28,7 +28,6 @@ const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful:
             }
             return !prevState;
         });
-
         setUpdateHelpful(true);
     }
 
@@ -38,7 +37,7 @@ const DealsReviewsList = ({ prstate, helpful }: { prstate: DealsReview, helpful:
         } else if (totalHelpful >= 0 && updateHelpful) {
             helpful({ ...prstate, helpful: helpfulBtnState, totalHelpful: totalHelpful, callType: 'add' });
         }
-    }, [totalHelpful, updateHelpful]);
+    }, [helpful, helpfulBtnState, prstate, totalHelpful, updateHelpful]);
 
     useEffect(() => {
         const fetchUserSchema = async () => {

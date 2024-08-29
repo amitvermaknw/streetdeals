@@ -44,21 +44,22 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
 
     const submitReview = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        const userToken = await localDb?.db?.userToken.find().exec();
-        const payload: DealsReview = {
-            comments: comments,
-            comId: uid(),
-            uId: userToken ? userToken[0]._data.uId : '',
-            userName: userToken ? userToken[0]._data.displayName : '',
-            dealsId: pId
+        if (comments !== '') {
+            const userToken = await localDb?.db?.userToken.find().exec();
+            const payload: DealsReview = {
+                comments: comments,
+                comId: uid(),
+                uId: userToken ? userToken[0]._data.uId : '',
+                userName: userToken ? userToken[0]._data.displayName : '',
+                dealsId: pId
+            }
+            await addReview(payload)
         }
-        await addReview(payload)
     }
 
     return (
         <>
-            <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 pt-6 shadow-md mt-8">
+            <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 pt-6 shadow-md mt-8 border border-gray-100">
                 <h1 className="mb-2 ml-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Post Comment</h1>
                 <form className="p-2" onSubmit={submitReview}>
                     <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
