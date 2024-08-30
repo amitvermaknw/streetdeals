@@ -52,10 +52,11 @@ export const addDealsReview = async (payload: DealsReview, _db: any): Promise<bo
     }
 }
 
-export const updateDealsReview = async (payload: DealsReview, _db: any): Promise<boolean> => {
+export const deleteDealsReview = async (payload: DealsReview, _db: any): Promise<boolean> => {
     try {
+        delete payload.callType;
         const matchingDocs = await _db.userToken.find().exec();
-        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review/update`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
+        const result: AxiosResponse<DealsReview> = await axios.delete<DealsReview>(`${baseUrl}/deals/review/${payload.dealsId}/${payload.uId}`, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
         if (result.status === 200) {
             return true;
         } else {

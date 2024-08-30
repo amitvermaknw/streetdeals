@@ -8,18 +8,14 @@ import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
 import SecondaryButton from "../../../components/ui/SecondaryButton";
-import DealsReviews from "../../users/dreviews/component/DealsReviews";
-import AddDealsReview from "../../users/dreviews/component/AddDealsReview";
-import useDealsReview from "../../users/dreviews/hooks/useDealsReview";
-import GetDealsReviewModel from "../../../model/DealsReviewModel";
-import { DealsReview } from "../../../Interface/DealsReviewInterface";
+import PComments from "./PComments";
+
 
 const PDetails = () => {
     const [pstate, getDealDetails] = useProductDetails(GetDealsDetailModel);
     const { pid } = useParams();
     const navigate = useNavigate();
-    const [prstate, getReview, addReview, helpfulWidget] = useDealsReview(GetDealsReviewModel);
-    const [reviewComment, setReviewComment] = useState(Array<DealsReview>);
+
 
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
@@ -57,14 +53,6 @@ const PDetails = () => {
         navigate(-1);
     }
 
-    const editComment = (uId: string) => {
-        const comment = prstate.filter((item: DealsReview) => {
-            if (item.uId === uId) {
-                return item;
-            }
-        });
-        setReviewComment(comment);
-    }
 
     return (
         pstate.pname ? <>
@@ -265,10 +253,7 @@ const PDetails = () => {
                         </div>
                     </div>
                 </div>
-                {/* <hr className="mt-12 mb-4"></hr> */}
-                <DealsReviews getReview={getReview} prstate={prstate} dealsId={pstate.pid} helpfulWidget={helpfulWidget} editComment={editComment} />
-                {/* <hr className="mt-8 mb-2"></hr> */}
-                <AddDealsReview addReview={addReview} pId={pstate.pid} triggerEdit={reviewComment} />
+                <PComments {...pstate} />
                 <hr className="mt-8 mb-4"></hr>
                 <YouMayLike category={pstate.pcategory} />
             </div > </> : <Skeleton />

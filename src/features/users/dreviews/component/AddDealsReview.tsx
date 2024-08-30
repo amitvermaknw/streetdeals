@@ -53,7 +53,9 @@ const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
                 dealsId: pId,
                 callType: triggerEdit.length ? 'update' : 'add'
             }
-            await addReview(payload)
+            await addReview(payload);
+            setComments('');
+            triggerEdit.length = 0;
         }
     }
 

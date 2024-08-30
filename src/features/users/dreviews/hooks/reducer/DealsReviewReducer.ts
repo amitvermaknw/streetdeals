@@ -1,4 +1,4 @@
-import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS } from "../../../../../utils/Constants";
+import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS, REMOVE_REVIWS } from "../../../../../utils/Constants";
 import { DealsReview } from "../../../../../Interface/DealsReviewInterface";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,7 +7,7 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
 
     switch (action.type) {
         case GET_REVIWS:
-            return newState.concat(action.content[0]);
+            return newState.concat(action.content);
 
         case ADD_REVIWS: {
             if (action.content.length > 0 && 'callType' in action.content[0]) {
@@ -49,6 +49,16 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
                 }
             });
             return newState;
+        }
+
+        case REMOVE_REVIWS: {
+            const filteredState = newState.filter((item: DealsReview) => {
+                if (action.content.length > 0 && 'uId' in action.content[0]) {
+                    return !(item.uId === action.content[0].uId && item.dealsId === action.content[0].dealsId)
+                }
+                return true;
+            });
+            return filteredState;
         }
 
         default:
