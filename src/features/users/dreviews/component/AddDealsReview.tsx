@@ -7,16 +7,16 @@ import SignupWithGoogleDialog from '../../signup/component/SignupWithGoogleDialo
 
 interface ReviewRed {
     addReview: (payload: DealsReview) => void;
-    pId: string
+    pId: string,
+    triggerEdit: Array<DealsReview>
 }
 
-const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
+const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
     const localDb = useContext(DbContext);
     const [comments, setComments] = useState('');
     const [signUpDialog, setSignUpDialog] = useState(false);
 
     const checkLoggedInStatus = async () => {
-
         if (localDb?.db?.collections['userToken']) {
             const userToken = await localDb?.db?.userToken.find().exec();
             if (userToken?.length === 0) {
@@ -25,7 +25,6 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
         } else {
             setSignUpDialog(true);
         }
-
     }
 
     const onSignupDialogCancel = () => {
@@ -51,11 +50,18 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
                 comId: uid(),
                 uId: userToken ? userToken[0]._data.uId : '',
                 userName: userToken ? userToken[0]._data.displayName : '',
-                dealsId: pId
+                dealsId: pId,
+                callType: triggerEdit.length ? 'update' : 'add'
             }
             await addReview(payload)
         }
     }
+
+    useEffect(() => {
+        if (triggerEdit.length) {
+            setComments(triggerEdit[0].comments);
+        }
+    }, [triggerEdit]);
 
     return (
         <>
@@ -69,11 +75,12 @@ const AddDealsReview = ({ addReview, pId }: ReviewRed) => {
                                 className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required
                                 onChange={(event) => setComments(event.target.value)}
                                 onClick={checkLoggedInStatus}
+                                value={comments}
                             ></textarea>
                         </div>
                         <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                             <button type="submit" className="inline-flex items-center py-2 px-3 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                                Post comment
+                                {triggerEdit.length ? 'Update comment' : 'Post comment'}
                             </button>
                             {/* <div className="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
                             <button type="button" className="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">

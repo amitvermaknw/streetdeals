@@ -34,6 +34,7 @@ export const getDealsReview = async (deals: GetDealsReviewInterface, _db: any): 
 
 export const addDealsReview = async (payload: DealsReview, _db: any): Promise<boolean> => {
     try {
+        delete payload.callType;
         const matchingDocs = await _db.userToken.find().exec();
         const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
         if (result.status === 200) {
