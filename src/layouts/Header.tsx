@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { Transition } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
@@ -23,6 +23,7 @@ const Header = (props: Props) => {
     const [signUpDialog, setSignupDialog] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
     const navigate = useNavigate();
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const localDb = useContext(DbContext)
 
@@ -42,13 +43,6 @@ const Header = (props: Props) => {
     }
 
     useEffect(() => {
-        // const userInfo = userAuth.userInfo ? userAuth.userInfo : '';
-        // if (userInfo) {
-        //     const userInfoObject = JSON.parse(userInfo) as UserInfo;
-        //     setLoggedInUser(userInfoObject);
-        // }
-        // if (!localDb?.db?.userToken) return;
-
         const fetchUserSchema = async () => {
             const userSchema = await userAuth.setUserSchema();
             if (userSchema) {
@@ -63,6 +57,28 @@ const Header = (props: Props) => {
         };
         fetchUserSchema();
     }, [localDb?.db]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setProfileDropdown(false);
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.relatedTarget as Node)) {
+                setProfileDropdown(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('focusout', handleFocusOut);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('focusout', handleFocusOut);
+        };
+    }, []);
 
     return (<>
         <nav className="bg-gray-800">
@@ -191,7 +207,7 @@ const Header = (props: Props) => {
                             </button>}
 
                     </div>
-                    {profileDropdown && (<div className="absolute pt-2 pl-2 pr-2 z-50 mt-72 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                    {profileDropdown && (<div ref={dropdownRef} className="absolute pt-2 pl-2 pr-2 z-50 mt-64 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                         id="user-dropdown"
                         role="menu"
                         aria-orientation='vertical'
@@ -209,7 +225,7 @@ const Header = (props: Props) => {
                                         <Link
                                             to="/"
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                            onClick={() => setIsOpen(false)}
+                                            onClick={() => console.log("test")}
                                         >
                                             My Wishlist
                                         </Link>

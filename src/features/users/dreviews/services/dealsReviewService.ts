@@ -17,7 +17,7 @@ export const getDealsReview = async (deals: GetDealsReviewInterface, _db: any): 
             page: deals.page,
             state: deals.state
         }
-        const result: AxiosResponse<Array<DealsReview>> = await axios.post<Array<DealsReview>>(`${baseUrl}/deals/comments`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
+        const result: AxiosResponse<Array<DealsReview>> = await axios.post<Array<DealsReview>>(`${baseUrl}/deals/comments`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken, uid: deals.userId } });
         if (result.status === 200) {
             return result.data;
         } else {
@@ -36,7 +36,7 @@ export const addDealsReview = async (payload: DealsReview, _db: any): Promise<bo
     try {
         delete payload.callType;
         const matchingDocs = await _db.userToken.find().exec();
-        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
+        const result: AxiosResponse<DealsReview> = await axios.post<DealsReview>(`${baseUrl}/deals/review`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken, uid: matchingDocs[0]._data.uId } });
         if (result.status === 200) {
             // await insertDealsReview(_db, payload);
             return true;
@@ -56,7 +56,7 @@ export const deleteDealsReview = async (payload: DealsReview, _db: any): Promise
     try {
         delete payload.callType;
         const matchingDocs = await _db.userToken.find().exec();
-        const result: AxiosResponse<DealsReview> = await axios.delete<DealsReview>(`${baseUrl}/deals/review/${payload.dealsId}/${payload.uId}`, { headers: { Authorization: matchingDocs[0]._data.accessToken } });
+        const result: AxiosResponse<DealsReview> = await axios.delete<DealsReview>(`${baseUrl}/deals/review/${payload.dealsId}/${payload.uId}`, { headers: { Authorization: matchingDocs[0]._data.accessToken, uid: matchingDocs[0]._data.uId } });
         if (result.status === 200) {
             return true;
         } else {

@@ -79,6 +79,7 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         await localDb?.db?.userToken.insert({
                             ...userInfoObj
                         })
+                        localStorage.setItem("loggedInUserUid", userObject.user.uid);
                     }
 
                     setUserInfo(JSON.stringify(userInfoObj))
