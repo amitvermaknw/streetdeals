@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DealsReview } from "../../../../../utils/Interface";
+
+import { DealsReview } from "../../../../../Interface/DealsReviewInterface";
+
 
 export const insertDealsReview = async (db: any, data: DealsReview): Promise<boolean> => {
     const matchingDocs = await db.dealsReview

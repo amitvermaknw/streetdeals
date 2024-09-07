@@ -9,6 +9,7 @@ import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
 import SecondaryButton from "../../../components/ui/SecondaryButton";
 import PComments from "./PComments";
+import WishListWidget from "../../users/wishlist/component/WishListWidget";
 
 
 const PDetails = () => {
@@ -53,7 +54,6 @@ const PDetails = () => {
         navigate(-1);
     }
 
-
     return (
         pstate.pname ? <>
             <div className="font-[sans-serif]">
@@ -66,35 +66,7 @@ const PDetails = () => {
                                 Back</button>
                         </div>
                         <div className="lg:col-span-1 w-full lg:sticky top-0 text-right">
-                            <button
-                                className={`pb-2 rounded-full focus:outline-none focus:ring-0 ${isAddedToWishlist
-                                    ? 'text-red-500 focus:ring-red-300'
-                                    : 'text-gray-500 focus:ring-gray-300'
-                                    }`}
-                                onClick={toggleWishlist}
-                            >
-                                <div className="text-center pl-2">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="2"
-                                        stroke="currentColor"
-                                        className="w-5 h-6 text-center"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M3.172 8.172a4 4 0 015.656 0L12 11.343l3.172-3.171a4 4 0 115.656 5.656l-8.243 8.243a.75.75 0 01-1.06 0l-8.243-8.243a4 4 0 010-5.656z"
-                                        />
-                                    </svg>
-                                </div>
-                                <span className={`text-sm font-light ${isAddedToWishlist
-                                    ? 'text-red-500 focus:ring-red-300'
-                                    : 'text-gray-500 focus:ring-gray-300'
-                                    }`}>Wishlist</span>
-                            </button>
-
+                            <WishListWidget pId={pstate.pid} />
                         </div>
 
                     </div>

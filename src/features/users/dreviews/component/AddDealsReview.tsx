@@ -51,7 +51,8 @@ const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
                 uId: userToken ? userToken[0]._data.uId : '',
                 userName: userToken ? userToken[0]._data.displayName : '',
                 dealsId: pId,
-                callType: triggerEdit.length ? 'update' : 'add'
+                callType: triggerEdit.length ? 'update' : 'add',
+                photoUrl: userToken ? userToken[0]._data.photoUrl : '',
             }
             await addReview(payload);
             setComments('');

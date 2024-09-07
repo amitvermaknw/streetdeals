@@ -29,7 +29,7 @@ const DealsReviews = ({ getReview, prstate, dealsId, helpfulWidget, editComment,
     }, []);
 
     return (
-        prstate.length ? <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-xs border border-gray-100">
+        prstate.length && prstate[0].comId !== '' ? <div className="col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-xs border border-gray-100">
             <h1 className="m-4 text-left font-sans font-bold text-md md:text-md xl:text-xl">Comments</h1>
             <hr className="mt-2 mb-2"></hr>
             {prstate.length ?

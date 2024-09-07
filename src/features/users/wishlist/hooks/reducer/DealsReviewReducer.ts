@@ -7,13 +7,7 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
 
     switch (action.type) {
         case GET_REVIWS:
-            if (newState.length === 1) {
-                if (newState[0].comId === '')
-                    newState.length = 0;
-
-                return newState.concat(action.content);
-            }
-            return newState;
+            return newState.concat(action.content);
 
         case ADD_REVIWS: {
             if (action.content.length > 0 && 'callType' in action.content[0]) {

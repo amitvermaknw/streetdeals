@@ -1,22 +1,47 @@
-import { useContext, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview, deleteDealsReview } from "../services/dealsReviewService";
 import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS, REMOVE_REVIWS } from "../../../../utils/Constants";
 import { DbContext } from "../../../../providers/DBProvider";
 import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterface";
+import { BehaviorSubject } from "rxjs";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const dealsCommentDetails = new BehaviorSubject<DealsReview>({
+    comId: '',
+    uId: '',
+    userName: '',
+    startDate: new Date(),
+    comments: '',
+    dealsId: '',
+    helpful: false,
+    joinedOn: '',
+    photoUrl: '',
+    totalHelpful: 0,
+    callType: '',
+    wishListDealId: ''
+});
+
 const useDealsReview = (initState: Array<DealsReview>) => {
 
     const [prstate, dispatch] = useReducer(DealsReviewReducer, initState);
     const localDb = useContext(DbContext);
+
+    useEffect(() => {
+        function checkState() {
+            console.log("inside the useEffect", JSON.stringify(prstate));
+            dealsCommentDetails.next(prstate[0]);
+        }
+        checkState();
+    }, [prstate])
 
     const getReview = async (dealsReq: GetDealsReviewInterface) => {
         const result: Array<DealsReview> | Array<[]> = await getDealsReview(dealsReq, localDb?.db);
         if (result.length) {
             dispatch({ type: GET_REVIWS, content: result, });
         }
+        console.log("inside the getReview", JSON.stringify(result));
+        dealsCommentDetails.next(prstate[0]);
     }
 
     const addReview = async (payload: DealsReview) => {
@@ -45,3 +70,5 @@ const useDealsReview = (initState: Array<DealsReview>) => {
 };
 
 export default useDealsReview;
+
+export const dealsCommentDetails$ = dealsCommentDetails.asObservable();

@@ -5,7 +5,7 @@ export interface GetDealsReviewInterface {
 export interface DealsReview {
     comId: string,
     uId: string,
-    userName: string,
+    userName?: string,
     startDate?: Date,
     comments: string,
     dealsId: string,
@@ -13,5 +13,6 @@ export interface DealsReview {
     joinedOn?: string,
     photoUrl?: string,
     totalHelpful?: number,
-    callType?: string
+    callType?: string,
+    wishListDealId?: string
 }
