@@ -17,6 +17,15 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
 
         case ADD_REVIWS: {
             if (action.content.length > 0 && 'callType' in action.content[0]) {
+                newState.filter((item: DealsReview) => {
+                    if (action.content.length > 0 && 'uId' in action.content[0]) {
+                        if (item.uId !== "" && item.dealsId !== "") {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+
                 if (action.content[0].callType === 'add') {
                     const isReviewFound = newState.filter((item: DealsReview) => {
                         if (action.content.length > 0 && 'uId' in action.content[0]) {
@@ -31,13 +40,14 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
                     }
 
                 } else if (action.content[0].callType === 'update') {
-                    newState.filter((item: DealsReview) => {
+                    newState.map((item: DealsReview) => {
                         if (action.content.length > 0 && 'uId' in action.content[0]) {
                             if (item.uId === action.content[0].uId && item.dealsId === action.content[0].dealsId) {
                                 item.comments = action.content[0].comments;
-                                return item;
+                                return true;
                             }
                         }
+                        return false;
                     });
                 }
             }
@@ -50,9 +60,10 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
                     if (item.uId === action.content[0].uId && item.dealsId === action.content[0].dealsId) {
                         item.helpful = action.content[0].helpful;
                         item.totalHelpful = action.content[0].totalHelpful;
-                        return item;
+                        return true;
                     }
                 }
+                return false;
             });
             return newState;
         }

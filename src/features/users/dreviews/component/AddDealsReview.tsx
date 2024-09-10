@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import { uid } from '../../../../utils/Uid';
 import SignupWithGoogleDialog from '../../signup/component/SignupWithGoogleDialog';
 import localForage from 'localforage';
 import { UserToken } from '../../../authentication/Interface/userTokenInterface';
+import { userLoggedInFlag$ } from '../../../authentication/components/SignInWithGoogle';
+import { Subscription, distinctUntilChanged } from 'rxjs';
 
 interface ReviewRed {
     addReview: (payload: DealsReview) => void;
@@ -15,6 +17,7 @@ const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
     // const localDb = useContext(DbContext);
     const [comments, setComments] = useState('');
     const [signUpDialog, setSignUpDialog] = useState(false);
+    const userLoggedInFlagRef = useRef(userLoggedInFlag$);
 
     const checkLoggedInStatus = async () => {
         const loggedInUser: UserToken | null = await localForage.getItem("loggedInUser");
@@ -28,11 +31,17 @@ const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
     }
 
     useEffect(() => {
-        // const loggedInUser: UserToken | null = await localForage.getItem("loggedInUser");
-        // if (loggedInUser?.accessToken) {
-        //     setSignUpDialog(false);
-        // }
-    }, [])
+        userLoggedInFlagRef.current = userLoggedInFlag$;
+        const userLoggedInSub: Subscription = userLoggedInFlagRef.current.pipe(distinctUntilChanged()).subscribe((d: boolean) => {
+            if (d == true) {
+                setSignUpDialog(false);
+            }
+        });
+        return () => {
+            userLoggedInSub.unsubscribe();
+        }
+    }, [userLoggedInFlagRef]);
+
 
     const submitReview = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

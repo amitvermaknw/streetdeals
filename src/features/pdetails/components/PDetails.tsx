@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useProductDetails from "../hooks/useProductDeatails";
 import YouMayLike from "./YouMightLike";
 import GetDealsDetailModel from "../../../model/GetDealsDetailModel";
@@ -7,7 +7,7 @@ import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
-import SecondaryButton from "../../../components/ui/SecondaryButton";
+// import SecondaryButton from "../../../components/ui/SecondaryButton";
 import PComments from "./PComments";
 import WishListWidget from "../../users/wishlist/component/WishListWidget";
 
@@ -29,11 +29,11 @@ const PDetails = () => {
         getDeals(pid);
     }, []);
 
-    const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+    // const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
 
-    const toggleWishlist = () => {
-        setIsAddedToWishlist(!isAddedToWishlist);
-    }
+    // const toggleWishlist = () => {
+    //     setIsAddedToWishlist(!isAddedToWishlist);
+    // }
 
     usePageSeo({
         title: pstate.pname,
@@ -214,10 +214,10 @@ const PDetails = () => {
                                     className="w-full mt-2 mb-4 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded"
                                     onClick={() => window.open(pstate.producturl, '_blank')}
                                 >Get this deal</button>
-                                <SecondaryButton
+                                {/* <SecondaryButton
                                     name="Add to Wishlist"
                                     onClick={() => toggleWishlist()}
-                                />
+                                /> */}
                             </div>
                             <div className="space-y-3 list-disc mt-4 text-sm text-gray-800">
                                 <strong>*</strong> The Discount deal may earn a small commission through affiliate links on this page. Prices quoted are subject to change at any time, and supplies may be limited. Coupon codes or other offers may be modified or removed at any time.

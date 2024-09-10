@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useUserContext } from '../hooks/useUserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BehaviorSubject } from 'rxjs';
+
+const userLoggedInFlag = new BehaviorSubject<boolean>(false)
+
 
 const SignInWithGoogle = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,8 +23,7 @@ const SignInWithGoogle = () => {
                 navigate('/');
             } else {
                 navigate(location.pathname || '/');
-                window.location.reload();
-
+                userLoggedInFlag.next(true);
             }
             //window.location.reload();
         }
@@ -67,3 +70,5 @@ const SignInWithGoogle = () => {
 };
 
 export default SignInWithGoogle;
+
+export const userLoggedInFlag$ = userLoggedInFlag.asObservable();

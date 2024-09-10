@@ -9,7 +9,6 @@ import localForage from 'localforage';
 import { UserToken } from '../../../../Interface/UserTokenInterface';
 
 
-
 const WishListWidget = (dealId: { pId: string }) => {
     const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
     const localDb = useContext(DbContext);
@@ -53,10 +52,13 @@ const WishListWidget = (dealId: { pId: string }) => {
         function getWishListStatus() {
             dealsCommentDetailsRef.current = dealsCommentDetails$;
             const dealsCommentSub: Subscription = dealsCommentDetailsRef.current.pipe(distinctUntilChanged()).subscribe((d: DealsReview) => {
-                if (d.wishListDealId !== '' && dealId.pId === d.dealsId) {
-                    setIsAddedToWishlist(true);
+                if (d) {
+                    if (d.wishListDealId !== '' && dealId.pId === d.dealsId) {
+                        setIsAddedToWishlist(true);
+                    }
                 }
-                console.log("d.wishListDealId", d.wishListDealId);
+
+                // console.log("d.wishListDealId", d.wishListDealId);
             });
 
             return () => {
