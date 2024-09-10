@@ -1,29 +1,35 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { DbContext } from '../../../../providers/DBProvider';
 import { dealsCommentDetails$ } from '../../dreviews/hooks/useDealsReview';
 import useWishList from '../hooks/useWishList';
 import { DealsReview } from '../../../../Interface/DealsReviewInterface';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import localForage from 'localforage';
+import { UserToken } from '../../../../Interface/UserTokenInterface';
+
 
 
 const WishListWidget = (dealId: { pId: string }) => {
     const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
     const localDb = useContext(DbContext);
     const [updateWishList] = useWishList();
+    const dealsCommentDetailsRef = useRef(dealsCommentDetails$);
 
 
     const toggleWishlist = async () => {
         setIsAddedToWishlist(!isAddedToWishlist);
 
         if (localDb?.db?.collections['userToken']) {
-            const userToken = await localDb?.db?.userToken.find().exec();
-            if (userToken?.length > 0) {
+            // const userToken = await localDb?.db?.userToken.find().exec();
+            const userToken: UserToken | null = await localForage.getItem("loggedInUser");
+
+            if (userToken?.accessToken) {
                 const payload: DealsReview = {
                     comments: '',
                     comId: '',
-                    uId: userToken ? userToken[0]._data.uId : '',
-                    userName: userToken ? userToken[0]._data.displayName : '',
+                    uId: userToken ? userToken.uId : '',
+                    userName: userToken ? userToken.displayName : '',
                     dealsId: dealId.pId,
                     callType: ''
                 }
@@ -37,14 +43,6 @@ const WishListWidget = (dealId: { pId: string }) => {
                         d.wishListDealId = !isAddedToWishlist ? dealId.pId : '';
                         updateWishList(d);
                     }
-
-
-                    // if (d && d.length > 0) {
-                    //     d.forEach((deal: DealsReview) => {
-
-                    //         updateWishList(deal);
-                    //     });
-                    // }
                 });
                 dealsCommentSub.unsubscribe();
             }
@@ -53,16 +51,20 @@ const WishListWidget = (dealId: { pId: string }) => {
 
     useEffect(() => {
         function getWishListStatus() {
-            const dealsCommentSub: Subscription = dealsCommentDetails$.pipe(distinctUntilChanged()).subscribe((d: DealsReview) => {
+            dealsCommentDetailsRef.current = dealsCommentDetails$;
+            const dealsCommentSub: Subscription = dealsCommentDetailsRef.current.pipe(distinctUntilChanged()).subscribe((d: DealsReview) => {
                 if (d.wishListDealId !== '' && dealId.pId === d.dealsId) {
                     setIsAddedToWishlist(true);
                 }
                 console.log("d.wishListDealId", d.wishListDealId);
             });
-            dealsCommentSub.unsubscribe();
+
+            return () => {
+                dealsCommentSub.unsubscribe();
+            }
         }
         getWishListStatus();
-    }, []);
+    }, [dealId.pId, dealsCommentDetailsRef]);
 
     return (
         <button

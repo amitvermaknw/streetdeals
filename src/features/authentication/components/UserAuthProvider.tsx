@@ -9,6 +9,7 @@ import { DbContext } from "../../../providers/DBProvider";
 import { userTokenSchema } from "../../../schema/userTokenSchema";
 import { UserToken } from "../Interface/userTokenInterface";
 import { RxDatabase } from 'rxdb';
+import localForage from 'localforage';
 
 interface AuthContextType {
     userInfo: string;
@@ -79,10 +80,12 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         await localDb?.db?.userToken.insert({
                             ...userInfoObj
                         })
-                        localStorage.setItem("loggedInUserUid", userObject.user.uid);
+                        //localStorage.setItem("loggedInUserUid", userObject.user.uid);
                     }
 
-                    setUserInfo(JSON.stringify(userInfoObj))
+                    setUserInfo(JSON.stringify(userInfoObj));
+                    await localForage.setItem("loggedInUser", userInfoObj);
+
                     return true;
                 } else {
                     localDb?.db?.userToken.remove();
@@ -100,11 +103,11 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
         }
     };
 
-    const logOut = () => {
+    const logOut = async () => {
         setUserInfo('');
         // localStorage.removeItem("loggedInUser");
         localDb?.db?.userToken.remove();
-        // removeToken()
+        await localForage.removeItem("loggedInUser");
         navigate("/login");
         window.location.reload();
         toast("Logged out successfully");

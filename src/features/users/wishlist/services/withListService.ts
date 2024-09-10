@@ -3,15 +3,18 @@
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
+import localForage from 'localforage';
+import { UserToken } from '../../../../Interface/UserTokenInterface';
 
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
 
-export const updateWishListService = async (payload: DealsReview, _db: any): Promise<boolean> => {
+export const updateWishListService = async (payload: DealsReview): Promise<boolean> => {
     try {
         delete payload.callType;
-        const matchingDocs = await _db.userToken.find().exec();
-        const result: AxiosResponse<DealsReview> = await axios.put<DealsReview>(`${baseUrl}/users/wishlist`, payload, { headers: { Authorization: matchingDocs[0]._data.accessToken, uid: matchingDocs[0]._data.uId } });
+        // const matchingDocs = await _db.userToken.find().exec();
+        const matchingDocs: UserToken | null = await localForage.getItem("loggedInUser");
+        const result: AxiosResponse<DealsReview> = await axios.put<DealsReview>(`${baseUrl}/users/wishlist`, payload, { headers: { Authorization: matchingDocs?.accessToken, uid: matchingDocs?.uId } });
         if (result.status === 200) {
             // await insertDealsReview(_db, payload);
             return true;

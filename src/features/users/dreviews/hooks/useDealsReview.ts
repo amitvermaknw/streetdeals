@@ -1,9 +1,8 @@
-import { useContext, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview, deleteDealsReview } from "../services/dealsReviewService";
 import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS, REMOVE_REVIWS } from "../../../../utils/Constants";
-import { DbContext } from "../../../../providers/DBProvider";
 import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterface";
 import { BehaviorSubject } from "rxjs";
 
@@ -25,42 +24,40 @@ const dealsCommentDetails = new BehaviorSubject<DealsReview>({
 const useDealsReview = (initState: Array<DealsReview>) => {
 
     const [prstate, dispatch] = useReducer(DealsReviewReducer, initState);
-    const localDb = useContext(DbContext);
+    // const localDb = useContext(DbContext);
 
     useEffect(() => {
         function checkState() {
-            console.log("inside the useEffect", JSON.stringify(prstate));
             dealsCommentDetails.next(prstate[0]);
         }
         checkState();
     }, [prstate])
 
     const getReview = async (dealsReq: GetDealsReviewInterface) => {
-        const result: Array<DealsReview> | Array<[]> = await getDealsReview(dealsReq, localDb?.db);
+        const result: Array<DealsReview> | Array<[]> = await getDealsReview(dealsReq);
         if (result.length) {
             dispatch({ type: GET_REVIWS, content: result, });
         }
-        console.log("inside the getReview", JSON.stringify(result));
         dealsCommentDetails.next(prstate[0]);
     }
 
     const addReview = async (payload: DealsReview) => {
         const newPayload: DealsReview = { ...payload };
-        const result = await addDealsReview(payload, localDb?.db);
+        const result = await addDealsReview(payload);
         if (result) {
             dispatch({ type: ADD_REVIWS, content: [newPayload] })
         }
     }
 
     const helpfulWidget = async (payload: DealsReview) => {
-        const result = await addDealsReview(payload, localDb?.db);
+        const result = await addDealsReview(payload);
         if (result) {
             dispatch({ type: ADD_HELPFUL_REVIWS, content: [payload] })
         }
     }
 
     const deleteComment = async (payload: DealsReview) => {
-        const result = await deleteDealsReview(payload, localDb?.db);
+        const result = await deleteDealsReview(payload);
         if (result) {
             dispatch({ type: REMOVE_REVIWS, content: [payload] })
         }

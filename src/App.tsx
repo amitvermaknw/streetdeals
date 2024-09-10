@@ -8,8 +8,21 @@ import requestPermission from './services/requestPermission';
 import { AdminAuthProvider } from './features/authentication/index';
 import UserAuthProvider from './features/authentication/components/UserAuthProvider';
 import DbProvider from './providers/DBProvider';
+// import * as localforage from 'localforage';
+import localForage from "localforage";
 
 function App() {
+
+  if (typeof window !== 'undefined') {
+    localForage.config({
+      driver: localForage.INDEXEDDB,
+      name: 'dealsburst',
+      version: 1.0,
+      size: 15807360,
+      storeName: 'dealsburststore',
+      description: 'Application for deals'
+    })
+  }
 
   useEffect(() => {
     requestPermission();

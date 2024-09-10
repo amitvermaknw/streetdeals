@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
-import { DbContext } from '../../../../providers/DBProvider';
 import { uid } from '../../../../utils/Uid';
-// import { UserToken } from '../../../authentication/Interface/userTokenInterface';
 import SignupWithGoogleDialog from '../../signup/component/SignupWithGoogleDialog';
+import localForage from 'localforage';
+import { UserToken } from '../../../authentication/Interface/userTokenInterface';
 
 interface ReviewRed {
     addReview: (payload: DealsReview) => void;
@@ -12,17 +12,13 @@ interface ReviewRed {
 }
 
 const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
-    const localDb = useContext(DbContext);
+    // const localDb = useContext(DbContext);
     const [comments, setComments] = useState('');
     const [signUpDialog, setSignUpDialog] = useState(false);
 
     const checkLoggedInStatus = async () => {
-        if (localDb?.db?.collections['userToken']) {
-            const userToken = await localDb?.db?.userToken.find().exec();
-            if (userToken?.length === 0) {
-                setSignUpDialog(true);
-            }
-        } else {
+        const loggedInUser: UserToken | null = await localForage.getItem("loggedInUser");
+        if (!loggedInUser?.accessToken) {
             setSignUpDialog(true);
         }
     }
@@ -32,27 +28,25 @@ const AddDealsReview = ({ addReview, pId, triggerEdit }: ReviewRed) => {
     }
 
     useEffect(() => {
-        if (!localDb?.db?.userToken) return;
-        const subscription = localDb?.db.userToken.findOne().$.subscribe((user) => {
-            if (user) {
-                setSignUpDialog(false);
-            }
-        });
-        return () => subscription.unsubscribe();
-    }, [localDb?.db?.userToken])
+        // const loggedInUser: UserToken | null = await localForage.getItem("loggedInUser");
+        // if (loggedInUser?.accessToken) {
+        //     setSignUpDialog(false);
+        // }
+    }, [])
 
     const submitReview = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (comments !== '') {
-            const userToken = await localDb?.db?.userToken.find().exec();
+            // const userToken = await localDb?.db?.userToken.find().exec();
+            const userToken: UserToken | null = await localForage.getItem("loggedInUser");
             const payload: DealsReview = {
                 comments: comments,
                 comId: uid(),
-                uId: userToken ? userToken[0]._data.uId : '',
-                userName: userToken ? userToken[0]._data.displayName : '',
+                uId: userToken ? userToken?.uId : '',
+                userName: userToken ? userToken?.displayName : '',
                 dealsId: pId,
                 callType: triggerEdit.length ? 'update' : 'add',
-                photoUrl: userToken ? userToken[0]._data.photoUrl : '',
+                photoUrl: userToken ? userToken?.photoURL : '',
             }
             await addReview(payload);
             setComments('');

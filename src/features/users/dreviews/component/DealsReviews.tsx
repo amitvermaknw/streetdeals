@@ -1,7 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import DealsReviewsList from "./DealsReviewsList";
 import { GetDealsReviewInterface, DealsReview } from "../../../../Interface/DealsReviewInterface";
-import { DbContext } from "../../../../providers/DBProvider";
+import localForage from 'localforage'
+import { UserToken } from '../../../../Interface/UserTokenInterface';
+
 
 interface ReviewRed {
     getReview: (param: GetDealsReviewInterface) => void;
@@ -13,15 +15,25 @@ interface ReviewRed {
 }
 
 const DealsReviews = ({ getReview, prstate, dealsId, helpfulWidget, editComment, deleteComment }: ReviewRed) => {
-    const localDb = useContext(DbContext);
+    // const localDb = useContext(DbContext);
 
     useEffect(() => {
         async function fetchReview() {
-            if (localDb?.db?.collections['userToken']) {
-                const matchingDocs = await localDb?.db?.userToken.find().exec();
-                if (matchingDocs.length > 0) {
-                    const firstDoc = matchingDocs[0];
-                    getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId, state: 'start' });
+            // if (localDb?.db?.collections['userToken']) {
+            //     const matchingDocs = await localDb?.db?.userToken.find().exec();
+            //     if (matchingDocs.length > 0) {
+            //         const firstDoc = matchingDocs[0];
+            //         getReview({ page: 5, userId: firstDoc?.uId, dealsId: dealsId, state: 'start' });
+            //     }
+            // }
+            try {
+                const loggedInUser: UserToken | null = await localForage.getItem("loggedInUser");
+                if (loggedInUser?.accessToken) {
+                    getReview({ page: 5, userId: loggedInUser?.uId, dealsId: dealsId, state: 'start' });
+                }
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.log(error.message);
                 }
             }
         }

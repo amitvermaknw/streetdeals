@@ -19,6 +19,8 @@ const SignInWithGoogle = () => {
                 navigate('/');
             } else {
                 navigate(location.pathname || '/');
+                window.location.reload();
+
             }
             //window.location.reload();
         }
