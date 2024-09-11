@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import localForage from 'localforage';
 import { UserToken } from '../../../../Interface/UserTokenInterface';
+import { ProductListProps } from '../../../../utils/Types';
 
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
@@ -27,5 +28,25 @@ export const updateWishListService = async (payload: DealsReview): Promise<boole
             toast.error(error.message);
         }
         return false;
+    }
+};
+
+
+export const getWishListService = async (callType: string, record: number): Promise<ProductListProps | Array<[]>> => {
+    try {
+        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/users/wishlist/${callType}/${record}`);
+        if (result.status === 200) {
+            return result.data;
+        } else {
+            toast.error(result.statusText);
+            return [];
+        }
+        return result.data;
+    } catch (error) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+            throw (error)
+        }
+        return []
     }
 };

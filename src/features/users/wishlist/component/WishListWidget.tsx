@@ -57,8 +57,6 @@ const WishListWidget = (dealId: { pId: string }) => {
                         setIsAddedToWishlist(true);
                     }
                 }
-
-                // console.log("d.wishListDealId", d.wishListDealId);
             });
 
             return () => {

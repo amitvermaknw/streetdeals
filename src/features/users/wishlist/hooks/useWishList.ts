@@ -1,5 +1,5 @@
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
-import { updateWishListService } from "../services/withListService";
+import { updateWishListService } from "../services/wishListService";
 
 const useWishList = () => {
     // const localDb = useContext(DbContext);
