@@ -3,7 +3,7 @@ import { useAdminContext } from "../features/authentication/hooks/useAdminContex
 import useUrlAuth from "../hooks/useUrlAuth";
 import { toast } from "react-toastify";
 
-const PrivateRouter = (): JSX.Element => {
+const UserPrivateRouter = (): JSX.Element => {
     const user = useAdminContext();
     const [isTokenValid] = useUrlAuth();
     // const navigate = useNavigate();
@@ -29,4 +29,4 @@ const PrivateRouter = (): JSX.Element => {
     return <Outlet />
 }
 
-export default PrivateRouter
+export default UserPrivateRouter

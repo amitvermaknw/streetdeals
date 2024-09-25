@@ -1,21 +1,20 @@
 import { useEffect } from "react";
-import GetDealsModel from "../../../../model/GetDealsModel";
-
 import Skeleton from "../../../../components/ui/Skeleton";
 import { ProductListProps } from "../../../../utils/Types";
 import Review from "../../../../components/ui/Review";
 import usePageSeo from "../../../../hooks/usePageSeo";
 import { useLocation } from "react-router-dom";
 import useMyWishList from "../hooks/useMyWishList";
+import MyWishListModel from "../../../../model/MyWishListModel";
 
 const MyWishList = () => {
 
-    const [state, dealsList] = useMyWishList(GetDealsModel);
+    const [state, getMyWishList] = useMyWishList(MyWishListModel);
     const mode = import.meta.env;
     const baseUrl = mode.DEV === true ? import.meta.env.VITE_BASE_LOCAL_URL : import.meta.env.VITE_BASE_PROD_URL;
 
     const getDeals = (callType: string, record: number) => {
-        dealsList(callType, record);
+        getMyWishList(callType, record);
     }
 
     useEffect(() => {
@@ -23,10 +22,10 @@ const MyWishList = () => {
     }, [])
 
     usePageSeo({
-        title: 'Best Deals and Promotions - Save Big on Top Offers and Discounts',
+        title: 'My Wish List',
         description: 'Your go-to site for the best deals and discounts. From exclusive promotions to daily sales, find the perfect offer for you. Save money with our latest coupon codes and special offers.',
         keywords: ["deals, promotions, discounts, coupons, sales, offers, bargains, shopping deals, online deals, daily deals, best deals, special offers, discount codes, promo codes, savings, hot deals, limited time offers, exclusive deals, cheap prices, top deals, budget shopping, clearance sales"],
-        ogTitle: 'Best Deals and Promotions - Save Big on Top Offers and Discounts',
+        ogTitle: 'Best Deals and Promotions - My Wish List',
         ogDescription: 'Your go-to site for the best deals and discounts. From exclusive promotions to daily sales, find the perfect offer for you. Save money with our latest coupon codes and special offers.',
         ogImage: 'https://res.cloudinary.com/dxhnwasub/image/upload/v1718418448/banner_images/cf0bqcwicru4xh0wjk74.jpg',
         ogUrl: `${baseUrl}${useLocation().pathname}`

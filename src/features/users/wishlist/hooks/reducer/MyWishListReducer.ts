@@ -1,9 +1,8 @@
-
-import { DealsReview } from "../../../../../Interface/DealsReviewInterface";
+import { MyWishList } from "../../../../../Interface/MyWishListInterface";
 import { GET_WISH_LIST } from "../../../../../utils/Constants";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MyWishListReducer = (state: Array<DealsReview>, action: { content: Array<DealsReview> | Array<[]>, type: string }): Array<DealsReview> => {
+const MyWishListReducer = (state: Array<MyWishList | Array<[]>>, action: { content: Array<MyWishList | Array<[]>> | Array<[]>, type: string }): Array<MyWishList | Array<[]>> => {
     const newState = JSON.parse(JSON.stringify(state))
 
     switch (action.type) {

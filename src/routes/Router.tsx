@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import PrivateRouter from './PrivateRouter';
 import { lazy, Suspense, useRef } from 'react';
+import AdminPrivateRouter from './AdminPrivateRouter';
+import UserPrivateRouter from './UserPrivateRouter';
 
 const Header = lazy(() => import('../layouts/Header').then((component) => ({ default: component.default })))
 const Login = lazy(() => import('../pages/Login').then((component) => ({ default: component.default })))
@@ -30,8 +31,11 @@ function Router() {
                     <Route path="/pdetails/:pid" element={<Suspense fallback={<Skeleton />}><ProductDetails /></Suspense>}></Route>
                     <Route path="/deals" element={<Suspense fallback={<Skeleton />}><DList /></Suspense>}></Route>
                     <Route path="/useragreement" element={<Suspense fallback={<Skeleton />}><UserAgreement /></Suspense>}></Route>
-                    <Route element={<PrivateRouter />}>
+                    <Route element={<AdminPrivateRouter />}>
                         <Route path="/dashboard" element={<Suspense fallback={<Skeleton />}><Deals /></Suspense>}></Route>
+                    </Route>
+                    <Route element={<UserPrivateRouter />}>
+                        <Route path="/mywishlist" element={<Suspense fallback={<Skeleton />}><Deals /></Suspense>}></Route>
                     </Route>
                     <Route path="*" element={<Suspense fallback={<Skeleton />}><PageNotfound /></Suspense>}></Route>
                 </Routes>
