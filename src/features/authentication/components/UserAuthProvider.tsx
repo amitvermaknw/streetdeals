@@ -10,16 +10,20 @@ import { userTokenSchema } from "../../../schema/userTokenSchema";
 import { UserToken } from "../Interface/userTokenInterface";
 import { RxDatabase } from 'rxdb';
 import localForage from 'localforage';
+import { AuthContextType } from "../../../Interface/UserTokenInterface";
 
-interface AuthContextType {
-    userInfo: string;
-    signIn: () => Promise<boolean>;
-    logOut: () => void;
-    setUserSchema: () => Promise<RxDatabase | null | undefined>;
-}
+
 
 const defaultValue = {
-    userInfo: '',
+    userInfo: {
+        uId: '',
+        accessToken: '',
+        displayName: '',
+        email: '',
+        emailVerified: false,
+        phoneNumber: '',
+        photoURL: '',
+    },
     signIn: (): Promise<boolean> => Promise.resolve(false),
     logOut: () => { },
     setUserSchema: (): Promise<RxDatabase | null | undefined> => Promise.resolve(undefined)
@@ -29,7 +33,10 @@ export const UserAuthContext = createContext<AuthContextType>(defaultValue);
 
 const UserAuthProvider = ({ children }: LayoutProps) => {
     // const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
-    const [userInfo, setUserInfo] = useState(localStorage.getItem('loggedInUser') || '');
+    const [userInfo, setUserInfo] = useState<UserToken>(() => {
+        const storedUserToken = localStorage.getItem('loggedInUser')
+        return storedUserToken ? JSON.parse(storedUserToken) as UserToken : {} as UserToken
+    });
     const navigate = useNavigate();
     const [isUserValid, addLoggedInUser] = useUsersAuth();
     const localDb = useContext(DbContext)
@@ -83,7 +90,7 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         //localStorage.setItem("loggedInUserUid", userObject.user.uid);
                     }
 
-                    setUserInfo(JSON.stringify(userInfoObj));
+                    setUserInfo(userInfoObj);
                     await localForage.setItem("loggedInUser", userInfoObj);
 
                     return true;
@@ -104,7 +111,7 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
     };
 
     const logOut = async () => {
-        setUserInfo('');
+        setUserInfo({} as UserToken);
         // localStorage.removeItem("loggedInUser");
         localDb?.db?.userToken.remove();
         await localForage.removeItem("loggedInUser");

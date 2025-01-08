@@ -1,18 +1,20 @@
+import React from 'react';
 import { Navigate, Outlet } from "react-router-dom";
-import { useAdminContext } from "../features/authentication/hooks/useAdminContext"
+import { useUserContext } from "../features/authentication/hooks/useUserContext"
 import useUrlAuth from "../hooks/useUrlAuth";
 import { toast } from "react-toastify";
+import { AuthContextType } from '../Interface/UserTokenInterface';
 
-const UserPrivateRouter = (): JSX.Element => {
-    const user = useAdminContext();
-    const [isTokenValid] = useUrlAuth();
+const UserPrivateRouter = (): React.JSX.Element => {
+    const user = useUserContext() as unknown as AuthContextType;
+    const [isTokenValid] = useUrlAuth('user');
     // const navigate = useNavigate();
 
-    if (user.token === "" || user.token === null || user.token === undefined)
+    if (user.userInfo.accessToken === "" || user.userInfo.accessToken === null || user.userInfo.accessToken === undefined)
         return <Navigate to="/login" />
 
     const checkToken = async () => {
-        const status = await isTokenValid(user.token);
+        const status = await isTokenValid(user.userInfo.accessToken);
         if (status === true) {
             return <Outlet />
         } else {

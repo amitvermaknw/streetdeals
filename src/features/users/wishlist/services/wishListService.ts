@@ -21,7 +21,6 @@ export const getMyWishListService = async (callType: string, record: number): Pr
             toast.error(result.statusText);
             return [];
         }
-        return result.data;
     } catch (error) {
         if (error instanceof Error) {
             toast.error(error.message);

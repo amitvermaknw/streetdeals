@@ -1,8 +1,8 @@
 import { tokenValidAuth } from "../services/tokenValidAuth";
 
-const useUrlAuth = () => {
+const useUrlAuth = (userType: string) => {
     const isTokenValid = async (token: string): Promise<boolean> => {
-        return await tokenValidAuth(token);
+        return await tokenValidAuth(token, userType);
     }
     return [isTokenValid]
 }
