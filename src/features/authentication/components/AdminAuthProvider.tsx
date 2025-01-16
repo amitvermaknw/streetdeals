@@ -22,7 +22,7 @@ type AuthenticatedUser = typeof defaultValues
 export const AdminAuthContext = createContext<AuthenticatedUser>(defaultValues);
 
 const AdminAuthProvider = ({ children }: LayoutProps) => {
-    const [user, setUser] = useState<string>(null || '');
+    const [user, setUser] = useState<string>('');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
     const navigate = useNavigate();

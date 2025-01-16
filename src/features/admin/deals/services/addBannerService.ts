@@ -35,11 +35,22 @@ const addBannerService = async (payload: AddBanner & { documentId: string }, cal
                 'Content-Type': 'multipart/form-data'
             }
         }
-        const result: AxiosResponse<{ msg: string }> = await axios.post<{ msg: string }>(`${baseUrl}/banner`, formData, headers);
+        const result: AxiosResponse<{ msg: string | { code: number; msg: string; error: { message: string } } }> = await axios.post<{ msg: string }>(`${baseUrl}/banner`, formData, headers);
         if (result.status === 200) {
-            toast.success(result.data.msg);
+            toast.success(result.data.msg as string);
             return true
-        } else {
+        } else if (result.status === 201) {
+            if (Object.prototype.hasOwnProperty.call(result, "data")) {
+                if (Object.prototype.hasOwnProperty.call(result.data, "msg")) {
+                    if (typeof result.data.msg === "object" && "code" in result.data.msg) {
+                        if (result.data.msg.code === 500) {
+                            toast.error(result.data.msg.error.message)
+                            return false;
+                        }
+                    }
+
+                }
+            }
             toast.error(result.statusText);
             return false;
         }

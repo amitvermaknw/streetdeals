@@ -6,9 +6,8 @@ import { toast } from "react-toastify";
 
 const AdminPrivateRouter = (): React.JSX.Element => {
     const user = useAdminContext();
-    const [isTokenValid] = useUrlAuth();
+    const [isTokenValid] = useUrlAuth('admin');
     // const navigate = useNavigate();
-
     if (user.token === "" || user.token === null || user.token === undefined)
         return <Navigate to="/login" />
 
