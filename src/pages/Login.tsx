@@ -1,8 +1,10 @@
-import { LoginForm } from "../features/authentication";
+import { AdminLogin } from "../features/authentication";
 
 
 export default function Login() {
     return (
-        <LoginForm />
+        <>
+            <AdminLogin />
+        </>
     )
 }

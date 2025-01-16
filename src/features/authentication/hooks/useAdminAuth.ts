@@ -1,6 +1,6 @@
-import { updateAdminToken, addAdminToken, login } from "../services/authService";
+import { updateAdminToken, addAdminToken, login } from "../services/adminAuthService";
 
-export const useAuthHook = () => {
+export const useAdminAuth = () => {
 
     const authenticate = async (formData: { email: string, password: string }): Promise<string | { error: string }> => {
         try {

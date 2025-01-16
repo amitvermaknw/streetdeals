@@ -53,7 +53,6 @@ const deleteBannerDoc = async (bid: string, imageUrl: string) => {
             }
         }
 
-        console.log("payload", payload);
         const result: AxiosResponse<{ msg: string }> = await axios.delete<{ msg: string }>(`${baseUrl}/banner`, payload);
         if (result.status === 200) {
             toast.success(result.data.msg);

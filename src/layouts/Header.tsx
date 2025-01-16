@@ -1,77 +1,94 @@
-import { useState } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { Transition } from '@headlessui/react'
-import { Link } from 'react-router-dom';
-import { useAuth } from '../features/authentication/hooks/useAuth';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 import logo from '../assets/db_logo.svg'
+import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
+import { useUserContext } from '../features/authentication/hooks/useUserContext';
+import { DbContext } from "../providers/DBProvider";
+import { UserInfo } from '../type/UserType';
+
 
 type Props = {
     onSubscribe: () => void
 }
 
+
+
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
-    const auth = useAuth()
+    const adminAuth = useAdminContext();
+    const userAuth = useUserContext();
+    const [profileDropdown, setProfileDropdown] = useState(false);
+    const [signUpDialog, setSignupDialog] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
+    const navigate = useNavigate();
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const localDb = useContext(DbContext)
+
+
+    const toggleDropdown = (menuType: string) => {
+        if (menuType === 'profile') {
+            setProfileDropdown(!profileDropdown);
+            setIsOpen(false);
+        } else if (menuType === 'menu') {
+            setIsOpen(!isOpen);
+            setProfileDropdown(false);
+        }
+    };
+
+    const onSignupDialogCancel = () => {
+        setSignupDialog(false);
+    }
+
+    useEffect(() => {
+        const fetchUserSchema = async () => {
+            const userSchema = await userAuth.setUserSchema();
+            if (userSchema) {
+                const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
+                    if (user) {
+                        setLoggedInUser(user);
+                    }
+                });
+
+                return () => subscription.unsubscribe();
+            }
+        };
+        fetchUserSchema();
+    }, [localDb?.db]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setProfileDropdown(false);
+            }
+        };
+
+        const handleFocusOut = (event: FocusEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.relatedTarget as Node)) {
+                setProfileDropdown(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('focusout', handleFocusOut);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('focusout', handleFocusOut);
+        };
+    }, []);
 
     return (<>
         <nav className="bg-gray-800">
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-8xl px-4 mx-auto sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0">
-                            <Link to="/">
-                                <img
-                                    className="h-16"
-                                    src={logo}
-                                    alt="logo"
-                                />
-                            </Link>
-                        </div>
-                        <div className="hidden md:block">
-                            <div className="ml-10 flex items-baseline space-x-4">
+                    {/* <div className="flex items-center"> */}
 
-                                <Link
-                                    to="/"
-                                    className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Home
-                                </Link>
-
-                                <Link
-                                    to="deals"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Deals
-                                </Link>
-
-                                <Link
-                                    to="#"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    onClick={() => props.onSubscribe()}
-                                >
-                                    Subscribe
-                                </Link>
-                                {auth.token ? '' : <Link
-                                    to="/login"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Login
-                                </Link>}
-                                {auth.token ? <> <Link
-                                    to="/dashboard"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Dashboard
-                                </Link>
-                                    <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Logout
-                                    </button> </>
-                                    : ''}
-                            </div>
-                        </div>
-                    </div>
                     <div className="-mr-2 flex md:hidden">
                         <button
-                            onClick={() => setIsOpen(!isOpen)}
+                            onClick={() => toggleDropdown('menu')}
                             type="button"
                             className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                             aria-controls="mobile-menu"
@@ -113,6 +130,166 @@ const Header = (props: Props) => {
                             )}
                         </button>
                     </div>
+
+                    <div className="flex items-center flex-shrink-0">
+                        <Link to="/">
+                            <img
+                                className="h-14"
+                                src={logo}
+                                alt="logo"
+                            />
+                        </Link>
+                    </div>
+                    <div className="hidden md:block">
+                        <div className="container max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+                            <div className='flex items-center space-x-4'>
+                                <div className="ml-10 flex items-baseline space-x-4">
+                                    <Link
+                                        to="/"
+                                        className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Home
+                                    </Link>
+
+                                    <Link
+                                        to="deals"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Deals
+                                    </Link>
+
+                                    <Link
+                                        to="#"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        onClick={() => props.onSubscribe()}
+                                    >
+                                        Subscribe
+                                    </Link>
+                                    {/* {adminAuth.token ? '' : <Link
+                                        to="/login"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Login
+                                    </Link>} */}
+                                    {adminAuth.token ? <> <Link
+                                        to="/dashboard"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                        <button onClick={() => adminAuth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                            Logout
+                                        </button> </>
+                                        : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-between items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
+                        {(loggedInUser?.displayName || adminAuth.token) ?
+                            <button type="button"
+                                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                id="user-menu-button"
+                                aria-expanded={profileDropdown}
+                                aria-haspopup="true"
+                                onClick={() => toggleDropdown('profile')}
+                            >
+                                <span className="sr-only">Open user menu</span>
+                                <img className="w-8 h-8 rounded-full" src={loggedInUser?.photoURL} alt="user photo" />
+                            </button>
+                            :
+                            <button type="button"
+                                className="py-1 px-3 me-2 font-light text-xs text-white focus:outline-none bg-gray-900 rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                onClick={() => navigate('/login')}
+                            >
+                                Sign up
+                            </button>}
+
+                    </div>
+                    {profileDropdown && (<div ref={dropdownRef} className="absolute pt-2 pl-2 pr-2 z-50 mt-64 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                        id="user-dropdown"
+                        role="menu"
+                        aria-orientation='vertical'
+                        aria-labelledby='user-menu-button'
+                    >
+                        <div className="px-4 py-3">
+                            <span className="block text-sm text-gray-900 dark:text-white">{loggedInUser?.displayName}</span>
+                            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{loggedInUser?.email}</span>
+                        </div>
+
+                        <ul className="py-2">
+                            {loggedInUser?.displayName ?
+                                <>
+                                    <li>
+                                        <Link
+                                            to="/mywishlist"
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                            onClick={() => { }}
+                                        >
+                                            My Wishlist
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/"
+                                            onClick={() => userAuth.logOut()}
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        >
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </>
+                                : ''
+                            }
+
+                            {/* <li>
+                                <Link
+                                    to="deals"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Deals
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onClick={() => props.onSubscribe()}
+                                >
+                                    Subscribe
+                                </Link>
+                            </li>
+                            <li>
+                                {!loggedInUser?.displayName ? '' : <Link
+                                    to="/login"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    My Wishlist
+                                </Link>}
+                            </li>
+                            {loggedInUser?.displayName ? <> <li><Link
+                                to="/dashboard"
+                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                My Wishlist
+                            </Link></li>
+                                <li>
+                                    <Link
+                                        to="/"
+                                        onClick={() => adminAuth.logOut()}
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Logout
+                                    </Link>
+                                </li>
+                            </>
+                                : ''} */}
+                        </ul>
+                    </div>)}
                 </div>
             </div>
 
@@ -151,14 +328,14 @@ const Header = (props: Props) => {
                             >
                                 Subscribe
                             </Link>
-                            {auth.token ? '' : <Link
+                            {/* {adminAuth.token ? '' : <Link
                                 to="/login"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Login
-                            </Link>}
-                            {auth.token ? <> <Link
+                            </Link>} */}
+                            {adminAuth.token ? <> <Link
                                 to="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
@@ -167,14 +344,12 @@ const Header = (props: Props) => {
                             </Link>
                                 <Link
                                     to="/"
-                                    onClick={() => auth.logOut()}
+                                    onClick={() => adminAuth.logOut()}
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Logout
                                 </Link>
-                                {/* <button onClick={() => auth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    Logout
-                                </button> </> */}</>
+                            </>
                                 : ''}
                         </div>
                     </div>
@@ -196,7 +371,9 @@ const Header = (props: Props) => {
                     
                 </div>
             </main> */}
+
+        {signUpDialog && (<SignupWithGoogleDialog onCancel={() => onSignupDialogCancel()} />)}
     </>)
 }
 
-export default Header
+export default Header;

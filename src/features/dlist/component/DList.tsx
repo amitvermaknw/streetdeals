@@ -38,7 +38,7 @@ const DList = () => {
             <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 ml-2 mr-2">
                 {state.map((item: ProductListProps, index: number) => {
                     return <article className="w-full h-full" key={`${item.pid}_${index}`}>
-                        <a href={`/pdetails/${item.pid}`} className="flex items-center bg-white border border-gray-200 rounded-lg shadow h-full">
+                        <a href={`/pdetails/${item.urlstring ? item.urlstring : item.pid}`} className="flex items-center bg-white border border-gray-200 rounded-lg shadow h-full">
                             <div className="flex-shrink-0 ml-1">
                                 <img className="object-cover rounded-t-lg rounded-b-lg w-20 h-22 md:h-auto md:w-56" src={item.pimageurl} alt="" />
                             </div>

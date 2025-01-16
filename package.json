@@ -23,6 +23,7 @@
     "firebase": "^10.8.1",
     "flowbite-react": "^0.8.0",
     "instantsearch.css": "^8.2.0",
+    "localforage": "^1.10.0",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
@@ -30,7 +31,9 @@
     "react-instantsearch": "^7.9.0",
     "react-quill": "^2.0.0",
     "react-snap": "^1.23.0",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "rxdb": "^15.31.1",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

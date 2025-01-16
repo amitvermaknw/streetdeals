@@ -3,21 +3,25 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
+const userBaseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
 
 
-export const tokenValidAuth = async (token: string): Promise<boolean> => {
+
+export const tokenValidAuth = async (token: string, userType: string): Promise<boolean> => {
     try {
+
         const headers = {
             headers: {
                 authorization: token
             }
         }
-        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${baseUrl}/tokenvalidation`, headers);
+        const result: AxiosResponse<{ msg: string }> = await axios.get<{ msg: string }>(`${userType === 'admin' ? baseUrl : userBaseUrl}/tokenvalidation`, headers);
         if (result.status === 200) {
             return true;
         } else {
             return false;
         }
+
     } catch (error) {
 
         if (axios.isAxiosError(error)) {

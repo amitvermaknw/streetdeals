@@ -27,3 +27,4 @@ export interface SelectInputInterfaceProps {
     onChange: React.ChangeEventHandler<HTMLInputElement> | React.ChangeEventHandler<HTMLSelectElement> | any;
     alert?: string;
 }
+

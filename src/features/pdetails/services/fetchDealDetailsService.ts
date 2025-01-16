@@ -6,7 +6,7 @@ const mode = import.meta.env;
 const baseUrl = mode.DEV === true ? import.meta.env.VITE_SERVICE_LOCAL : import.meta.env.VITE_SERVICE_PROD;
 
 
-const fetchDealDetails = async (pId: string): Promise<ProductListProps | Array<[]>> => {
+const fetchDealDetails = async (pId: string | undefined): Promise<ProductListProps | Array<[]>> => {
     try {
         const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/deals/product/details/${pId}`);
         if (result.status === 200) {

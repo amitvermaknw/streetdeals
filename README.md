@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+## [DealsBurst](https://www.dealsburst.com)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DealsBurst (StreetDeals) is a daily deals application designed to aggregate and display the latest deals from various sources, providing users with up-to-date discounts and offers. First phase of this application available online at [DealsBurst](https://www.dealsburst.com).
 
-Currently, two official plugins are available:
+## Architecture 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Architecture](https://res.cloudinary.com/dxhnwasub/image/upload/v1737005487/documents/dealsburst_architecture_g5rwfu.png)
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- Frontend: React, TypeScript, Vite
+- Styling: Tailwind CSS
+- Backend: Nodejs, Firebase Auth, Firestore Database, Algolia and Cloudinary.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## In Funnel
+- User Account
+  - Login
+  - Wishlist
+- Deals Rating
+- Vendor/Affiliate API integration

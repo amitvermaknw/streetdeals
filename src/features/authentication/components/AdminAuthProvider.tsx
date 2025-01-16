@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LayoutProps } from "../../../utils/Types";
-import { useAuthHook } from "../hooks/useAuthHook";
+import { useAdminAuth } from "../hooks/useAdminAuth";
 import { toast } from "react-toastify";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
 
@@ -19,17 +19,14 @@ function isErrorResponse(response: string | { error: string }): response is { er
 }
 
 type AuthenticatedUser = typeof defaultValues
-export const AuthContext = createContext<AuthenticatedUser>(defaultValues);
+export const AdminAuthContext = createContext<AuthenticatedUser>(defaultValues);
 
-const AuthProvider = ({ children }: LayoutProps) => {
-    const [user, setUser] = useState<string>(null || '');
+const AdminAuthProvider = ({ children }: LayoutProps) => {
+    const [user, setUser] = useState<string>('');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
     const navigate = useNavigate();
-    //const [isTokenValid] = useUrlAuth();
-
-
-    const [authenticate, removeToken] = useAuthHook();
+    const [authenticate, removeToken] = useAdminAuth();
 
     const loginAction = async (data: { email: string, password: string }) => {
         try {
@@ -59,10 +56,10 @@ const AuthProvider = ({ children }: LayoutProps) => {
     }
 
     return (
-        <AuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
+        <AdminAuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
             {children}
-        </AuthContext.Provider>
+        </AdminAuthContext.Provider>
     )
 }
 
-export default AuthProvider;
+export default AdminAuthProvider;

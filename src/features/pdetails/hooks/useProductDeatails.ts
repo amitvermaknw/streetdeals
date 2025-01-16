@@ -10,7 +10,7 @@ const useProductDetails = (initState: ProductListProps) => {
     const [pstate, dispatch] = useReducer(ProductReducer, initState);
     const navigate = useNavigate();
 
-    const getDealDetails = async (pId: string) => {
+    const getDealDetails = async (pId: string | undefined) => {
         const result = await fetchDealDetails(pId);
 
         if (result.length) {

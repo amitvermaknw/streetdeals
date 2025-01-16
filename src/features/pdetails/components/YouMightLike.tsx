@@ -21,7 +21,7 @@ const YouMightLike = ({ category }: { category: string }) => {
 
     return (
         pstate.length ? <section className="py-2">
-            <h1 className="mb-4 ml-2 text-left font-sans  font-bold text-sm md:text-md xl:text-xl">You might like deals</h1>
+            <h1 className="mb-12 ml-4 text-left text-md font-sans font-bold md:text-md xl:text-xl">You might like deals</h1>
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 {pstate.length ? pstate.map((item: ProductListProps, index: number) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
