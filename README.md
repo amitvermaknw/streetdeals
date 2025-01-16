@@ -1,6 +1,6 @@
 ## [DealsBurst](https://www.dealsburst.com)
 
-DealsBurst (StreetDeals) is a daily deals application designed to aggregate and display the latest deals from various sources, providing users with up-to-date discounts and offers. First phase of this application available online at [DealsBurst](https://www.dealsburst.com).
+DealsBurst is a daily deals application designed to aggregate and display the latest deals from various sources, providing users with up-to-date discounts and offers. First phase of this application available online at [DealsBurst](https://www.dealsburst.com).
 
 ## Architecture 
 
