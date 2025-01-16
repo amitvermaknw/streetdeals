@@ -28,13 +28,9 @@ const YouMightLike = ({ category }: { category: string }) => {
                         <a href={item.urlstring ? `/pdetails/${item.urlstring}` : `/pdetails/${item.pid}`} className="block h-full w-full">
                             <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
                             <div className="w-full bg-white p-2">
-                                {/* <p className="text-md font-medium text-indigo-500">Nature</p> */}
                                 <p className="mb-3 text-sm md:text-md xl:text-xl font-medium text-gray-800 line-clamp-2">
                                     {item.pname}
                                 </p>
-                                {/* <p className="text-sm md:text-md xl:text-xl font-light text-gray-400 line-clamp-4 sm:text-sm">
-                                    {item.pshortdetails}
-                                </p> */}
 
                                 <div className="justify-starts mt-4 flex flex-wrap items-center">
                                     <p className="text-gray-400 text-md"><del>${item.preprice}</del></p>
@@ -42,9 +38,7 @@ const YouMightLike = ({ category }: { category: string }) => {
                                     {item.coupon ? <p className="mb-3 text-sm md:text-md xl:text-xl xl:ml-2 font-medium text-gray-400 line-clamp-2 mt-2">
                                         With coupon code.
                                     </p> : ''}
-                                    {/* <div className="mr-2 mt-2 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600">{item.price}</div> */}
                                     {item.ptimeframe ? <div className="mr-2 rounded-2xl bg-red-700 py-1.5 px-4 text-xs text-white md:ml-2 xl:ml-2">{item.ptimeframe}</div> : ''}
-                                    {/* <span className="mr-2 mt-2 rounded-2xl bg-blue-100 py-1.5 px-4 text-xs text-gray-600">Coupon: Default</span> */}
                                 </div>
                             </div>
                         </a>
