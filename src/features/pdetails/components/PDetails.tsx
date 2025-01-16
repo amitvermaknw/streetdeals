@@ -7,7 +7,6 @@ import Skeleton from "../../../components/ui/Skeleton";
 import { toast } from "react-toastify";
 import Review from "../../../components/ui/Review";
 import usePageSeo from "../../../hooks/usePageSeo";
-// import SecondaryButton from "../../../components/ui/SecondaryButton";
 import PComments from "./PComments";
 import WishListWidget from "../../users/wishlist/component/WishListWidget";
 
@@ -28,12 +27,6 @@ const PDetails = () => {
     useEffect(() => {
         getDeals(pid);
     }, []);
-
-    // const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
-
-    // const toggleWishlist = () => {
-    //     setIsAddedToWishlist(!isAddedToWishlist);
-    // }
 
     usePageSeo({
         title: pstate.pname,
@@ -74,13 +67,6 @@ const PDetails = () => {
                     <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
                         <div className="lg:col-span-3 bg-gray-100 w-full lg:sticky top-0 text-center p-8">
                             <img src={pstate.pimageurl} alt="Product" className="w-4/5 rounded object-cover" />
-                            {/* <hr className="border-white border-2 my-6" />
-                            <div className="flex flex-wrap gap-x-12 gap-y-6 justify-center mx-auto">
-                                <img src="https://readymadeui.com/images/coffee6.webp" alt="Product1" className="w-24 cursor-pointer" />
-                                <img src="https://readymadeui.com/images/coffee3.webp" alt="Product2" className="w-24 cursor-pointer" />
-                                <img src="https://readymadeui.com/images/coffee4.webp" alt="Product3" className="w-24 cursor-pointer" />
-                                <img src="https://readymadeui.com/images/coffee5.webp" alt="Product4" className="w-24 cursor-pointer" />
-                            </div> */}
                         </div>
                         <div className="lg:col-span-2">
                             <h2 className="text-xl font-bold text-gray-800">{pstate.pname}</h2>
@@ -107,117 +93,13 @@ const PDetails = () => {
                             <div className="mt-8">
                                 <h3 className="text-lg font-bold text-gray-800">About this product</h3>
                                 <div className="pdetails p-4 text-sm" dangerouslySetInnerHTML={{ __html: pstate.productdetails }} />
-
-                                {/* <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
-                                    <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
-                                    <li>Easy to prepare. It can be brewed using various methods, from drip machines to manual pour-overs.</li>
-                                    <li>Available in various sizes, from a standard espresso shot to a large Americano, catering to different preferences.</li>
-                                    <li>You can customize your coffee by adding cream, sugar, or flavorings to suit your taste preferences.</li>
-                                </ul> */}
                             </div>
 
                             <div className="mt-2 max-w-md">
-                                {/* <h3 className="text-lg font-bold text-gray-800">Reviews(10)</h3> */}
-                                {/* <div className="space-y-3 mt-4">
-                                <div className="flex items-center">
-                                    <p className="text-sm text-gray-800 font-bold">5.0</p>
-                                    <svg className="w-5 fill-gray-800 ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                    </svg>
-                                    <div className="bg-gray-300 rounded w-full h-2 ml-3">
-                                        <div className="w-2/3 h-full rounded bg-gray-800"></div>
-                                    </div>
-                                    <p className="text-sm text-gray-800 font-bold ml-3">66%</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <p className="text-sm text-gray-800 font-bold">4.0</p>
-                                    <svg className="w-5 fill-gray-800 ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                    </svg>
-                                    <div className="bg-gray-300 rounded w-full h-2 ml-3">
-                                        <div className="w-1/3 h-full rounded bg-gray-800"></div>
-                                    </div>
-                                    <p className="text-sm text-gray-800 font-bold ml-3">33%</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <p className="text-sm text-gray-800 font-bold">3.0</p>
-                                    <svg className="w-5 fill-gray-800 ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                    </svg>
-                                    <div className="bg-gray-300 rounded w-full h-2 ml-3">
-                                        <div className="w-1/6 h-full rounded bg-gray-800"></div>
-                                    </div>
-                                    <p className="text-sm text-gray-800 font-bold ml-3">16%</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <p className="text-sm text-gray-800 font-bold">2.0</p>
-                                    <svg className="w-5 fill-gray-800 ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                    </svg>
-                                    <div className="bg-gray-300 rounded w-full h-2 ml-3">
-                                        <div className="w-1/12 h-full rounded bg-gray-800"></div>
-                                    </div>
-                                    <p className="text-sm text-gray-800 font-bold ml-3">8%</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <p className="text-sm text-gray-800 font-bold">1.0</p>
-                                    <svg className="w-5 fill-gray-800 ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                    </svg>
-                                    <div className="bg-gray-300 rounded w-full h-2 ml-3">
-                                        <div className="w-[6%] h-full rounded bg-gray-800"></div>
-                                    </div>
-                                    <p className="text-sm text-gray-800 font-bold ml-3">6%</p>
-                                </div>
-                            </div> */}
-                                {/* <div className="flex items-start mt-8">
-                                <img src="https://readymadeui.com/team-2.webp" className="w-12 h-12 rounded-full border-2 border-white" />
-                                <div className="ml-3">
-                                    <h4 className="text-sm font-bold">John Doe</h4>
-                                    <div className="flex space-x-1 mt-1">
-                                        <svg className="w-4 fill-gray-800" viewBox="0 0 14 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                        </svg>
-                                        <svg className="w-4 fill-gray-800" viewBox="0 0 14 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                        </svg>
-                                        <svg className="w-4 fill-gray-800" viewBox="0 0 14 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                        </svg>
-                                        <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                        </svg>
-                                        <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                                        </svg>
-                                        <p className="text-xs !ml-2 font-semibold">2 mins ago</p>
-                                    </div>
-                                    <p className="text-xs mt-4">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
-                                </div>
-                            </div> */}
                                 <button type="button"
                                     className="w-full mt-2 mb-4 px-4 py-2 bg-transparent border-2 border-gray-800 text-gray-800 font-bold rounded"
                                     onClick={() => window.open(pstate.producturl, '_blank')}
                                 >Get this deal</button>
-                                {/* <SecondaryButton
-                                    name="Add to Wishlist"
-                                    onClick={() => toggleWishlist()}
-                                /> */}
                             </div>
                             <div className="space-y-3 list-disc mt-4 text-sm text-gray-800">
                                 <strong>*</strong> The Discount deal may earn a small commission through affiliate links on this page. Prices quoted are subject to change at any time, and supplies may be limited. Coupon codes or other offers may be modified or removed at any time.
