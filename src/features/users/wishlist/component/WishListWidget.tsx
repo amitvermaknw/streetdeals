@@ -34,6 +34,7 @@ const WishListWidget = (dealId: { pId: string }) => {
                 }
 
                 const dealsCommentSub: Subscription = dealsCommentDetails$.subscribe((d: DealsReview) => {
+                    if (!d) return;
 
                     if (d.comId === '') {
                         payload.wishListDealId = !isAddedToWishlist ? dealId.pId : '';

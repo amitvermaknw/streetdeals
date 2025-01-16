@@ -30,7 +30,7 @@ const DealsReviewReducer = (state: Array<DealsReview>, action: { content: Array<
                     const isReviewFound = newState.filter((item: DealsReview) => {
                         if (action.content.length > 0 && 'uId' in action.content[0]) {
                             if (item.uId === action.content[0].uId && item.dealsId === action.content[0].dealsId) {
-                                return item;
+                                return item.comments = action.content[0].comments;
                             }
                         }
                     });
