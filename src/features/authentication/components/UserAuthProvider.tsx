@@ -92,6 +92,8 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
 
                     setUserInfo(userInfoObj);
                     await localForage.setItem("loggedInUser", userInfoObj);
+                    localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
+
 
                     return true;
                 } else {

@@ -2,15 +2,16 @@ import { useReducer } from "react";
 import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import { getMyWishListService, updateWishListService } from "../services/wishListService";
 import { GET_WISH_LIST } from "../../../../utils/Constants";
-import CommonReducer from "../../../../hooks/reducer/CommonReducer";
+// import CommonReducer from "../../../../hooks/reducer/CommonReducer";
 import { ProductListProps } from "../../../../utils/Types";
-import { MyWishList } from "../../../../Interface/MyWishListInterface";
+// import { MyWishList } from "../../../../Interface/MyWishListInterface";
+import MyWishListReducer from "./reducer/MyWishListReducer";
 
 const useMyWishList = (initState: Array<ProductListProps>) => {
-    const [state, dispatch] = useReducer(CommonReducer, initState);
+    const [state, dispatch] = useReducer(MyWishListReducer, initState);
 
     const getMyWishList = async (callType: string, record: number) => {
-        const result: MyWishList | Array<[]> = await getMyWishListService(callType, record);
+        const result: ProductListProps | Array<[]> = await getMyWishListService(callType, record);
         if (result) {
             dispatch({ type: GET_WISH_LIST, content: result });
         }

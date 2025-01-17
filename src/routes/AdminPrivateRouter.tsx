@@ -8,8 +8,11 @@ const AdminPrivateRouter = (): React.JSX.Element => {
     const user = useAdminContext();
     const [isTokenValid] = useUrlAuth('admin');
     // const navigate = useNavigate();
-    if (user.token === "" || user.token === null || user.token === undefined)
+    if (user.token === "" || user.token === null || user.token === undefined) {
+        localStorage.removeItem("token");
+        toast.error("You are not autherized user");
         return <Navigate to="/login" />
+    }
 
     const checkToken = async () => {
         const status = await isTokenValid(user.token);

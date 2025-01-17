@@ -8,12 +8,9 @@ import { useUserContext } from '../features/authentication/hooks/useUserContext'
 import { DbContext } from "../providers/DBProvider";
 import { UserInfo } from '../type/UserType';
 
-
 type Props = {
     onSubscribe: () => void
 }
-
-
 
 const Header = (props: Props) => {
     const [isOpen, setIsOpen] = useState(false);
